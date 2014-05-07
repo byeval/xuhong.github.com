@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>python-tutorial | ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  <meta name="description" content="花了几天的时间把python官网的英文教程翻看了一遍，做了一点笔记。之前有在dive into python和learn python in the hard way上系统的学习过python，但时间久了，很多基础的东西都不记得的（虽说其实很多都差不多==），所以这次再看官网英文教程的时候顺便做了下笔记。不同语言之间所共有的就不记录了，记录一点python所特有的方法，或是我之前没接触过的。
+number
+1.python支持虚数，虚数位以j或J为后缀，如下所示：
+1+2j
+如果要分别获得虚数的实部和虚部，可以使用下面的方式：
+a = -1 + 0.5j
+a.real #实部
+a.imag #虚部
+在交互状态下，最后一次输出的结果会赋值给_，如下例所示：
+tax = 12.5 / 100
+price = 100.50
+price * tax # 12.5625
+price + _ # 113.0625
+round(_,2)
+string">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="python-tutorial"/>
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<!--div class="meta">
+          
+<div class="date">
+
+<time datetime="2013-12-22T10:53:50.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Dec 22 2013
+</time>
+
+
+
+
+
+</div>
+
+	</div-->
+        <h1 class="title" itemprop="name">python-tutorial</h1>
+      	<div class="entry-content" itemprop="articleBody"><p>花了几天的时间把python官网的英文教程翻看了一遍，做了一点笔记。之前有在dive into python和learn python in the hard way上系统的学习过python，但时间久了，很多基础的东西都不记得的（虽说其实很多都差不多==），所以这次再看官网英文教程的时候顺便做了下笔记。不同语言之间所共有的就不记录了，记录一点python所特有的方法，或是我之前没接触过的。</p>
+<h2>number</h2>
+<p><strong>1.</strong>python支持虚数，虚数位以<code>j</code>或<code>J</code>为后缀，如下所示：</p>
+<pre><code><span class="attribute">1+2j</code></pre>
+<p>如果要分别获得虚数的实部和虚部，可以使用下面的方式：</p>
+<pre><code>a = -<span class="number">1</span> + <span class="number">0.5</span>j
+a<span class="variable">.real</span> <span class="preprocessor">#实部</span>
+a<span class="variable">.imag</span> <span class="preprocessor">#虚部</span></code></pre>
+<p>在交互状态下，最后一次输出的结果会赋值给<code>_</code>，如下例所示：</p>
+<pre><code><span class="title">tax</span> = <span class="number">12.5</span> / <span class="number">100</span>
+<span class="title">price</span> = <span class="number">100.50</span>
+<span class="title">price</span> * tax # <span class="number">12.5625</span>
+<span class="title">price</span> + _ # <span class="number">113.0625</span>
+<span class="title">round</span>(_,<span class="number">2</span>)</code></pre>
+<h2>string</h2>
+<a id="more"></a>
+
+<p><strong>2.</strong>python中如果字符使用raw输出，则不会被转换</p>
+<pre><code>string = <span class="string">r"you and \n me"</span></code></pre>
+<p>靠在一起的两个字符串会自动连接起来，与使用<code>+</code>效果相同：</p>
+<pre><code><span class="attribute">'str</span>' <span class="attribute">'ing</span>'
+<span class="attribute">'str</span>' + <span class="attribute">'ing</span>'</code></pre>
+<p>但这只对两个字符串有效，加入任何表达式就会出现错误</p>
+<pre><code><span class="attribute">'str</span>'.strip() + <span class="attribute">'ing</span>'  #<span class="typename">string</span>
+<span class="attribute">'str</span>'.strip() <span class="attribute">'ing</span>'  #error</code></pre>
+<h2>流程控制语句</h2>
+<p><strong>3.</strong>使用内置函数range()可以产生按一定顺序排列的数字，range()函数可以传入3个参数，如果只传入一个的话默认从零开始，以1为步伐叠加，如果传入两个则按从小到大以1为步伐叠加，如果传入3个参数，则第三个为步伐：</p>
+<pre><code><span class="function"><span class="title">range</span><span class="params">(<span class="number">5</span>)</span>
+<span class="title">range</span><span class="params">(<span class="number">5</span>, <span class="number">10</span>)</span>
+<span class="title">range</span><span class="params">(<span class="number">10</span>, <span class="number">100</span>, <span class="number">10</span>)</span></code></pre>
+<p>如果第一个数比第二个大且步伐为正或第一个数比第二个小且步伐为负则结果为空数组。</p>
+<p><strong>4.</strong>循环语句中的<code>else</code>的作用类似于<code>try</code>，配合<code>break</code>或<code>continue</code>一起使用</p>
+<p><strong>5.</strong>pass语句什么也不做，一般用在下面两种情况：</p>
+<ul>
+<li>不需要什么动作但保证语法正确</li>
+<li><p>作为函数的一个占位符</p>
+<pre><code><span class="keyword">while</span> <span class="built_in">True</span>:
+      <span class="keyword">pass</span>
+
+<span class="function"><span class="keyword">def</span> <span class="title">initlog</span><span class="params">(*args)</span>:</span>
+    <span class="keyword">pass</span></code></pre>
+</li>
+</ul>
+<p><code>pass</code> 也常用来创建最小类</p>
+<p><strong>6.</strong>定义函数时，如果参数给了初始值则调用时该参数就是可选的，没有初始值的参数则是必须的：</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">parrot</span><span class="params">(voltage, state=<span class="string">"a stiff"</span>, action = <span class="string">"voom"</span>, type = <span class="string">"Norwegian Blue"</span>)</span>:</span>
+    <span class="keyword">pass</span></code></pre>
+<p>上面voltage是必须的，另外三个则是可选的。</p>
+<p>参数的顺序是无关紧要的，每个参数只能赋值一次。</p>
+<p>引入一个形如<code>**name</code>的参数时，它接受一个字典，改字典包含了所有未出现在形式参数列表中的关键字参数。这里可能还会组合使用一个形如<code>*name</code>的形式参数，它接受一个元组，包含了所有没有出现在形式参数列表中的参数值。<strong>注:</strong><code>*name</code>必须出现在<code>**name</code>之前:</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">mangarg</span><span class="params">(kind, *arguments, **keywords)</span></code></pre>
+<p>当传递的参数是一个列表但调用的函数却接受分开一个个的参数值，这是后可以使用<code>*</code>操作符来拆分列表，类似的，可以使用<code>**</code>操作符来查分关键字参数为字典。</p>
+<pre><code>range(<span class="number">3</span>, <span class="number">6</span>)
+args = [<span class="number">3</span>, <span class="number">6</span>]
+range(*args)
+<span class="function"><span class="keyword">def</span> <span class="title">parrot</span><span class="params">(voltage, state = <span class="string">'a stiff'</span>, action = <span class="string">'fire'</span>)</span>:</span>
+    <span class="keyword">pass</span>
+
+d = {<span class="string">"voltage"</span>:<span class="string">"four"</span>, <span class="string">"state"</span>:<span class="string">"good"</span>, action = <span class="string">"shoot"</span>}
+parrot(**d)</code></pre>
+<p><strong>7.lambda 形式</strong>。通过lambda关键字，可以创建短小的匿名函数，如<code>lambda a, b: a+b</code>则返回a+b的值。lambda形式可以用于任何需要的函数对象，它们只有一个单独的表达式，是一种实用的语法糖。</p>
+<p><strong>8.文档注释</strong></p>
+<ul>
+<li>第一行大都简短，总结对象的目的</li>
+<li>如果有多行的话，第二行应该空着，用于分隔总结和接下来的描述。</li>
+</ul>
+<p>函数的文档注释可以通过<code>__doc__</code>内置方法调用，如 <code>my_function.__doc__</code></p>
+<p><strong>9.编码风格</strong></p>
+<p>对python而言，<a href="http://www.python.org/dev/peps/pep-0008/" target="_blank">PEP8</a>介绍了大多数项目应该采取的编码风格，每个pythoner都应该看看，一下是最重要的几点：</p>
+<ul>
+<li>使用4个空格而不是tabs</li>
+<li>一行不要超过79个字符</li>
+<li>使用空行来分隔开函数和类，以及函数内的大段代码</li>
+<li>尽可能的在当前行进行注释</li>
+<li>使用文档注释</li>
+<li>在操作符和逗号后面使用空格，但在包围结构旁不要使用，比如函数的括号旁就不要使用空格了</li>
+<li>合理的命名函数和类，通常使用驼峰<code>CamelCase</code>命名法为类取名，而使用小写字母和下划线为函数和方法命名。总是使用<code>self</code>作为第一个方法参数</li>
+<li><p>如果你的代码用在国际环境，不要使用花哨的编码格式，ASCII格式总是最好的。</p>
+<p>另外，github上有另一份<a href="http://docs.python-guide.org/en/latest/" target="_blank">python-guide</a>，同样推荐看看~</p>
+</li>
+</ul>
+</div>
+
+
+</article>
+
+  <!--div class="share">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  
+  </div>
+  <script type="text/javascript">
+    var addthis_config = {"data_track_addressbar":true};
+  </script>
+  <script type="text/javascript"
+          src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=undefined">
+  </script>
+</div-->
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<div class="ds-thread"></div></div>
+</section>
+
+
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+

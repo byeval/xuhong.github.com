@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript中的继承 | ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  <meta name="description" content="javascript中有两种继承，一种是常说的类式继承（classical），另一种是现代继承。
+类式继承
+实现类式继承的目标是通过构造Child()获取来自另一个构造函数Parent()的属性，从而创建对象。
+//父构造函数
+function Parent(name){
+    this.name = name || &quot;Echo&quot;;
+}
+//向该原型中添加功能
+Parent.prototype.say = function(){
+    retrun this.name;
+}
+//子构造函数
+function Child(){}
+//实现继承
+inherit(Child,Parent);
+下面我们就来实现inherit函数。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript中的继承"/>
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<!--div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-03-28T02:35:08.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Mar 28 2014
+</time>
+
+
+
+
+
+</div>
+
+	</div-->
+        <h1 class="title" itemprop="name">javascript中的继承</h1>
+      	<div class="entry-content" itemprop="articleBody"><p>javascript中有两种继承，一种是常说的类式继承（classical），另一种是现代继承。</p>
+<h3>类式继承</h3>
+<p>实现类式继承的目标是通过构造Child()获取来自另一个构造函数Parent()的属性，从而创建对象。</p>
+<pre><code><span class="comment">//父构造函数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">(name)</span>{</span>
+    <span class="keyword">this</span>.name = name || <span class="string">"Echo"</span>;
+}
+<span class="comment">//向该原型中添加功能</span>
+<span class="keyword">Parent</span>.prototype.say = function(){
+    retrun <span class="keyword">this</span>.name;
+}
+<span class="comment">//子构造函数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>}
+<span class="comment">//实现继承</span>
+inherit(Child,<span class="keyword">Parent</span>);</code></pre>
+<p>下面我们就来实现inherit函数。<a id="more"></a></p>
+<h4>1. 默认模式</h4>
+<p>使用Parent()构造函数创建一个对象，并将该对象赋值给Child()的原型。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(C,P)</span>{</span>
+    C.prototype = <span class="keyword">new</span> P();
+}</code></pre>
+<blockquote>
+<p><strong> 缺点：</strong>同时继承了两个对象的属性，即添加到this的属性以及原型属性。</p>
+</blockquote>
+<h4>2. 借用构造函数</h4>
+<p>借用父构造函数，它传递子对象以绑定到this，并且还转发任意参数。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">(a,b,c,d)</span>{</span>
+    <span class="keyword">Parent</span>.apply(<span class="keyword">this</span>, arguments);
+}</code></pre>
+<blockquote>
+<p><strong> 缺点：</strong>无法从原型中继承任何东西，并且原型也仅是添加可重用方法以及属性的位置，并不会为每个实例重新创建原型。</p>
+</blockquote>
+<h4>3.借用和设置原型</h4>
+<p>结合前两种模式，即先借用构造函数，然后还设置子构造函数的原型使其指向其中一个构造函数创建的新实例。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">(a,b,c,d)</span><span class="comment">{
+    Parent.apply(this, arguments);
+}</span>
+
+<span class="title">Child</span>.<span class="title">prototype</span> = <span class="title">new</span> <span class="title">Parent</span><span class="params">()</span>;</span></code></pre>
+<blockquote>
+<p><strong> 缺点：</strong> 父构造函数被调用了两次，因此导致效率低下，此外，自身的属性也会被继承两次。</p>
+</blockquote>
+<h4>4.共享原型</h4>
+<p>本模式来自于经验：可复用成员都应该转移到原型中而不是放置在this中。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(C,P)</span>{    </span>
+    <span class="transposed_variable">C.</span>prototype = <span class="transposed_variable">P.</span>prototype;
+}</code></pre>
+<blockquote>
+<p><strong>缺点：</strong>原型链不安全，容易被子孙对象修改，从而影响到所有的父对象和祖先对象。</p>
+</blockquote>
+<h4>5. 临时构造函数</h4>
+<p>通过断开父对象与子对象的原型之间的之间链接关系，从而解决共享同一个原型所带来的问题，而且同时还能继续受益于原型链带来的好处。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(C,P)</span><span class="comment">{    
+    var F = function(){}</span>;</span>
+    F.prototype = P.prototype;
+    C.prototype = new F();
+    C.prototype.<span class="function"><span class="keyword">constructor</span> = <span class="title">C</span>;</span> <span class="comment">//重置构造函数指针</span>
+}</code></pre>
+<h3>现代继承</h3>
+<h4>1.原型继承</h4>
+<p>使用空的临时构造函数F()，然后，将F()的原型属性设置为父对象，最后，返回一个临时构造函数的新实例。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(o)</span>{</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span>{</span>};
+    F.prototype = o;
+    <span class="keyword">return</span> <span class="keyword">new</span> F();
+}</code></pre>
+<h4>2.ECMAScript5中的新方法</h4>
+<p>在ECMAScript5中，原型继承已经正式成为了语言的一部分，可以通过调用Object.create()来实现。</p>
+<pre><code><span class="keyword">var</span> child = Object.create(<span class="keyword">parent</span>); </code></pre>
+<h4>3.复制属性实现继承</h4>
+<p>浅复制：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">extend</span><span class="params">(parent,child)</span>{</span>
+    <span class="keyword">var</span> i;
+    child = child || {};
+    <span class="keyword">for</span>(i in <span class="keyword">parent</span>){
+        <span class="keyword">if</span>(<span class="keyword">parent</span>.hasOwnProperty(i)){
+            child[i] = <span class="keyword">parent</span>[i];
+        }
+    }
+    <span class="keyword">return</span> child;
+}</code></pre>
+<p>深复制：检出某个属性的类型是否是对象，如果是这样的话，则递归复制出该对象的属性。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">extendDeep</span><span class="params">(parent, child)</span>{</span>
+    <span class="keyword">var</span> i,
+        toStr = Object.prototype.toString,
+        astr = <span class="string">"[object Array]"</span>;
+    child = child || {};
+    <span class="keyword">for</span>(i in <span class="keyword">parent</span>){
+        <span class="keyword">if</span>(<span class="keyword">parent</span>.hasOwnproperty){
+            <span class="keyword">if</span>(typeof <span class="keyword">parent</span>[i] === <span class="string">"object"</span>){
+                child[i] = (toStr.call(<span class="keyword">parent</span>[i]) === astr) ? [] : {};
+                extentDeep(<span class="keyword">parent</span>[i],child[i]);
+            }<span class="keyword">else</span>{
+                child[i] = <span class="keyword">parent</span>[i]
+            }
+        }
+    }
+    <span class="keyword">return</span> child;
+}</code></pre>
+<p>这种复制模式得到了比较广泛的应用，比如jQuery库中的<a href="http://api.jquery.com/jquery.extend" target="_blank">extend()</a>方法可以创建深度复制的副本，YUI3提供了一个名为<a href="http://yuilibrary.com/yui/docs/api/classes/YUI.html#method_clone" target="_blank">Y.clone()</a>的方法，该方法也可以创建深度复制的副本，而且还通过将函数绑定到子对象上以复制出函数。</p>
+<h3>参考资料</h3>
+<ul>
+<li><a href="http://javascript.crockford.com/zh/inheritance.html" target="_blank">JavaScript中的类继承</a></li>
+<li><a href="http://book.douban.com/subject/11506062/" target="_blank">JavaScript模式</a></li>
+</ul>
+</div>
+
+
+</article>
+
+  <!--div class="share">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  
+  </div>
+  <script type="text/javascript">
+    var addthis_config = {"data_track_addressbar":true};
+  </script>
+  <script type="text/javascript"
+          src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=undefined">
+  </script>
+</div-->
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<div class="ds-thread"></div></div>
+</section>
+
+
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+

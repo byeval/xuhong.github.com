@@ -1,0 +1,639 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><div itemscope itemtype="http://schema.org/Blog">
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-04-01T15:01:51.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Apr 1 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/javascript/">javascript</a>, <a href="/tags/algorithm/">algorithm</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/04/01/concatsort/" itemprop="url">
+            数组合并排序的实现</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>美团网前端面试题：</p>
+<blockquote>
+<p>   已知两个有序的数组，将它们合并成也是有序的一个数组。举例如下：<br>    输入：A = [1, 2, 4, 7], B = [3, 5, 6, 8]，输出 C = [1, 2, 3, 4, 5, 6, 7, 8]。</p>
+</blockquote>
+<p> 1.简单粗暴的第一个想法，直接使用数组的concat()方法把两个数组拼接成为一个数组，然后再调用sort()方法来进行排序，代码实现如下：</p>
+<pre><code>     <span class="function"><span class="keyword">function</span> <span class="title">concatSort</span><span class="params">(a,b)</span>{</span>
+         <span class="keyword">var</span> arr = a.concat(b).sort(<span class="keyword">function</span>(x,y){
+            <span class="keyword">return</span> x-y;
+        })
+        <span class="keyword">return</span> arr;
+    }</code></pre>
+<p>2.array方法的巧妙运用，每次都把两个数组第一个数字中的较小者放到结果数组后面，同时删除较小数字所在数组中的这个数字，再进行下一轮比较，直到其中一个数组空了为止，然后把剩余部分拼接到结果数组的后面。
+            <p style="text-align:right">
+              <a href="/2014/04/01/concatsort/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-03-28T02:35:08.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Mar 28 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/javascript/">javascript</a>, <a href="/tags/inherit/">inherit</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/03/28/inherit-in-javascript/" itemprop="url">
+            javascript中的继承</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>javascript中有两种继承，一种是常说的类式继承（classical），另一种是现代继承。</p>
+<h3>类式继承</h3>
+<p>实现类式继承的目标是通过构造Child()获取来自另一个构造函数Parent()的属性，从而创建对象。</p>
+<pre><code><span class="comment">//父构造函数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">(name)</span>{</span>
+    <span class="keyword">this</span>.name = name || <span class="string">"Echo"</span>;
+}
+<span class="comment">//向该原型中添加功能</span>
+<span class="keyword">Parent</span>.prototype.say = function(){
+    retrun <span class="keyword">this</span>.name;
+}
+<span class="comment">//子构造函数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>}
+<span class="comment">//实现继承</span>
+inherit(Child,<span class="keyword">Parent</span>);</code></pre>
+<p>下面我们就来实现inherit函数。
+            <p style="text-align:right">
+              <a href="/2014/03/28/inherit-in-javascript/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-02-24T14:46:19.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Feb 24 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/css3/">css3</a>, <a href="/tags/flexbox/">flexbox</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/02/24/flexbox/" itemprop="url">
+            flexbox完全指南</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>flexbox属性的标准写法从09年到现在一直在变化，现在终于确定了。这几天看了一些笔试题，发现考了不少相关的知识，很多网站都已经开始使用它进行网页布局了，移动端的使用非常多（比如赶集网和百姓网）。所以记录一下，大多数参考自<a href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">css-tricks</a>。</p>
+<h3>语法和属性</h3>
+<p><strong> 作用于弹性盒的属性：</strong></p>
+<ul>
+<li>display: flex | inline-flex;</li>
+<li>flex-derection: row(<strong>default</strong>) | row-reverse | column | column-reverse;</li>
+<li>flex-wrap: nowrap (<strong>default</strong>) | wrap | wrap-reverse;</li>
+<li>flex-flow: &lt;‘flex-derection’&gt; || &lt;‘flex-wrap’&gt;;</li>
+<li>justify-content: flex-start | flex-end | center | space-between | space-around;</li>
+<li>align-items: flex-start | flex-end | center | baseline | stretch;</li>
+<li>alegn-content: flex-start | center | baseline | space-between | space-around |stretch;
+            <p style="text-align:right">
+              <a href="/2014/02/24/flexbox/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-02-05T10:03:58.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Feb 5 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/python/">python</a>, <a href="/tags/gevent/">gevent</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/02/05/gevent-in-action/" itemprop="url">
+            gevent-in-action</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>并发的核心思想在于，大的任务可以分解为一系列的子任务，后者可以被调度成同步执行或异步执行，而不是一次一个地或者同步地执行。两个子任务之间的切换就是上下文切换。</p>
+<p>在gevent里面，上下文切换时通过<code>yielding</code>来完成的。</p>
+<h3>同步和异步执行</h3>
+<p>当我们在受限于网络或IO的函数中使用gevent，这些函数会被协作式的调度，gevent的真正能力会得到发挥。</p>
+<p>下面有一张来自gevent指南的控制流程图，形象地解释程序的执行顺序，如下图：
+            <p style="text-align:right">
+              <a href="/2014/02/05/gevent-in-action/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2013-12-31T14:21:52.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Dec 31 2013
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/Life/">Life</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2013/12/31/Bye-2013,-Hello-2014/" itemprop="url">
+            Bye 2013, Hello 2014</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>还记得去年元旦之前的那个晚上，自己一个人在东十二的517自习，那段时间正是我写博客最频繁的时期，但大都是技术相关的笔记，无关生活，或者说生活单调的以至于没有东西可写。坐在自习室中，看着大家分享着各自的年终总结，自己当时也很想写一篇，但最终还是舍不得花那个时间，只在微博上留了一句：</p>
+<p><img src="/img/post/weibo1.png" alt="weibo1"></p>
+<p>后来呢？大年三十也还是没有写年终总结，如今，关于2012年的记忆，可能只剩下暑假骑行川藏线的片段了以及自习室里的“有缘人”了，其他的呢，需要很努力才想的起来零星点点。之前自己也感叹过，为很多记忆碎片不经整理，慢慢的从脑海中溢出而感到可惜，现在既然决心要改善了，那今年这篇年终总结就不能再错过了。Not only let go, but also remember, remember for the future.<br>
+            <p style="text-align:right">
+              <a href="/2013/12/31/Bye-2013,-Hello-2014/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2013-12-22T10:53:50.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Dec 22 2013
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/python/">python</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2013/12/22/python-tutorial/" itemprop="url">
+            python-tutorial</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>花了几天的时间把python官网的英文教程翻看了一遍，做了一点笔记。之前有在dive into python和learn python in the hard way上系统的学习过python，但时间久了，很多基础的东西都不记得的（虽说其实很多都差不多==），所以这次再看官网英文教程的时候顺便做了下笔记。不同语言之间所共有的就不记录了，记录一点python所特有的方法，或是我之前没接触过的。</p>
+<h2>number</h2>
+<p><strong>1.</strong>python支持虚数，虚数位以<code>j</code>或<code>J</code>为后缀，如下所示：</p>
+<pre><code><span class="attribute">1+2j</code></pre>
+<p>如果要分别获得虚数的实部和虚部，可以使用下面的方式：</p>
+<pre><code>a = -<span class="number">1</span> + <span class="number">0.5</span>j
+a<span class="variable">.real</span> <span class="preprocessor">#实部</span>
+a<span class="variable">.imag</span> <span class="preprocessor">#虚部</span></code></pre>
+<p>在交互状态下，最后一次输出的结果会赋值给<code>_</code>，如下例所示：</p>
+<pre><code><span class="title">tax</span> = <span class="number">12.5</span> / <span class="number">100</span>
+<span class="title">price</span> = <span class="number">100.50</span>
+<span class="title">price</span> * tax # <span class="number">12.5625</span>
+<span class="title">price</span> + _ # <span class="number">113.0625</span>
+<span class="title">round</span>(_,<span class="number">2</span>)</code></pre>
+<h2>string</h2>
+
+            <p style="text-align:right">
+              <a href="/2013/12/22/python-tutorial/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2013-10-24T15:39:08.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Oct 24 2013
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/thought/">thought</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2013/10/24/why-i-build-the-website-ihuster.com/" itemprop="url">
+            我为什么要做这个社区？</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>这个社区其实是我的第二次尝试，第一次尝试大概在半年前，从大三的那个寒假开始，持续了两三个月的时间，最后因为种种原因静默的失败了，没有向任何人提起。一个星期前突然大脑短路，不小心删掉了开发盘上的所有数据，导致曾经的尝试记录全部都丢失了，那两三个月里所有的努力似乎也突然被抹去了，没有留下任何的痕迹。</p>
+<p>自我从拉萨回来，更新完游记之后，到现在将近一年的时间里，我的QQ空间和微博几乎都停止更新，这次我再度回到社交网络，并带来了自己的社交网站，必然是带着自己思考而来的。两年前我在QQ空间上说过，我们成长的过程中有两件事情亟待解决，一个是认识自己，一个是认识世界，这个社交网站就是结合现阶段我对自我的认识以及对这个世界的理解而建造的。
+            <p style="text-align:right">
+              <a href="/2013/10/24/why-i-build-the-website-ihuster.com/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2013-10-23T07:28:19.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Oct 23 2013
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/blog/">blog</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2013/10/23/Remember-Let-go-Move-on/" itemprop="url">
+            Remember, Let go, Move on.</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p><img src="/img/post/im-back.png" alt="i&#39;m back"></p>
+<p>停止写博客半年后，再次开始写博客，这次抛弃了臃肿的wordpress，选择的是<a href="http://zespia.tw/hexo" target="_blank">hexo</a>，并托管在github，不需要关心其他的事情，可以让我更加专注于写作本身。之前的博客数据也都还在，但大都是技术相关的学习笔记，就不打算同步过来了。这个博客会更多的关注生活和思考，当然，仍然会有技术，但不会仅仅是学习笔记了。</p>
+<p>“Let go, move on”，不知道是什么时候从哪看到的这句话，让我沉吟至今，并愈发的喜欢。Google一下才知道，原来这是《Lost》大结局里面的台词，完整的句子是：“Remember, Let go, Move on.”是的，还应该记住，我将在这里记住。</p>
+<p><strong>Remember, Let go, Move on.（铭记于此，放手过去，纵情向前。）</strong></p>
+
+          
+        </div>
+
+
+</article>
+
+
+
+
+</div>
+
+<nav id="pagenavi">
+    
+    
+    <div class="center">
+      <a href="archives">Blog Archives</a>
+    </div>
+</nav>
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+

@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>flexbox完全指南 | ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  <meta name="description" content="flexbox属性的标准写法从09年到现在一直在变化，现在终于确定了。这几天看了一些笔试题，发现考了不少相关的知识，很多网站都已经开始使用它进行网页布局了，移动端的使用非常多（比如赶集网和百姓网）。所以记录一下，大多数参考自css-tricks。
+语法和属性
+ 作用于弹性盒的属性：
+
+display: flex | inline-flex;
+flex-derection: row(default) | row-reverse | column | column-reverse;
+flex-wrap: nowrap (default) | wrap | wrap-reverse;
+flex-flow: &lt;‘flex-derection’&gt; || &lt;‘flex-wrap’&gt;;
+justify-content: flex-start | flex-end | center | space-between | space-around;
+align-items: flex-start | flex-end | center | baseline | stretch;
+alegn-content: flex-start | center | baseline | space-between | space-around |stretch;">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="flexbox完全指南"/>
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<!--div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-02-24T14:46:19.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Feb 24 2014
+</time>
+
+
+
+
+
+</div>
+
+	</div-->
+        <h1 class="title" itemprop="name">flexbox完全指南</h1>
+      	<div class="entry-content" itemprop="articleBody"><p>flexbox属性的标准写法从09年到现在一直在变化，现在终于确定了。这几天看了一些笔试题，发现考了不少相关的知识，很多网站都已经开始使用它进行网页布局了，移动端的使用非常多（比如赶集网和百姓网）。所以记录一下，大多数参考自<a href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">css-tricks</a>。</p>
+<h3>语法和属性</h3>
+<p><strong> 作用于弹性盒的属性：</strong></p>
+<ul>
+<li>display: flex | inline-flex;</li>
+<li>flex-derection: row(<strong>default</strong>) | row-reverse | column | column-reverse;</li>
+<li>flex-wrap: nowrap (<strong>default</strong>) | wrap | wrap-reverse;</li>
+<li>flex-flow: &lt;‘flex-derection’&gt; || &lt;‘flex-wrap’&gt;;</li>
+<li>justify-content: flex-start | flex-end | center | space-between | space-around;</li>
+<li>align-items: flex-start | flex-end | center | baseline | stretch;</li>
+<li>alegn-content: flex-start | center | baseline | space-between | space-around |stretch;<a id="more"></a></li>
+</ul>
+<p><strong> 作用于弹性盒子元素的属性：</strong></p>
+<ul>
+<li>order: <integer>;</li>
+<li>flex-grow: <number> default 0;</li>
+<li>flex-shrink: <number> default 1;</li>
+<li>flex-basis: <length> | auto(<strong>default</strong>);</li>
+<li>flex: none | [ &lt;‘flex-grow’&gt; &lt;‘flex-shrink’&gt;? || &lt;‘flex-basis’&gt; ];</li>
+<li>align-self: auto | felx-start | flex-end | center | baseline | stretch;</li>
+</ul>
+<h3>浏览器支持</h3>
+<p><strong>modern</strong> means the recent syntax from the specification e.g. <code>display: flex;</code><br><strong>hybrid</strong> means an odd unofficial syntax from 2011 e.g. <code>display: flexbox;</code><br><strong>old</strong> means the old syntax from 2009 e.g. <code>display: box;</code><br><img src="/img/post/table.png" alt=""></p>
+<p>css-tricks提供了一个sass@mixin用来减轻兼顾不同版本的痛苦：</p>
+<pre><code>@mixin flexbox() {
+    <span class="method">display:</span> -webkit-box;
+    <span class="method">display:</span> -moz-box;
+    <span class="method">display:</span> -ms-flexbox;
+    <span class="method">display:</span> -webkit-flex;
+    <span class="method">display:</span> flex;
+}
+
+@mixin flex(<span class="char">$v</span>alues) {
+    -webkit-box-<span class="method">flex:</span> <span class="char">$v</span>alues;
+    -moz-box-<span class="method">flex:</span>  <span class="char">$v</span>alues;
+    -webkit-<span class="method">flex:</span>  <span class="char">$v</span>alues;
+    -ms-<span class="method">flex:</span>  <span class="char">$v</span>alues;
+    <span class="method">flex:</span>  <span class="char">$v</span>alues;
+}
+
+@mixin order(<span class="char">$v</span>al) {
+    -webkit-box-ordinal-<span class="method">group:</span> <span class="char">$v</span>al;  
+    -moz-box-ordinal-<span class="method">group:</span> <span class="char">$v</span>al;     
+    -ms-flex-<span class="method">order:</span> <span class="char">$v</span>al;     
+    -webkit-<span class="method">order:</span> <span class="char">$v</span>al;  
+    <span class="method">order:</span> <span class="char">$v</span>al;
+}
+
+.wrapper {
+    @include flexbox();
+}
+
+.item {
+    @include flex(<span class="number">1</span> <span class="number">200</span>px);
+    @include order(<span class="number">2</span>);
+}</code></pre>
+<h3>实际使用</h3>
+<ol>
+<li><p>使用弹性盒实现子元素在父元素中完美居中：</p>
+<p> <p data-height="268" data-theme-id="0" data-slug-hash="mnKGq" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/xuhong/pen/mnKGq'>mnKGq</a> by 旭鸿 (<a href='http://codepen.io/xuhong'>@xuhong</a>) on <a href='http://codepen.io'>CodePen</a>.</p></p>
+ <script async src="//codepen.io/assets/embed/ei.js"></script>
+</li>
+<li><p>使用弹性盒实现双飞翼布局：</p>
+<p> <p data-height="268" data-theme-id="0" data-slug-hash="GBoqt" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/xuhong/pen/GBoqt'>GBoqt</a> by 旭鸿 (<a href='http://codepen.io/xuhong'>@xuhong</a>) on <a href='http://codepen.io'>CodePen</a>.</p></p>
+ <script async src="//codepen.io/assets/embed/ei.js"></script>
+</li>
+<li><p>使用弹性盒实现自适应网页设计：</p>
+<p> <p data-height="268" data-theme-id="0" data-slug-hash="qIAwr" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/HugoGiraudel/pen/qIAwr'>Demo Flexbox 3</a> by Hugo Giraudel (<a href='http://codepen.io/HugoGiraudel'>@HugoGiraudel</a>) on <a href='http://codepen.io'>CodePen</a>.</p></p>
+ <script async src="//codepen.io/assets/embed/ei.js"></script></li>
+</ol>
+</div>
+
+
+</article>
+
+  <!--div class="share">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  
+  </div>
+  <script type="text/javascript">
+    var addthis_config = {"data_track_addressbar":true};
+  </script>
+  <script type="text/javascript"
+          src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=undefined">
+  </script>
+</div-->
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<div class="ds-thread"></div></div>
+</section>
+
+
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+

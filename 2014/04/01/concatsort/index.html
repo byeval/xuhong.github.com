@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>数组合并排序的实现 | ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  <meta name="description" content="美团网前端面试题：
+
+   已知两个有序的数组，将它们合并成也是有序的一个数组。举例如下：    输入：A = [1, 2, 4, 7], B = [3, 5, 6, 8]，输出 C = [1, 2, 3, 4, 5, 6, 7, 8]。
+
+ 1.简单粗暴的第一个想法，直接使用数组的concat()方法把两个数组拼接成为一个数组，然后再调用sort()方法来进行排序，代码实现如下：
+     function concatSort(a,b){
+         var arr = a.concat(b).sort(function(x,y){
+            return x-y;
+        })
+        return arr;
+    }
+2.array方法的巧妙运用，每次都把两个数组第一个数字中的较小者放到结果数组后面，同时删除较小数字所在数组中的这个数字，再进行下一轮比较，直到其中一个数组空了为止，然后把剩余部分拼接到结果数组的后面。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="数组合并排序的实现"/>
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<!--div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-04-01T15:01:51.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Apr 1 2014
+</time>
+
+
+
+
+
+</div>
+
+	</div-->
+        <h1 class="title" itemprop="name">数组合并排序的实现</h1>
+      	<div class="entry-content" itemprop="articleBody"><p>美团网前端面试题：</p>
+<blockquote>
+<p>   已知两个有序的数组，将它们合并成也是有序的一个数组。举例如下：<br>    输入：A = [1, 2, 4, 7], B = [3, 5, 6, 8]，输出 C = [1, 2, 3, 4, 5, 6, 7, 8]。</p>
+</blockquote>
+<p> 1.简单粗暴的第一个想法，直接使用数组的concat()方法把两个数组拼接成为一个数组，然后再调用sort()方法来进行排序，代码实现如下：</p>
+<pre><code>     <span class="function"><span class="keyword">function</span> <span class="title">concatSort</span><span class="params">(a,b)</span>{</span>
+         <span class="keyword">var</span> arr = a.concat(b).sort(<span class="keyword">function</span>(x,y){
+            <span class="keyword">return</span> x-y;
+        })
+        <span class="keyword">return</span> arr;
+    }</code></pre>
+<p>2.array方法的巧妙运用，每次都把两个数组第一个数字中的较小者放到结果数组后面，同时删除较小数字所在数组中的这个数字，再进行下一轮比较，直到其中一个数组空了为止，然后把剩余部分拼接到结果数组的后面。<a id="more"></a></p>
+<pre><code>    <span class="function"><span class="keyword">function</span> <span class="title">concatSort</span><span class="params">(a, b)</span>{</span>
+        var arr = <span class="matrix">[]</span>;  
+        <span class="keyword">while</span>(<span class="transposed_variable">a.</span><span class="built_in">length</span> &gt; <span class="number">0</span> &amp;&amp; <span class="transposed_variable">b.</span><span class="built_in">length</span> &gt; <span class="number">0</span>)<span class="cell">{
+            if (a[<span class="number">0</span>] &lt; b[<span class="number">0</span>]){
+                arr.push(a.shift());
+            }</span><span class="keyword">else</span><span class="cell">{
+                arr.push(b.shift());
+            }</span>
+        }
+        <span class="keyword">return</span> <span class="transposed_variable">arr.</span>concat(a).concat(b);
+    }</code></pre>
+<p>和上面相同的思路，可以实现换汤不换药的另一种方式，不过效率会低很多，因为要一直获取变动的数组的长度：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">concatSort2</span><span class="params">(a, b)</span>{</span>
+    var arr = <span class="matrix">[]</span>;
+    <span class="keyword">while</span>(<span class="transposed_variable">a.</span><span class="built_in">length</span> &gt; <span class="number">0</span> &amp;&amp; <span class="transposed_variable">b.</span><span class="built_in">length</span> &gt; <span class="number">0</span>)<span class="cell">{
+        if(a[a.length-<span class="number">1</span>] &lt; b[b.length-<span class="number">1</span>]){
+            arr.unshift(a.pop());
+        }</span><span class="keyword">else</span><span class="cell">{
+            arr.unshift(b.pop());
+        }</span>
+    }
+    <span class="keyword">return</span> <span class="transposed_variable">a.</span>concat(b).concat(arr);
+}</code></pre>
+<p>3.第二种方法创建了第三个数组作为结果数组，考虑不创建新数组的方式，那就使用splice方法直接插入到另一个数组中，实现如下：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">concatSort3</span><span class="params">(a,b)</span>{</span>
+    var <span class="built_in">i</span>;
+    <span class="keyword">if</span>(a<span class="matrix">[<span class="number">0</span>]</span> &lt; b<span class="matrix">[<span class="number">0</span>]</span>)<span class="cell">{
+        for(i = <span class="number">0</span>;i &lt; a.length; i++){
+            a[i] &gt; b[<span class="number">0</span>] ? a.splice(i,<span class="number">0</span>,b.shift()) : null;
+        }</span>
+        <span class="keyword">return</span> <span class="transposed_variable">a.</span>concat(b);
+    }<span class="keyword">else</span><span class="cell">{
+        for(i = <span class="number">0</span>;i &lt; b.length; i++){
+            b[i] &gt; a[<span class="number">0</span>] ? b.splice(i,<span class="number">0</span>,a.shift()) : null;
+        }</span>
+        <span class="keyword">return</span> <span class="transposed_variable">b.</span>concat(a);
+    }
+}</code></pre>
+<p>下面是<a href="http://jsperf.com/concatsortarray" target="_blank">jsperf</a>测试三种方法的效率比较:</p>
+<p><img src="/img/post/jsperf.png" alt="jsperf"></p>
+<p>从截图可以看出，明显第二种方法的效率最高，因为它不需要进行循环排序。感觉这道题应该还是考算法，但不是很了解算法，找到自己之前收藏的一篇<a href="http://www.cnblogs.com/fredshare/p/3531594.html" target="_blank">博客</a>，里面比较了不同的排序算法和原生sort()方法的效率，我用结论里面效率最高的插入排序一起放入测试，结果仍然是第二种方法效率最高。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">insertSort</span><span class="params">(array)</span>{</span>  
+     <span class="keyword">var</span> i = <span class="number">1</span>, j, temp, key, len = <span class="keyword">array</span>.length;
+    <span class="keyword">for</span>(; i &lt; len; i++){  
+        temp = j = i;  
+        key = <span class="keyword">array</span>[j];  
+        <span class="keyword">while</span>(--j &gt; -<span class="number">1</span>){  
+            <span class="keyword">if</span>(<span class="keyword">array</span>[j] &gt; key){  
+                 <span class="keyword">array</span>[j+<span class="number">1</span>] = <span class="keyword">array</span>[j];  
+            }<span class="keyword">else</span>{
+                <span class="keyword">break</span>;
+            }
+        }
+        <span class="keyword">array</span>[j+<span class="number">1</span>] = key;  
+    }
+    <span class="keyword">return</span> <span class="keyword">array</span>;  
+}</code></pre>
+<p>以上就是我对这道题的解答啦~</p>
+<p>前端到底需要了解算法到什么程度呢？感觉美团的一面和二面主要都是在考算法，css、html都基本没问，js只问了一下DOM操作，原型、闭包等概念也基本没问。。真的要把《算法导论》买下来看了么，好贵啊=。=</p>
+</div>
+
+
+</article>
+
+  <!--div class="share">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  
+  </div>
+  <script type="text/javascript">
+    var addthis_config = {"data_track_addressbar":true};
+  </script>
+  <script type="text/javascript"
+          src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=undefined">
+  </script>
+</div-->
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<div class="ds-thread"></div></div>
+</section>
+
+
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+

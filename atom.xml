@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[ForeverYoung]]></title>
+  <subtitle><![CDATA[Remember, Let go, Move on.]]></subtitle>
+  <link href="http://beyoung.me/atom.xml" rel="self"/>
+  <link href="http://beyoung.me"/>
+  <updated>2014-05-07T16:39:56.068Z</updated>
+  <id>http://beyoung.me/</id>
+  <author>
+    <name><![CDATA[BeYoung]]></name>
+    <email><![CDATA[cxh710200711@gmail.com]]></email>
+  </author>
+  <generator uri="http://zespia.tw/hexo">Hexo</generator>
+  <entry>
+    <title type="html"><![CDATA[数组合并排序的实现]]></title>
+    <link href="http://beyoung.me/2014/04/01/concatsort/"/>
+    <id>http://beyoung.me/2014/04/01/concatsort/</id>
+    <published>2014-04-01T15:01:51.000Z</published>
+    <updated>2014-04-02T04:10:43.000Z</updated>
+    <content type="html"><![CDATA[<p>美团网前端面试题：</p>
+<blockquote>
+<p>   已知两个有序的数组，将它们合并成也是有序的一个数组。举例如下：<br>    输入：A = [1, 2, 4, 7], B = [3, 5, 6, 8]，输出 C = [1, 2, 3, 4, 5, 6, 7, 8]。</p>
+</blockquote>
+<p> 1.简单粗暴的第一个想法，直接使用数组的concat()方法把两个数组拼接成为一个数组，然后再调用sort()方法来进行排序，代码实现如下：</p>
+<pre><code>     <span class="function"><span class="keyword">function</span> <span class="title">concatSort</span><span class="params">(a,b)</span>{</span>
+         <span class="keyword">var</span> arr = a.concat(b).sort(<span class="keyword">function</span>(x,y){
+            <span class="keyword">return</span> x-y;
+        })
+        <span class="keyword">return</span> arr;
+    }</code></pre>
+<p>2.array方法的巧妙运用，每次都把两个数组第一个数字中的较小者放到结果数组后面，同时删除较小数字所在数组中的这个数字，再进行下一轮比较，直到其中一个数组空了为止，然后把剩余部分拼接到结果数组的后面。<a id="more"></a></p>
+<pre><code>    <span class="function"><span class="keyword">function</span> <span class="title">concatSort</span><span class="params">(a, b)</span>{</span>
+        var arr = <span class="matrix">[]</span>;  
+        <span class="keyword">while</span>(<span class="transposed_variable">a.</span><span class="built_in">length</span> &gt; <span class="number">0</span> &amp;&amp; <span class="transposed_variable">b.</span><span class="built_in">length</span> &gt; <span class="number">0</span>)<span class="cell">{
+            if (a[<span class="number">0</span>] &lt; b[<span class="number">0</span>]){
+                arr.push(a.shift());
+            }</span><span class="keyword">else</span><span class="cell">{
+                arr.push(b.shift());
+            }</span>
+        }
+        <span class="keyword">return</span> <span class="transposed_variable">arr.</span>concat(a).concat(b);
+    }</code></pre>
+<p>和上面相同的思路，可以实现换汤不换药的另一种方式，不过效率会低很多，因为要一直获取变动的数组的长度：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">concatSort2</span><span class="params">(a, b)</span>{</span>
+    var arr = <span class="matrix">[]</span>;
+    <span class="keyword">while</span>(<span class="transposed_variable">a.</span><span class="built_in">length</span> &gt; <span class="number">0</span> &amp;&amp; <span class="transposed_variable">b.</span><span class="built_in">length</span> &gt; <span class="number">0</span>)<span class="cell">{
+        if(a[a.length-<span class="number">1</span>] &lt; b[b.length-<span class="number">1</span>]){
+            arr.unshift(a.pop());
+        }</span><span class="keyword">else</span><span class="cell">{
+            arr.unshift(b.pop());
+        }</span>
+    }
+    <span class="keyword">return</span> <span class="transposed_variable">a.</span>concat(b).concat(arr);
+}</code></pre>
+<p>3.第二种方法创建了第三个数组作为结果数组，考虑不创建新数组的方式，那就使用splice方法直接插入到另一个数组中，实现如下：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">concatSort3</span><span class="params">(a,b)</span>{</span>
+    var <span class="built_in">i</span>;
+    <span class="keyword">if</span>(a<span class="matrix">[<span class="number">0</span>]</span> &lt; b<span class="matrix">[<span class="number">0</span>]</span>)<span class="cell">{
+        for(i = <span class="number">0</span>;i &lt; a.length; i++){
+            a[i] &gt; b[<span class="number">0</span>] ? a.splice(i,<span class="number">0</span>,b.shift()) : null;
+        }</span>
+        <span class="keyword">return</span> <span class="transposed_variable">a.</span>concat(b);
+    }<span class="keyword">else</span><span class="cell">{
+        for(i = <span class="number">0</span>;i &lt; b.length; i++){
+            b[i] &gt; a[<span class="number">0</span>] ? b.splice(i,<span class="number">0</span>,a.shift()) : null;
+        }</span>
+        <span class="keyword">return</span> <span class="transposed_variable">b.</span>concat(a);
+    }
+}</code></pre>
+<p>下面是<a href="http://jsperf.com/concatsortarray" target="_blank">jsperf</a>测试三种方法的效率比较:</p>
+<p><img src="/img/post/jsperf.png" alt="jsperf"></p>
+<p>从截图可以看出，明显第二种方法的效率最高，因为它不需要进行循环排序。感觉这道题应该还是考算法，但不是很了解算法，找到自己之前收藏的一篇<a href="http://www.cnblogs.com/fredshare/p/3531594.html" target="_blank">博客</a>，里面比较了不同的排序算法和原生sort()方法的效率，我用结论里面效率最高的插入排序一起放入测试，结果仍然是第二种方法效率最高。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">insertSort</span><span class="params">(array)</span>{</span>  
+     <span class="keyword">var</span> i = <span class="number">1</span>, j, temp, key, len = <span class="keyword">array</span>.length;
+    <span class="keyword">for</span>(; i &lt; len; i++){  
+        temp = j = i;  
+        key = <span class="keyword">array</span>[j];  
+        <span class="keyword">while</span>(--j &gt; -<span class="number">1</span>){  
+            <span class="keyword">if</span>(<span class="keyword">array</span>[j] &gt; key){  
+                 <span class="keyword">array</span>[j+<span class="number">1</span>] = <span class="keyword">array</span>[j];  
+            }<span class="keyword">else</span>{
+                <span class="keyword">break</span>;
+            }
+        }
+        <span class="keyword">array</span>[j+<span class="number">1</span>] = key;  
+    }
+    <span class="keyword">return</span> <span class="keyword">array</span>;  
+}</code></pre>
+<p>以上就是我对这道题的解答啦~</p>
+<p>前端到底需要了解算法到什么程度呢？感觉美团的一面和二面主要都是在考算法，css、html都基本没问，js只问了一下DOM操作，原型、闭包等概念也基本没问。。真的要把《算法导论》买下来看了么，好贵啊=。=</p>
+]]></content>
+    <category scheme="http://beyoung.me/tags/javascript/" term="javascript"/>
+    <category scheme="http://beyoung.me/tags/algorithm/" term="algorithm"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[javascript中的继承]]></title>
+    <link href="http://beyoung.me/2014/03/28/inherit-in-javascript/"/>
+    <id>http://beyoung.me/2014/03/28/inherit-in-javascript/</id>
+    <published>2014-03-28T02:35:08.000Z</published>
+    <updated>2014-04-01T16:02:43.000Z</updated>
+    <content type="html"><![CDATA[<p>javascript中有两种继承，一种是常说的类式继承（classical），另一种是现代继承。</p>
+<h3>类式继承</h3>
+<p>实现类式继承的目标是通过构造Child()获取来自另一个构造函数Parent()的属性，从而创建对象。</p>
+<pre><code><span class="comment">//父构造函数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">(name)</span>{</span>
+    <span class="keyword">this</span>.name = name || <span class="string">"Echo"</span>;
+}
+<span class="comment">//向该原型中添加功能</span>
+<span class="keyword">Parent</span>.prototype.say = function(){
+    retrun <span class="keyword">this</span>.name;
+}
+<span class="comment">//子构造函数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>}
+<span class="comment">//实现继承</span>
+inherit(Child,<span class="keyword">Parent</span>);</code></pre>
+<p>下面我们就来实现inherit函数。<a id="more"></a></p>
+<h4>1. 默认模式</h4>
+<p>使用Parent()构造函数创建一个对象，并将该对象赋值给Child()的原型。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(C,P)</span>{</span>
+    C.prototype = <span class="keyword">new</span> P();
+}</code></pre>
+<blockquote>
+<p><strong> 缺点：</strong>同时继承了两个对象的属性，即添加到this的属性以及原型属性。</p>
+</blockquote>
+<h4>2. 借用构造函数</h4>
+<p>借用父构造函数，它传递子对象以绑定到this，并且还转发任意参数。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">(a,b,c,d)</span>{</span>
+    <span class="keyword">Parent</span>.apply(<span class="keyword">this</span>, arguments);
+}</code></pre>
+<blockquote>
+<p><strong> 缺点：</strong>无法从原型中继承任何东西，并且原型也仅是添加可重用方法以及属性的位置，并不会为每个实例重新创建原型。</p>
+</blockquote>
+<h4>3.借用和设置原型</h4>
+<p>结合前两种模式，即先借用构造函数，然后还设置子构造函数的原型使其指向其中一个构造函数创建的新实例。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">(a,b,c,d)</span><span class="comment">{
+    Parent.apply(this, arguments);
+}</span>
+
+<span class="title">Child</span>.<span class="title">prototype</span> = <span class="title">new</span> <span class="title">Parent</span><span class="params">()</span>;</span></code></pre>
+<blockquote>
+<p><strong> 缺点：</strong> 父构造函数被调用了两次，因此导致效率低下，此外，自身的属性也会被继承两次。</p>
+</blockquote>
+<h4>4.共享原型</h4>
+<p>本模式来自于经验：可复用成员都应该转移到原型中而不是放置在this中。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(C,P)</span>{    </span>
+    <span class="transposed_variable">C.</span>prototype = <span class="transposed_variable">P.</span>prototype;
+}</code></pre>
+<blockquote>
+<p><strong>缺点：</strong>原型链不安全，容易被子孙对象修改，从而影响到所有的父对象和祖先对象。</p>
+</blockquote>
+<h4>5. 临时构造函数</h4>
+<p>通过断开父对象与子对象的原型之间的之间链接关系，从而解决共享同一个原型所带来的问题，而且同时还能继续受益于原型链带来的好处。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(C,P)</span><span class="comment">{    
+    var F = function(){}</span>;</span>
+    F.prototype = P.prototype;
+    C.prototype = new F();
+    C.prototype.<span class="function"><span class="keyword">constructor</span> = <span class="title">C</span>;</span> <span class="comment">//重置构造函数指针</span>
+}</code></pre>
+<h3>现代继承</h3>
+<h4>1.原型继承</h4>
+<p>使用空的临时构造函数F()，然后，将F()的原型属性设置为父对象，最后，返回一个临时构造函数的新实例。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(o)</span>{</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span>{</span>};
+    F.prototype = o;
+    <span class="keyword">return</span> <span class="keyword">new</span> F();
+}</code></pre>
+<h4>2.ECMAScript5中的新方法</h4>
+<p>在ECMAScript5中，原型继承已经正式成为了语言的一部分，可以通过调用Object.create()来实现。</p>
+<pre><code><span class="keyword">var</span> child = Object.create(<span class="keyword">parent</span>); </code></pre>
+<h4>3.复制属性实现继承</h4>
+<p>浅复制：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">extend</span><span class="params">(parent,child)</span>{</span>
+    <span class="keyword">var</span> i;
+    child = child || {};
+    <span class="keyword">for</span>(i in <span class="keyword">parent</span>){
+        <span class="keyword">if</span>(<span class="keyword">parent</span>.hasOwnProperty(i)){
+            child[i] = <span class="keyword">parent</span>[i];
+        }
+    }
+    <span class="keyword">return</span> child;
+}</code></pre>
+<p>深复制：检出某个属性的类型是否是对象，如果是这样的话，则递归复制出该对象的属性。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">extendDeep</span><span class="params">(parent, child)</span>{</span>
+    <span class="keyword">var</span> i,
+        toStr = Object.prototype.toString,
+        astr = <span class="string">"[object Array]"</span>;
+    child = child || {};
+    <span class="keyword">for</span>(i in <span class="keyword">parent</span>){
+        <span class="keyword">if</span>(<span class="keyword">parent</span>.hasOwnproperty){
+            <span class="keyword">if</span>(typeof <span class="keyword">parent</span>[i] === <span class="string">"object"</span>){
+                child[i] = (toStr.call(<span class="keyword">parent</span>[i]) === astr) ? [] : {};
+                extentDeep(<span class="keyword">parent</span>[i],child[i]);
+            }<span class="keyword">else</span>{
+                child[i] = <span class="keyword">parent</span>[i]
+            }
+        }
+    }
+    <span class="keyword">return</span> child;
+}</code></pre>
+<p>这种复制模式得到了比较广泛的应用，比如jQuery库中的<a href="http://api.jquery.com/jquery.extend" target="_blank">extend()</a>方法可以创建深度复制的副本，YUI3提供了一个名为<a href="http://yuilibrary.com/yui/docs/api/classes/YUI.html#method_clone" target="_blank">Y.clone()</a>的方法，该方法也可以创建深度复制的副本，而且还通过将函数绑定到子对象上以复制出函数。</p>
+<h3>参考资料</h3>
+<ul>
+<li><a href="http://javascript.crockford.com/zh/inheritance.html" target="_blank">JavaScript中的类继承</a></li>
+<li><a href="http://book.douban.com/subject/11506062/" target="_blank">JavaScript模式</a></li>
+</ul>
+]]></content>
+    <category scheme="http://beyoung.me/tags/javascript/" term="javascript"/>
+    <category scheme="http://beyoung.me/tags/inherit/" term="inherit"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[flexbox完全指南]]></title>
+    <link href="http://beyoung.me/2014/02/24/flexbox/"/>
+    <id>http://beyoung.me/2014/02/24/flexbox/</id>
+    <published>2014-02-24T14:46:19.000Z</published>
+    <updated>2014-02-25T02:50:02.000Z</updated>
+    <content type="html"><![CDATA[<p>flexbox属性的标准写法从09年到现在一直在变化，现在终于确定了。这几天看了一些笔试题，发现考了不少相关的知识，很多网站都已经开始使用它进行网页布局了，移动端的使用非常多（比如赶集网和百姓网）。所以记录一下，大多数参考自<a href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">css-tricks</a>。</p>
+<h3>语法和属性</h3>
+<p><strong> 作用于弹性盒的属性：</strong></p>
+<ul>
+<li>display: flex | inline-flex;</li>
+<li>flex-derection: row(<strong>default</strong>) | row-reverse | column | column-reverse;</li>
+<li>flex-wrap: nowrap (<strong>default</strong>) | wrap | wrap-reverse;</li>
+<li>flex-flow: &lt;‘flex-derection’&gt; || &lt;‘flex-wrap’&gt;;</li>
+<li>justify-content: flex-start | flex-end | center | space-between | space-around;</li>
+<li>align-items: flex-start | flex-end | center | baseline | stretch;</li>
+<li>alegn-content: flex-start | center | baseline | space-between | space-around |stretch;<a id="more"></a></li>
+</ul>
+<p><strong> 作用于弹性盒子元素的属性：</strong></p>
+<ul>
+<li>order: <integer>;</li>
+<li>flex-grow: <number> default 0;</li>
+<li>flex-shrink: <number> default 1;</li>
+<li>flex-basis: <length> | auto(<strong>default</strong>);</li>
+<li>flex: none | [ &lt;‘flex-grow’&gt; &lt;‘flex-shrink’&gt;? || &lt;‘flex-basis’&gt; ];</li>
+<li>align-self: auto | felx-start | flex-end | center | baseline | stretch;</li>
+</ul>
+<h3>浏览器支持</h3>
+<p><strong>modern</strong> means the recent syntax from the specification e.g. <code>display: flex;</code><br><strong>hybrid</strong> means an odd unofficial syntax from 2011 e.g. <code>display: flexbox;</code><br><strong>old</strong> means the old syntax from 2009 e.g. <code>display: box;</code><br><img src="/img/post/table.png" alt=""></p>
+<p>css-tricks提供了一个sass@mixin用来减轻兼顾不同版本的痛苦：</p>
+<pre><code>@mixin flexbox() {
+    <span class="method">display:</span> -webkit-box;
+    <span class="method">display:</span> -moz-box;
+    <span class="method">display:</span> -ms-flexbox;
+    <span class="method">display:</span> -webkit-flex;
+    <span class="method">display:</span> flex;
+}
+
+@mixin flex(<span class="char">$v</span>alues) {
+    -webkit-box-<span class="method">flex:</span> <span class="char">$v</span>alues;
+    -moz-box-<span class="method">flex:</span>  <span class="char">$v</span>alues;
+    -webkit-<span class="method">flex:</span>  <span class="char">$v</span>alues;
+    -ms-<span class="method">flex:</span>  <span class="char">$v</span>alues;
+    <span class="method">flex:</span>  <span class="char">$v</span>alues;
+}
+
+@mixin order(<span class="char">$v</span>al) {
+    -webkit-box-ordinal-<span class="method">group:</span> <span class="char">$v</span>al;  
+    -moz-box-ordinal-<span class="method">group:</span> <span class="char">$v</span>al;     
+    -ms-flex-<span class="method">order:</span> <span class="char">$v</span>al;     
+    -webkit-<span class="method">order:</span> <span class="char">$v</span>al;  
+    <span class="method">order:</span> <span class="char">$v</span>al;
+}
+
+.wrapper {
+    @include flexbox();
+}
+
+.item {
+    @include flex(<span class="number">1</span> <span class="number">200</span>px);
+    @include order(<span class="number">2</span>);
+}</code></pre>
+<h3>实际使用</h3>
+<ol>
+<li><p>使用弹性盒实现子元素在父元素中完美居中：</p>
+<p> <p data-height="268" data-theme-id="0" data-slug-hash="mnKGq" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/xuhong/pen/mnKGq'>mnKGq</a> by 旭鸿 (<a href='http://codepen.io/xuhong'>@xuhong</a>) on <a href='http://codepen.io'>CodePen</a>.</p></p>
+ <script async src="//codepen.io/assets/embed/ei.js"></script>
+</li>
+<li><p>使用弹性盒实现双飞翼布局：</p>
+<p> <p data-height="268" data-theme-id="0" data-slug-hash="GBoqt" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/xuhong/pen/GBoqt'>GBoqt</a> by 旭鸿 (<a href='http://codepen.io/xuhong'>@xuhong</a>) on <a href='http://codepen.io'>CodePen</a>.</p></p>
+ <script async src="//codepen.io/assets/embed/ei.js"></script>
+</li>
+<li><p>使用弹性盒实现自适应网页设计：</p>
+<p> <p data-height="268" data-theme-id="0" data-slug-hash="qIAwr" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/HugoGiraudel/pen/qIAwr'>Demo Flexbox 3</a> by Hugo Giraudel (<a href='http://codepen.io/HugoGiraudel'>@HugoGiraudel</a>) on <a href='http://codepen.io'>CodePen</a>.</p></p>
+ <script async src="//codepen.io/assets/embed/ei.js"></script></li>
+</ol>
+]]></content>
+    <category scheme="http://beyoung.me/tags/css3/" term="css3"/>
+    <category scheme="http://beyoung.me/tags/flexbox/" term="flexbox"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[gevent-in-action]]></title>
+    <link href="http://beyoung.me/2014/02/05/gevent-in-action/"/>
+    <id>http://beyoung.me/2014/02/05/gevent-in-action/</id>
+    <published>2014-02-05T10:03:58.000Z</published>
+    <updated>2014-02-25T02:48:48.000Z</updated>
+    <content type="html"><![CDATA[<p>并发的核心思想在于，大的任务可以分解为一系列的子任务，后者可以被调度成同步执行或异步执行，而不是一次一个地或者同步地执行。两个子任务之间的切换就是上下文切换。</p>
+<p>在gevent里面，上下文切换时通过<code>yielding</code>来完成的。</p>
+<h3>同步和异步执行</h3>
+<p>当我们在受限于网络或IO的函数中使用gevent，这些函数会被协作式的调度，gevent的真正能力会得到发挥。</p>
+<p>下面有一张来自gevent指南的控制流程图，形象地解释程序的执行顺序，如下图：<a id="more"></a></p>
+<p><img src="/img/post/flow.gif" alt="flow"></p>
+<p>如异步地从服务器取数据，取数据的时间依赖于发起输去请求时远端拂去起的浮在，各个请求的执行时间会有差别。</p>
+<h3>确定性</h3>
+<p>gevent 具有确定性，在相同配置相同输入的情况下，他们总是会产生相同的输出。但当开始与如socket或文件等外部服务交互时，不确定性也可能溜进你的程序中。涉及并发不得不注意的问题就是竞争条件（race condition)，最好始终避免所有的全局状态和导入时（import time）的副作用。</p>
+<h3>创建Greenlets</h3>
+<p>gevent对<code>Greenlets</code>初始化提供了一些封装，最常用的使用模板之一有：</p>
+<pre><code><span class="keyword">import</span> gevent
+<span class="keyword">from</span> gevent <span class="keyword">import</span> Greenlet
+
+<span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(message, n)</span>:</span>
+    gevent.sleep(n)
+    print(message)
+
+thread1 = Greenlet.spawn(foo, <span class="string">"Hello"</span>, <span class="number">1</span>)
+thread2 = gevent.spawn(foo, <span class="string">"I live!"</span>, <span class="number">2</span>)
+thread3 = gevent.spawn(<span class="keyword">lambda</span> x: (x+<span class="number">1</span>), <span class="number">2</span>)
+
+threads = [thread1, thread2, thread3]
+
+gevent.joinall(threads)
+
+Hello
+I live!</code></pre>
+<p>除使用基本的Greenlet类之外，你也可以子类化Greenlet类，重载它的 <code>_run</code> 方法。</p>
+<h3>Greenlet状态</h3>
+<p>在greenlet中有一些标志，让你可以监视它的线程内部状态。</p>
+<ul>
+<li>started ——Boolean，指示此Greenlet是否已经启动</li>
+<li>ready() ——Boolean，指示此Greenlet是否已经停止</li>
+<li>successful() ——Boolean，指示此Greenlet是否已经停止而且没抛出异常</li>
+<li>value ——任意值，此Greenlet代码返回的值</li>
+<li>exception ——异常，此Greenlet内抛出的未捕获异常</li>
+</ul>
+<h3>程序停止</h3>
+<p>当主程序收到一个SIGQUIT信号时，不能成功做yield操作的Greenlet可能会意外的挂起，这就会导致所谓的僵尸进程，它需要在python解释器之外被kill掉。对此，一个通用的处理模式就是在主程序中监听SIGQUIT信号，在程序退出时调用gevent.shutdown.</p>
+<pre><code><span class="keyword">import</span> gevent
+<span class="keyword">import</span> signal
+
+<span class="function"><span class="keyword">def</span> <span class="title">run_forever</span><span class="params">()</span>:</span>
+    gevent.sleep(<span class="number">1000</span>)
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+gevent.signal(signal.SIGQUIT, gevent.shutdown)
+thread = gevent.spawn(run_forever)
+thread.join()</code></pre>
+<h3>超时</h3>
+<p>超时是一种对一块代码或一个Greenlet的运行时间的约束。</p>
+<h3>事件</h3>
+<p>Greenlet之间异步通信的形式是<em>事件</em>，事件对象的一个扩展是AsyncResult，它允许你在唤醒调用上附加一个值。它有时也被称作future或defered，因为它有一个指向将来任意时间可设为任何值的引用。</p>
+<h3>队列</h3>
+<p>队列是一个排序的数据集合，常见的有put/get操作，但是它是以在Greenlet之间可以安全操作的方式来实现的。比如说，如果一个Greenlet从队列中取出一项，此项就不会被同时执行的其他Greenlet再取到了。</p>
+<p>put/get操作都有非阻塞的版本，put_nowait和get_nowait不会阻塞，然而在操作不能完成时抛出gevent.queue.Empty或gevent.queue.Full异常。</p>
+<h3>组和池</h3>
+<p>组（group）是一个运行中的greenlet的集合，集合中的greenlet像一个组一样会被共同管理和调度。它也兼饰了像python的multiprocessing库那样的平行调度器的角色。在管理异步任务的分组上它是非常有用的。</p>
+<p>池（pool）是一个为处理数量变化并且需要限制并发的greenlet而设计的结构，在需要并行的做很多受限于网络和IO的任务时常常需要用到它。当构造gevent驱动的服务时，经常会将围绕一个池结构的整个服务作为中心。</p>
+<h3>锁和信号量</h3>
+<p>信号量是一个允许greenlet相互合作，限制并发访问或运行的低层次同步原语。信号量有两个方法，acquire和release。在信号量是否已经被acquire或release，和拥有的资源的数量之间不同，被称为此信号量的范围。范围为1的信号量也成为lock，它向单个greenlet提供了互斥访问，信号量和锁常常用来保证资源只在程序的上下文被单次使用。</p>
+<h3>线程局部变量</h3>
+<p>Grevent也允许你置顶局部与greenlet上下文的数据。在内部，它被实现为以greenlet的getcurrent()为键，在一个私有命名空间寻址的全局查找。</p>
+<p>看到知乎对python工程师要求熟练使用gevent，所以去学了下，这是第二遍看了，第一次有点没看懂，这次则基本上知道怎么用了。gevent在那些耗时的服务器操作上可以发挥巨大的作用，比如知乎的赞、感谢、收藏，个人名片的加载，以及api调用数据，都可以大大缩短操作的时间。看了几个github上的例子，期待能够尽快在实际项目上得到使用。</p>
+]]></content>
+    <category scheme="http://beyoung.me/tags/python/" term="python"/>
+    <category scheme="http://beyoung.me/tags/gevent/" term="gevent"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Bye 2013, Hello 2014]]></title>
+    <link href="http://beyoung.me/2013/12/31/Bye-2013,-Hello-2014/"/>
+    <id>http://beyoung.me/2013/12/31/Bye-2013,-Hello-2014/</id>
+    <published>2013-12-31T14:21:52.000Z</published>
+    <updated>2014-01-23T17:22:56.000Z</updated>
+    <content type="html"><![CDATA[<p>还记得去年元旦之前的那个晚上，自己一个人在东十二的517自习，那段时间正是我写博客最频繁的时期，但大都是技术相关的笔记，无关生活，或者说生活单调的以至于没有东西可写。坐在自习室中，看着大家分享着各自的年终总结，自己当时也很想写一篇，但最终还是舍不得花那个时间，只在微博上留了一句：</p>
+<p><img src="/img/post/weibo1.png" alt="weibo1"></p>
+<p>后来呢？大年三十也还是没有写年终总结，如今，关于2012年的记忆，可能只剩下暑假骑行川藏线的片段了以及自习室里的“有缘人”了，其他的呢，需要很努力才想的起来零星点点。之前自己也感叹过，为很多记忆碎片不经整理，慢慢的从脑海中溢出而感到可惜，现在既然决心要改善了，那今年这篇年终总结就不能再错过了。Not only let go, but also remember, remember for the future.<br><a id="more"></a><br>上半年已经没有多少记忆了，只有下半年的了，看来以后得半年写一次=。=</p>
+<p>暑假的时候在学校实习，白天去学院安排的公司闲逛消磨时间，晚上的时候仍然是学习新的技术。那时候正好对python感兴趣，于是就照着Learn python in the hard way学了一遍python的基本语法，不过两个月后基本上全都忘了。七月份就这么消磨过去了，实习结束已经是八月初，离开学只有20多天，所以就没有继续去找互联网公司实习，回到家里考驾照去了。</p>
+<p>考驾照的那段时间住在姐姐家里，因为她那离驾校很近。姐姐是全职妈妈，姐夫白天上班，姐姐就一个人在家带着妞妞。带小孩子确实是一件非常累的活，中午喂好了妞妞哄她睡着后自己也累的不行，只有趁着孩子睡觉的时候自己才能休息会，姐姐常常连饭都顾不上吃。所以我在那还能帮姐姐带带孩子，同时又因为要做饭给我吃，让她自己的饮食也规律了起来。和妞妞在一起的时间是非常的快乐的，让一个对世界毫无恶意的小生命慢慢的接受你，甚至对你产生依赖，这个过程真是太美好了。最让我感动的是某一天早晨，当我醒来的时候，看到一个肉肉的小生命贴着我的肚皮躺着，她呼吸平静而均匀，对这个世界没有丝毫的恶意和防备。这个小生命竟是如此的信赖我！这让我激动了一整天，真的，你会感觉心底最柔软的部分被触动了，世界都因此而美好了起来。后来姐姐开玩笑说，姐夫都要嫉妒我了，妞妞现在对我比对她爸还亲，哈哈。科目一只在考试之前看了一天，考了96分，考完后就去练习科目二的项目了。教练是姐夫的邻居，每天就坐着他的教练车和他一起去驾校，到了饭点再一起回来。不过那段时间我的作息依然不好，白天带着妞妞的时候基本上看不了什么书，打开电脑她就会来捣乱了，电脑一般都用来给她放儿歌动画。等到晚上哄她睡着之后，时间一般都到11点了，洗漱什么折腾一会儿后就转钟了，然后才有时间安安静静的看会书，所以一般都在2、3点之后才休息。那段时间看了django book，花了大概一个星期左右的时间吧，不过现在也基本上都忘了=。=学完之后，就发现了<a href="http://f2e.im" target="_blank">F2E</a>的开源项目，然后就转移到这个项目去了。也许是因为有之前的基础了吧，看这个项目源码的时候竟然觉得非常的清晰易懂，然后就产生了基于这个项目搭建一个校园社区的想法。我觉得自己一直有一种社区情节，现在仍然存在，这个我在<a href="http://beyoung.me/2013/10/24/why-i-build-the-website-ihuster.com/">我为什么要做这个社区</a>中提到过。然后科目2也过了，科目二有两次机会，第一次非常脑残的失败了，好在第二次有惊无险的过了。八月的最后一天晚上，在姐姐的赞助下，在阿里云买了一年的云主机。</p>
+<p><img src="/img/post/sleep.jpg" alt="睡着的妞妞"></p>
+<p><img src="/img/post/afk.jpg" alt="捣乱"></p>
+<p>八月份就这么晃过去了，这段时间算是这半年比较开心的时间吧，那时候就开始反思，觉得就那么慢慢的“浪费时间”（练车、带孩子）的人生也是非常的幸福，自己在大三的一年里，节奏实在是太快了，以至于忽略了生活，忽略了朋友。那条微博提到我想再买车再疯狂一年，实际上，确实又买了辆美利达勇士600，在2013年五一的时候，但我却几乎没怎么骑过。10月份的时候，我突然意识到我竟一年没有去长江大桥吹过风了，说来也巧，大二后每次的火车票都是买的武汉站的，连公交都不曾坐过长江大桥。所以第二天就骑车去了趟长江大桥，这也是我这个学期仅有的一次骑车出校门。那个以前每个星期都要骑车出去转转，对骑车这件事有着近乎狂热的热爱的我，早已不知去向了。记得骑车去拉萨前，看到有人说过，“如果骑车去拉萨后，回来仍然还骑车的，那么就真的是一辈子的热爱了”。不过我对这个我曾经认定会热爱一辈子的兴趣失去激情也并不感到惊奇，因为我差点就因为大二下发现自己对互联网的热情和那时幼稚的想法而放弃骑车去拉萨呢，后者可是我渴望了一整年并列为这辈子必须要干的事情呀。现在，慢慢的对互联网的狂热已经淡了下来，但并没有失去激情，我仍然把它当作信仰，和我对自由的信仰一样，甚至说我对自由的信仰都是建立在它的上面的。我觉得这才是更好的状态，慢慢的沉淀下来，却不失去热爱，这才是能长久的兴趣吧。</p>
+<p>九月份的时候就来到学校报到了，带着快要完成的社区。但到学校后，却发现无法立即就把社区部署上线，因为阿里云要求网站备案后才能绑定ip。所以第一个星期就为备案忙着。去年就打算过要给自己曾经的博客备案，但最后还是嫌麻烦而放弃了，但真的做起来，发现这件事其实特别简单。我却遇到了另一个麻烦的事，在湖北，异地户口备案需要提供暂住证。办暂住证也很简单，只需要去华科中心机房后面的派出所拍张照片就行，但审核的流程却tmd长达两个月！所以上线日期不得已要往后推迟了，原来打算在新生军训结束之前上线的计划就泡汤了，错过了新生的新鲜期这是让我感到非常遗憾的。在等待暂住证的同时，我也在继续完善着社区的功能，同时我还在<a href="http://v2ex.com" target="_blank">V2EX</a>发了一个<a href="http://v2ex.com/t/81716" target="_blank">帖子</a>，让大家知道这件事，对它产生期待，方便后续的宣传。效果也还不错，这个帖子在当天热议排行榜排到了第一位，获得了不少校友的关注，这是9月8号的事：</p>
+<p><img src="/img/post/weibo2.png" alt="weibo2"></p>
+<p>40天后，社区备案批了下来，此时，10月也已经过了三分之一了。最后，社区终于在<strong>10月10日</strong>正式上线了。这四十天都干了什么呢？在社区上线的那一天,我又去v2ex发了一篇<a href="http://v2ex.com/t/85888" target="_blank">帖子</a>，告知之前关注社区的朋友这个消息，和我这40天所做得事情。一个星期左右的内测期结束后，各种bug也都及时的修复了，终于迎来了第一个小高峰，在2013年10月17日，社区的pv达到了历史最高峰，2170。但大都来自我在qq空间的宣传，而他们大都并不是目标用户，所以潮水来得快也去的快，围观的人们很也都散去了。百度统计截图如下：</p>
+<p><img src="/img/post/pv.png" alt="top pv on 2013.10.17"></p>
+<p>现在已经停止运营了一个多星期后，目前人气已经十分的惨淡：</p>
+<p><img src="/img/post/today.png" alt="now pv on 2014.1.1"></p>
+<p>11月份仍然是惨淡的运营着，我一个人来运营这个社区确实有点吃力。太久不制造内容，突然需要每天生产的什么出来对我真是一个不小的挑战，就像期望一个本身瘦骨嶙峋的奶牛能每天挤点奶出来一样，真是不如一刀杀了来的痛快==。不过那段时间也还是收获蛮多的，关于社区产品的运营，关于人气的启动，以及其他方面的思考和尝试，这个有时间可以单独的再也一篇博客详细讨论。其实，最重要的是，通过这个产品，确实影响到了一些人，这才是我认为的价值所在，后面再详述这点。</p>
+<p>11月份人就慢慢的露出疲态了，对社区不再抱有非常强烈的激情。但期间有几天流量又上去了些，那是左群的加入所带来的。到了12月初的时候，姐姐突然决定要来武汉看我，说是想我了。这个念头她已经念叨了两年了，她之所以一直有着这样一个情结，其实我知道，有着另外一个原因。12月2号的时候，我去武汉火车站接了她们。当天没什么活动，带着孩子比较累，连校园姐姐都不愿逛了，她说华科一点都不漂亮==。晚上的时候带她们去逛了光谷步行街，不过基本上都是跟我买衣服，我也才注意到，我已经一年没有去过光谷，大三一年真可以说是离群索居、与世隔绝了。第二天上午带她们逛了下长江大桥和黄鹤楼，到黄鹤楼的时候已经是中午12点多了，来的路上堵车厉害，浪费了不少时间。公交车一路上走走停停，我和妈妈都晕车了，妞妞也因为不舒服哭个不停，到黄鹤楼的时候已经哭着睡着了，姐姐没力气继续爬楼梯了，所以黄鹤楼也没去成。便带她们去户部巷买了点东西吃，然后就拦了辆的士去汉口火车站了。能够接待姐姐、妈妈和妞妞在武汉玩确实非常高兴，但也实在是累的不行，手脚都感觉要断了，坐在公交车上往后一仰就睡着了，然后猛地停车的时候又会醒过来，还好没流口水，赶紧把嘴巴闭上，环顾下四周，然后往后一仰接着睡，回来路上就重复着这个过程==</p>
+<p><img src="/img/post/niuniu.jpg" alt="妞妞来啦"></p>
+<p>十二月份后，社区上面花的精力越来越少了，同时因为另一件事情带来的挫败感，突然对很多事情一下子失去了激情，只想好好休息放松一下。这段时间看了10部左右的电影，和几本书。同时又开始学习新的东西来分散注意力。把<a href="http://book.douban.com/subject/7906788/" target="_blank">Introduction to Tornado</a>的英文电子书看了一遍，把python官网的<a href="http://docs.python.org/2/tutorial/" target="_blank">tutorial</a>也看了一遍，接下来将要看<a href="http://docs.python.org/2/liberary/" target="_blank">library</a>部分，了解了下<a href="http://www.gevent.org/" target="_blank">gevent</a>的用法，但还没能在实际项目运用过。还看了一些nodejs的单页书，看了下nodeclub的源码。然后在12月末的时候又开始学习Android开发了，现在已经把Android 的<a href="https://developer.android.com/training" target="_blank">Training</a> 和 <a href="https://developer.android.com/design" target="_blank">Design</a> 部分看完了，后面将继续看guide部分。</p>
+<hr>
+<p><strong>流水止于此</strong></p>
+<p>2013年最主要的精力就是投入到这个社区了，关于我为什么要做这个社区我已经在之前的博客讲过啦。那么是否达成了这一愿望呢，又影响到了哪些人呢？</p>
+<p>想了想，对他人的影响确实不好说，但毫无疑问，影响最大的人肯定是我自己，因为在这个过程中认识了蛇精病。蛇精病，遇到你是我今年最开心的事情。</p>
+<p>2013年的几个重要的事情：</p>
+<ul>
+<li>爱华科社区</li>
+<li>家人探望</li>
+<li>遇到蛇精病</li>
+</ul>
+<p>还有几件坚持了一段时间的小事情：</p>
+<ul>
+<li>坚持叠被子一个学期啦，就是起床的时候折两下啦，方便睡觉的时候一拉就盖好了~</li>
+<li>坚持跑步两个月左右，后来因为天太冷而放弃啦，不过在寝室还是会原地跑，因为脚冷啊=。=</li>
+<li>坚持做俯卧撑两个月，后来衣服穿的越来越鼓就不方便啦，会挨着地弄脏的</li>
+<li>坚持吃早餐一个月不到，好吧，下半年几乎没怎么吃早餐</li>
+<li>坚持看英文资料，这个学期看了几本英文教程书，后面看英文字幕的电影的时候也感觉轻松了不少，我一直都在用Google translate来翻译和标记单词，下面是我这半年标记了的单词：<a href="https://docs.google.com/spreadsheet/ccc?key=0Ape4kI6er8kGdDhoc2NHTlBucnByZFk3V1dTVU5ad0E&amp;usp=sharing" target="_blank">Google doc</a></li>
+<li>开始尝试听古典音乐了</li>
+</ul>
+<p>2014年的展望</p>
+<ul>
+<li>拿到驾照，不出意外的话寒假就能拿到</li>
+<li>继续学习Android开发，为了逼迫自己开始学习Android开发，我毕设选了一个与Android开发相关的课题~</li>
+<li>更深入的思考和尝试社区类产品的运营</li>
+<li>毕业，How time flies!</li>
+<li>爱情，蛇精病，你仍然占据着我的心，每天在里面疯着闹着，我却只能在你心扉外面徘徊，甚至不敢轻易的去敲门，我怕打扰到你，让你有压力，但看着自己一点点fadeout让我感到很无力，却又不知道能做什么</li>
+<li>工作或创业，到现在还没确定到底是要去找工作还是创业，但这个寒假还是先会为找工作做准备的，如果明年安卓客户端能上线，社区新功能可以开发出来，还是会考虑创业的，或者拿到offer后还是可以尝试一下的</li>
+<li>如果有可能的话，想毕业之前骑车环一趟海南岛（估计很难实现吧）</li>
+</ul>
+<p>2014继续坚持的事情</p>
+<ul>
+<li>吃早餐，必须的！！！</li>
+<li>运动，绝对不能一坐一整天</li>
+<li>叠被子，反正没什么坏处</li>
+<li>骑车在华科四处转悠，拍些照片留下纪念</li>
+</ul>
+]]></content>
+    <category scheme="http://beyoung.me/tags/Life/" term="Life"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[python-tutorial]]></title>
+    <link href="http://beyoung.me/2013/12/22/python-tutorial/"/>
+    <id>http://beyoung.me/2013/12/22/python-tutorial/</id>
+    <published>2013-12-22T10:53:50.000Z</published>
+    <updated>2014-01-01T13:27:09.000Z</updated>
+    <content type="html"><![CDATA[<p>花了几天的时间把python官网的英文教程翻看了一遍，做了一点笔记。之前有在dive into python和learn python in the hard way上系统的学习过python，但时间久了，很多基础的东西都不记得的（虽说其实很多都差不多==），所以这次再看官网英文教程的时候顺便做了下笔记。不同语言之间所共有的就不记录了，记录一点python所特有的方法，或是我之前没接触过的。</p>
+<h2>number</h2>
+<p><strong>1.</strong>python支持虚数，虚数位以<code>j</code>或<code>J</code>为后缀，如下所示：</p>
+<pre><code><span class="attribute">1+2j</code></pre>
+<p>如果要分别获得虚数的实部和虚部，可以使用下面的方式：</p>
+<pre><code>a = -<span class="number">1</span> + <span class="number">0.5</span>j
+a<span class="variable">.real</span> <span class="preprocessor">#实部</span>
+a<span class="variable">.imag</span> <span class="preprocessor">#虚部</span></code></pre>
+<p>在交互状态下，最后一次输出的结果会赋值给<code>_</code>，如下例所示：</p>
+<pre><code><span class="title">tax</span> = <span class="number">12.5</span> / <span class="number">100</span>
+<span class="title">price</span> = <span class="number">100.50</span>
+<span class="title">price</span> * tax # <span class="number">12.5625</span>
+<span class="title">price</span> + _ # <span class="number">113.0625</span>
+<span class="title">round</span>(_,<span class="number">2</span>)</code></pre>
+<h2>string</h2>
+<a id="more"></a>
+
+<p><strong>2.</strong>python中如果字符使用raw输出，则不会被转换</p>
+<pre><code>string = <span class="string">r"you and \n me"</span></code></pre>
+<p>靠在一起的两个字符串会自动连接起来，与使用<code>+</code>效果相同：</p>
+<pre><code><span class="attribute">'str</span>' <span class="attribute">'ing</span>'
+<span class="attribute">'str</span>' + <span class="attribute">'ing</span>'</code></pre>
+<p>但这只对两个字符串有效，加入任何表达式就会出现错误</p>
+<pre><code><span class="attribute">'str</span>'.strip() + <span class="attribute">'ing</span>'  #<span class="typename">string</span>
+<span class="attribute">'str</span>'.strip() <span class="attribute">'ing</span>'  #error</code></pre>
+<h2>流程控制语句</h2>
+<p><strong>3.</strong>使用内置函数range()可以产生按一定顺序排列的数字，range()函数可以传入3个参数，如果只传入一个的话默认从零开始，以1为步伐叠加，如果传入两个则按从小到大以1为步伐叠加，如果传入3个参数，则第三个为步伐：</p>
+<pre><code><span class="function"><span class="title">range</span><span class="params">(<span class="number">5</span>)</span>
+<span class="title">range</span><span class="params">(<span class="number">5</span>, <span class="number">10</span>)</span>
+<span class="title">range</span><span class="params">(<span class="number">10</span>, <span class="number">100</span>, <span class="number">10</span>)</span></code></pre>
+<p>如果第一个数比第二个大且步伐为正或第一个数比第二个小且步伐为负则结果为空数组。</p>
+<p><strong>4.</strong>循环语句中的<code>else</code>的作用类似于<code>try</code>，配合<code>break</code>或<code>continue</code>一起使用</p>
+<p><strong>5.</strong>pass语句什么也不做，一般用在下面两种情况：</p>
+<ul>
+<li>不需要什么动作但保证语法正确</li>
+<li><p>作为函数的一个占位符</p>
+<pre><code><span class="keyword">while</span> <span class="built_in">True</span>:
+      <span class="keyword">pass</span>
+
+<span class="function"><span class="keyword">def</span> <span class="title">initlog</span><span class="params">(*args)</span>:</span>
+    <span class="keyword">pass</span></code></pre>
+</li>
+</ul>
+<p><code>pass</code> 也常用来创建最小类</p>
+<p><strong>6.</strong>定义函数时，如果参数给了初始值则调用时该参数就是可选的，没有初始值的参数则是必须的：</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">parrot</span><span class="params">(voltage, state=<span class="string">"a stiff"</span>, action = <span class="string">"voom"</span>, type = <span class="string">"Norwegian Blue"</span>)</span>:</span>
+    <span class="keyword">pass</span></code></pre>
+<p>上面voltage是必须的，另外三个则是可选的。</p>
+<p>参数的顺序是无关紧要的，每个参数只能赋值一次。</p>
+<p>引入一个形如<code>**name</code>的参数时，它接受一个字典，改字典包含了所有未出现在形式参数列表中的关键字参数。这里可能还会组合使用一个形如<code>*name</code>的形式参数，它接受一个元组，包含了所有没有出现在形式参数列表中的参数值。<strong>注:</strong><code>*name</code>必须出现在<code>**name</code>之前:</p>
+<pre><code><span class="function"><span class="keyword">def</span> <span class="title">mangarg</span><span class="params">(kind, *arguments, **keywords)</span></code></pre>
+<p>当传递的参数是一个列表但调用的函数却接受分开一个个的参数值，这是后可以使用<code>*</code>操作符来拆分列表，类似的，可以使用<code>**</code>操作符来查分关键字参数为字典。</p>
+<pre><code>range(<span class="number">3</span>, <span class="number">6</span>)
+args = [<span class="number">3</span>, <span class="number">6</span>]
+range(*args)
+<span class="function"><span class="keyword">def</span> <span class="title">parrot</span><span class="params">(voltage, state = <span class="string">'a stiff'</span>, action = <span class="string">'fire'</span>)</span>:</span>
+    <span class="keyword">pass</span>
+
+d = {<span class="string">"voltage"</span>:<span class="string">"four"</span>, <span class="string">"state"</span>:<span class="string">"good"</span>, action = <span class="string">"shoot"</span>}
+parrot(**d)</code></pre>
+<p><strong>7.lambda 形式</strong>。通过lambda关键字，可以创建短小的匿名函数，如<code>lambda a, b: a+b</code>则返回a+b的值。lambda形式可以用于任何需要的函数对象，它们只有一个单独的表达式，是一种实用的语法糖。</p>
+<p><strong>8.文档注释</strong></p>
+<ul>
+<li>第一行大都简短，总结对象的目的</li>
+<li>如果有多行的话，第二行应该空着，用于分隔总结和接下来的描述。</li>
+</ul>
+<p>函数的文档注释可以通过<code>__doc__</code>内置方法调用，如 <code>my_function.__doc__</code></p>
+<p><strong>9.编码风格</strong></p>
+<p>对python而言，<a href="http://www.python.org/dev/peps/pep-0008/" target="_blank">PEP8</a>介绍了大多数项目应该采取的编码风格，每个pythoner都应该看看，一下是最重要的几点：</p>
+<ul>
+<li>使用4个空格而不是tabs</li>
+<li>一行不要超过79个字符</li>
+<li>使用空行来分隔开函数和类，以及函数内的大段代码</li>
+<li>尽可能的在当前行进行注释</li>
+<li>使用文档注释</li>
+<li>在操作符和逗号后面使用空格，但在包围结构旁不要使用，比如函数的括号旁就不要使用空格了</li>
+<li>合理的命名函数和类，通常使用驼峰<code>CamelCase</code>命名法为类取名，而使用小写字母和下划线为函数和方法命名。总是使用<code>self</code>作为第一个方法参数</li>
+<li><p>如果你的代码用在国际环境，不要使用花哨的编码格式，ASCII格式总是最好的。</p>
+<p>另外，github上有另一份<a href="http://docs.python-guide.org/en/latest/" target="_blank">python-guide</a>，同样推荐看看~</p>
+</li>
+</ul>
+]]></content>
+    <category scheme="http://beyoung.me/tags/python/" term="python"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[我为什么要做这个社区？]]></title>
+    <link href="http://beyoung.me/2013/10/24/why-i-build-the-website-ihuster.com/"/>
+    <id>http://beyoung.me/2013/10/24/why-i-build-the-website-ihuster.com/</id>
+    <published>2013-10-24T15:39:08.000Z</published>
+    <updated>2013-11-15T12:38:03.000Z</updated>
+    <content type="html"><![CDATA[<p>这个社区其实是我的第二次尝试，第一次尝试大概在半年前，从大三的那个寒假开始，持续了两三个月的时间，最后因为种种原因静默的失败了，没有向任何人提起。一个星期前突然大脑短路，不小心删掉了开发盘上的所有数据，导致曾经的尝试记录全部都丢失了，那两三个月里所有的努力似乎也突然被抹去了，没有留下任何的痕迹。</p>
+<p>自我从拉萨回来，更新完游记之后，到现在将近一年的时间里，我的QQ空间和微博几乎都停止更新，这次我再度回到社交网络，并带来了自己的社交网站，必然是带着自己思考而来的。两年前我在QQ空间上说过，我们成长的过程中有两件事情亟待解决，一个是认识自己，一个是认识世界，这个社交网站就是结合现阶段我对自我的认识以及对这个世界的理解而建造的。<a id="more"></a> </p>
+<p>在我离开常用的社交网站的一年内，我有几个月都泡在另外一个社交网站上，这个网站是<strong><a href="http://zhihu.com" target="_blank">知乎</a></strong>。我曾经也十分迷恋新浪微博，一度被它控制着，甚至还被腾讯微博控制过一段时间，当我猛然发现我又被知乎控制着时，我突然开始反思，他们到底是什么吸引着我，让我花费大量时间流连其中，欲罢不能。是信息，没错，是高质量的信息。腾讯微博除外，被腾讯微博控制的那段时间，纯粹是虚荣心驱动，或者说是被一种意淫的存在感驱动着，那段时间，腾讯微博每天都会送2、30个粉丝给我，导致我产生了一种自己很受他人欢迎的错觉。那么新浪微博提供了给我什么信息呢？我感兴趣的信息。我在微博上关注许多互联网方面的前辈，每天看他们分享一些技术相关的知识或说些段子（搞IT比较喜欢自黑==），这些内容都是我感兴趣的，于我而言，这些都是高质量的信息。知乎就更不用说了，各个行业的专业人士为你耐心地解答各种问题，你看那回答的长度就知道信息质量有多高了。还有<a href="http://quora.com" target="_blank">Quora</a>（知乎就是中国的quora），我也很喜欢，它的回答质量更高，只是因为我的英文不太好，所以去的少（有时候看quora上一个精彩的回答得花费2、30分钟，但看完还是感觉没有抓住point==）</p>
+<p>上面提到了高质量的信息，其实我对信息的认识也经历了一个过程，什么才是真正的高质量的信息呢？有料有深度才算么？以前我是这样认为的，所以我的第一次尝试就是打算把信息划分浅水区和深水区，浅水区就是小组，类似豆瓣或果壳的小组，不想产生“高质量”信息的成员可以在这里自由讨论，比如“<a href="https://www.google.com/search?q=818%E9%82%A3%E4%BA%9B%E5%B9%B4%E6%88%91%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E8%91%A9&amp;oq=818%E9%82%A3%E4%BA%9B%E5%B9%B4%E6%88%91%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E8%91%A9&amp;aqs=chrome..69i57.754j0j7&amp;sourceid=chrome&amp;espv=210&amp;es_sm=122&amp;ie=UTF-8#es_sm=122&amp;espv=210&amp;psj=1&amp;q=818+%E5%A5%87%E8%91%A9+site:douban.com" target="_blank">818各种奇葩</a>”、“<a href="http://www.douban.com/group/topic/11194063/" target="_blank">818姐是怎么套牢男友的</a>”这种豆瓣天涯贴。而喜欢写长文和分享的朋友则在深水区，他们的文章会被推荐在首页的信息流中。发现什么问题了么？这种深水浅水区的划分是带着个人的主观感情来判定的，而我实际上是没有资格来做这件事情的，我凭什么未经他人同意替别人做选择呢？这完全是强加个人的主观世界给他人，所以这种信息流的设计肯定是不合理的，这也是我放弃第一次尝试的主要原因。随着思考的深入，后来我慢慢的意识到，并不是每个人都是抱着学点什么或产生深层次的共鸣的心态去寻找信息的，很多人（或者说大多数人大多数时候）都是抱着娱乐的心态去迎接扑面而来的繁杂信息的，希望的只是“给哥（姐）讲个笑话乐呵乐呵”，放松一下。这也就不难理解为什么微博上那些“艺术家”、“段子手”会那么受欢迎了。这本来就是一个娱乐至死的时代，对于娱乐的信息，我们是永远也不会过载的。知乎因为大量用户的涌入，导致社区信息质量下降了许多，我现在也经常去上面找乐子==娱乐相关有一个特别值得一提的经典案例是糗事百科，这是一个靠娱乐获得成功的网站。上次去糗事百科看到一条比较热门的糗事这样说：“一个月150M流量，30M给了那个企鹅，剩下的都给了这坨屎……”，足以说明大众对娱乐的需求是多么的强烈。活的那么严肃干嘛，放松一下嘛，“天王盖地虎，小鸡炖蘑菇”。PS:QQ空间我很喜欢的两个娱乐号是@陈浩 和@吕军 ，他们两个人的说说总是非常的好看==</p>
+<p>既然不再主观地将信息分浅水区和深水区，那就必须把选择权交到社区成员每个人的手上，让每个人可以自由选择自己乐于接受的信息。所以在这里介绍一下目前社区的信息架构：<br>社区以人和话题对信息进行分类。你可以关注你感兴趣的人，只看他们创建的信息；或关注你感兴趣的话题，只看你感兴趣的信息，如现在首页的tab所展示的：<br><img src="/img/post/tab.png" alt="tab"><br>首页默认显示的是全站信息流，但如果你点击了其中的一个tab，网站就会记住你的选择，下次打开的时候仍会是显示这个tab的信息流，所以如果你担心信息太过冗杂过载的话你可以一直只浏览你关注的人或你感兴趣的话题的信息。社区目前只上线了关注人和关注节点的功能，屏蔽人和屏蔽节点的功能暂时没有上线（但后台接口已经设计好了），一来目前的成员数量和帖子量还没到让人感觉信息过载的地步，二来前期更多的是鼓励互相关注的友好氛围，如果到了后期社区成员多了起来出现骚扰或攻击他人等不友好的行为的时候再开放这个接口也不迟。</p>
+<p>另外，社区还开放了发起活动的功能，你的任何想法都可以在这里找到人一起完成，在这里找到属于你的小伙伴们。同时，希望这个功能能够帮助广大宅男宅女们多出门走走（我现在堪称标准宅男了==)，多晒晒太阳，不要腐了==。目前发起活动没有审核，任何人都可以自由的发起自己活动，如果后期有人利用这个活动进行商业化活动（比如打广告之类的）再考虑审核吧~</p>
+<p>好了，社区就介绍到这了，那么，这个社区能给大家带来什么呢？<strong>影响力！</strong>是的，这是一个平台，任何人都可以在这上面传播自己的影响力。一年前我在<a href="http://user.qzone.qq.com/710200711/blog/1355203344" target="_blank">日志</a>中回复钰姐的评论时说，“我认为一个人的价值很大的取决于他的影响力，通过个人影响力传播向上的力量，就是在实现自己的价值，就像你一样”。我一直很佩服钰姐，她的积极向上的生活态度，看她的日志和说说就能强烈的感受的到。能够感染他人并激励他人更加积极向上的生活，这不也是自我价值的实现么？你认为对他人微不足道的一丁点的影响，谁知道通过蝴蝶效应放大后会产生多么大的效果呢？！或者你仔细的审视一下现在的自己，回忆一下过去的几年里，你能看到多少曾经陪你走过一段路的那些人在你身上留下的痕迹？很奇妙，不是么？<strong>你之所以成为现在的你，是不是有太多的人需要感谢呢？</strong>所以，<strong>努力的去发挥自己的影响力吧，也许在未来的某一天，某个人低下头凝视着自己内心深入的时候，会突然看见你的笑脸，一股暖流涌上心头。</strong></p>
+<p>谈到了影响力，不妨再往深入探究一下。影响力的本质又是什么？在我看来，是存在感，我们所做的所有事情无非是寻找存在感，希望在这个世界上留下痕迹。我们外出旅行、拍照、恋爱、汲取知识…所有的所有，归根到底，无非是寻找存在感。比如男女朋友之间的关系，当TA能给你强烈的存在感的时候，两个人的关系便会马上亲近起来，这也是为什么“You&#39;re my world”是最美的情话了。再如我们和父母之间的关系，没有他们我们根本就不存在，而现在，他们的存在感可能全在我们身上。前两天在豆瓣试读了一下李开复老师的<a href="http://read.douban.com/reader/ebook/263886/" target="_blank">《世界因你不同》</a>，扉页的第一句话是：“你的价值不是你拥有多少，而是你留下多少”，也就是你给这个世界带来了多大的影响，你在这个世上留下了多少痕迹（当然，是有意义的痕迹，不能是把名字刻入石头的“xx到此一游”==）。我一直很敬重李开复老师，他的影响力几乎已经渗透到我们每个人的生活之中，09年以前所有使用谷歌搜索的人，现在喜欢用啪啪分享声音的人，喜欢上知乎汲取知识的人…我们都或多或少的受到了他的影响，也许只是你没意识到而已（最近李开复老师病了，衷心祝愿他能早日康复）。很多人喜欢把改变世界挂在嘴上，但你知道到你应该怎么改变世界么？这个社区如果在同学间推广开了，它将提供给华科几万人另一个获取信息的平台，也许新生在上学之前就知道哪些行为是骗人的，也许有人会在上面找到志同道合的朋友，也许会有人在这个平台上收获爱情（还有基情==），更多的人也许仅仅是在里面收获了快乐，但这还不够么？没一进校门就被骗让TA对世界多了份信任和友好，遇到的朋友和爱人也许会改变他整个人生的轨迹，这些对TA人生产生的巨大效应可能就是因为你我的一篇帖子或一条回复（当然，更多的是给他人带来快乐或共鸣，这也足够伟大了）。还不知道怎么改变世界么？从身边做起吧，从爱华科社区的这个平台开始，乐于去分享，扩大的自己的影响力，你就是在改变世界，<strong>世界因你不同</strong>。</p>
+<p>最后的最后，是社区的地址，<strong><a href="http://ihuster.com" target="_blank">爱华科社区</a></strong>。</p>
+]]></content>
+    <category scheme="http://beyoung.me/tags/thought/" term="thought"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Remember, Let go, Move on.]]></title>
+    <link href="http://beyoung.me/2013/10/23/Remember-Let-go-Move-on/"/>
+    <id>http://beyoung.me/2013/10/23/Remember-Let-go-Move-on/</id>
+    <published>2013-10-23T07:28:19.000Z</published>
+    <updated>2013-11-15T12:38:01.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="/img/post/im-back.png" alt="i&#39;m back"></p>
+<p>停止写博客半年后，再次开始写博客，这次抛弃了臃肿的wordpress，选择的是<a href="http://zespia.tw/hexo" target="_blank">hexo</a>，并托管在github，不需要关心其他的事情，可以让我更加专注于写作本身。之前的博客数据也都还在，但大都是技术相关的学习笔记，就不打算同步过来了。这个博客会更多的关注生活和思考，当然，仍然会有技术，但不会仅仅是学习笔记了。</p>
+<p>“Let go, move on”，不知道是什么时候从哪看到的这句话，让我沉吟至今，并愈发的喜欢。Google一下才知道，原来这是《Lost》大结局里面的台词，完整的句子是：“Remember, Let go, Move on.”是的，还应该记住，我将在这里记住。</p>
+<p><strong>Remember, Let go, Move on.（铭记于此，放手过去，纵情向前。）</strong></p>
+]]></content>
+    <category scheme="http://beyoung.me/tags/blog/" term="blog"/>
+  </entry>
+</feed>
