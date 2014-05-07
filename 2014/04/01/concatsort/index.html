@@ -8,18 +8,7 @@
   <title>数组合并排序的实现 | ForeverYoung</title>
   <meta name="author" content="BeYoung">
   
-  <meta name="description" content="美团网前端面试题：
-
-   已知两个有序的数组，将它们合并成也是有序的一个数组。举例如下：    输入：A = [1, 2, 4, 7], B = [3, 5, 6, 8]，输出 C = [1, 2, 3, 4, 5, 6, 7, 8]。
-
- 1.简单粗暴的第一个想法，直接使用数组的concat()方法把两个数组拼接成为一个数组，然后再调用sort()方法来进行排序，代码实现如下：
-     function concatSort(a,b){
-         var arr = a.concat(b).sort(function(x,y){
-            return x-y;
-        })
-        return arr;
-    }
-2.array方法的巧妙运用，每次都把两个数组第一个数字中的较小者放到结果数组后面，同时删除较小数字所在数组中的这个数字，再进行下一轮比较，直到其中一个数组空了为止，然后把剩余部分拼接到结果数组的后面。">
+  <meta name="description" content="Just another weblog.">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -28,7 +17,7 @@
   <meta property="og:site_name" content="ForeverYoung"/>
 
   
-    <meta property="og:image" content="undefined"/>
+    <meta property="og:image" content="http://beyoung.me/images/gravatar.png"/>
   
 
   <link href="/favicon.png" rel="icon">
@@ -75,6 +64,12 @@
       </li>
     
   </ul>
+  
+  <section class="aboutme">
+    <p>
+      Just another weblog.
+    </p>
+  </section>
   
 </nav><!-- main-nav -->
 <nav id="sub-nav">
