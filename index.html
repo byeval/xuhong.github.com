@@ -173,63 +173,7 @@
         </h1>
         <div class="entry-content" itemprop="articleBody">
           
-            <script>
-    window.addEventListener("load", function(){
-        if(Notification && Notification.permission !== "granted"){
-            Notification.requestPermission(function(status){
-                if(Notification.permission !== status){
-                    Notification.permission = status;
-                }
-            });
-        }
-        var button = document.getElementsByTagName("button")[0];
-        button.addEventListener("click", function(){
-            var t = Date.now();
-            var options={
-                dir: "ltr",
-                lang: "utf-8",
-                icon: "/images/gravatar.png",
-                body: "你好呀"+t
-            };
-            if(Notification && Notification.permission === "granted"){
-                var n = new Notification("HUSTecho, "+ t, options);    
-                n.onshow = function(){
-                    console.log("You got me!");
-                };
-                n.onclick = function() {
-                    alert("You clicked me!");
-                    window.location = "http://beyoung.me";
-                };
-                n.onclose = function(){
-                    console.log("notification closed!");
-                };        
-                n.onerror = function() {
-                    console.log("An error accured");
-                }            
-            }else if(Notification && Notification.permission !== "denied") {
-                Notification.requestPermission(function(status){
-                    if(Notification.permission !== status){
-                        Notification.permission = status;
-                    }
-
-                    if(status === "granted"){
-                        for(var i = 0; i < 3; i++){
-                            var n = new Notification("Hi! " + i, {
-                                tag: "soManyNotifications",
-                                icon: "/images/gravatar.png",
-                                body: "你好呀，我是第" + i +"条消息啦！"
-                            });
-                        }
-                    }
-                });
-            }else{
-                alert("Hi!");
-            }
-        });
-    });
-</script>
-
-<p>前两天发现一款app，安装了app和相应的chrome插件以后，可以将安卓手机上的消息在电脑桌面上弹窗显示。这样一来，工作的时候就可以完全把手机扔在一边安心工作了，而不用时时查看是否错过了什么消息，如下图所示：</p>
+            <p>前两天发现一款app，安装了app和相应的chrome插件以后，可以将安卓手机上的消息在电脑桌面上弹窗显示。这样一来，工作的时候就可以完全把手机扔在一边安心工作了，而不用时时查看是否错过了什么消息，如下图所示：</p>
 <p><img src="/img/post/notification.png" alt="notification"></p>
 <p>这个应用实现的原理其实很简单，大概原理是，监听手机的消息系统，当有新消息的时候就同步到服务器，服务器接收到通知，然后通过HTML5的Notification API推送消息到电脑。之前有玩过这个API，这次再完整地学习一遍，记录下来。</p>
 <h3>概览</h3>
