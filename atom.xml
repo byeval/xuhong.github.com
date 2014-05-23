@@ -4,13 +4,191 @@
   <subtitle><![CDATA[Remember, Let go, Move on.]]></subtitle>
   <link href="http://beyoung.me/atom.xml" rel="self"/>
   <link href="http://beyoung.me"/>
-  <updated>2014-05-07T16:57:39.540Z</updated>
+  <updated>2014-05-23T13:09:24.353Z</updated>
   <id>http://beyoung.me/</id>
   <author>
     <name><![CDATA[BeYoung]]></name>
     <email><![CDATA[cxh710200711@gmail.com]]></email>
   </author>
   <generator uri="http://zespia.tw/hexo">Hexo</generator>
+  <entry>
+    <title type="html"><![CDATA[使用HTML5 Notification API开启浏览器桌面提醒]]></title>
+    <link href="http://beyoung.me/2014/05/22/notification/"/>
+    <id>http://beyoung.me/2014/05/22/notification/</id>
+    <published>2014-05-22T12:04:41.000Z</published>
+    <updated>2014-05-23T08:04:14.000Z</updated>
+    <content type="html"><![CDATA[<script>
+    window.addEventListener("load", function(){
+        if(Notification && Notification.permission !== "granted"){
+            Notification.requestPermission(function(status){
+                if(Notification.permission !== status){
+                    Notification.permission = status;
+                }
+            });
+        }
+        var button = document.getElementsByTagName("button")[0];
+        button.addEventListener("click", function(){
+            var t = Date.now();
+            var options={
+                dir: "ltr",
+                lang: "utf-8",
+                icon: "/images/gravatar.png",
+                body: "你好呀"+t
+            };
+            if(Notification && Notification.permission === "granted"){
+                var n = new Notification("HUSTecho, "+ t, options);    
+                n.onshow = function(){
+                    console.log("You got me!");
+                };
+                n.onclick = function() {
+                    alert("You clicked me!");
+                    window.location = "http://beyoung.me";
+                };
+                n.onclose = function(){
+                    console.log("notification closed!");
+                };        
+                n.onerror = function() {
+                    console.log("An error accured");
+                }            
+            }else if(Notification && Notification.permission !== "denied") {
+                Notification.requestPermission(function(status){
+                    if(Notification.permission !== status){
+                        Notification.permission = status;
+                    }
+
+                    if(status === "granted"){
+                        for(var i = 0; i < 3; i++){
+                            var n = new Notification("Hi! " + i, {
+                                tag: "soManyNotifications",
+                                icon: "/images/gravatar.png",
+                                body: "你好呀，我是第" + i +"条消息啦！"
+                            });
+                        }
+                    }
+                });
+            }else{
+                alert("Hi!");
+            }
+        });
+    });
+</script>
+
+<p>前两天发现一款app，安装了app和相应的chrome插件以后，可以将安卓手机上的消息在电脑桌面上弹窗显示。这样一来，工作的时候就可以完全把手机扔在一边安心工作了，而不用时时查看是否错过了什么消息，如下图所示：</p>
+<p><img src="/img/post/notification.png" alt="notification"></p>
+<p>这个应用实现的原理其实很简单，大概原理是，监听手机的消息系统，当有新消息的时候就同步到服务器，服务器接收到通知，然后通过HTML5的Notification API推送消息到电脑。之前有玩过这个API，这次再完整地学习一遍，记录下来。</p>
+<h3>概览</h3>
+<h4>申请权限</h4>
+<p>出于安全考虑，要发送桌面消息，需要先申请用户授权。Notification对象提供了一个静态的方法——<code>requestPermission()</code>，它接收一个回调函数作为参数，并把返回值传递给回调函数作为参数：</p>
+<pre><code>Notification<span class="preprocessor">.requestPermission</span>(function(status){
+            if(Notification<span class="preprocessor">.permission</span> !== status){
+                Notification<span class="preprocessor">.permission</span> = status<span class="comment">;</span>
+            }
+        })<span class="comment">;</span></code></pre>
+<p>返回值为字符串，有以下三个值：</p>
+<ul>
+<li><code>default</code></li>
+<li><code>granted</code></li>
+<li><code>denied</code></li>
+</ul>
+<p>默认为<code>default</code>，也就是需要询问，表现和<code>denied</code>一样。</p>
+<a id="more"></a>
+
+<h4>创建消息</h4>
+<p>用户授权以后，你就可以通过下面方式创建一条桌面提醒了：</p>
+<pre><code><span class="keyword">var</span> n = <span class="keyword">new</span> Notification(title, options);    </code></pre>
+<p><code>options</code>为字典，传入<code>Notification</code>对象的属性。</p>
+<h3>属性</h3>
+<p>Notification对象有如下几个只读属性：</p>
+<ul>
+<li><code>dir</code>(文字方向，经测试都不支持)</li>
+<li><code>lang</code>(语言)</li>
+<li><code>body</code>(消息体)</li>
+<li><code>tag</code>(标签)</li>
+<li><code>icon</code>(icon地址)</li>
+</ul>
+<p>这几个属性都可以在创建消息的时候，作为option传入Notification构造函数。提一下<code>tag</code>属性，在有很多消息的时候，这个属性就非常有用，它会用拥有相同<code>tag</code>的最新的消息取代之前的消息，只显示一条最新的消息。比如在一个聊天室系统中，同时和几个人在聊天的时候，就可以以人名为<code>tag</code>显示不同人的最新消息。</p>
+<h3>事件</h3>
+<p>Notification对象有四个事件，分别是</p>
+<ul>
+<li><code>onshow()</code></li>
+<li><code>onclick()</code></li>
+<li><code>onclose()</code></li>
+<li><code>onerror()</code></li>
+</ul>
+<p>分别在消息显示、被点击、被关闭和出错的时候被触发。下面的例子中完整的展示了这四个事件的使用。通常情况下，<strong>只需要处理点击事件就够了</strong>，比如点击消息后跳转到某一特定的页面。</p>
+<h3>例子</h3>
+<p>下面这个例子当你首次授权的时候，点击按钮会得到三条消息，但通过tag让它只显示最新的一条消息。以后每次点击按钮的时候都会得到一条加了时间戳的消息，点击消息体或关闭消息都会触发相应的事件。</p>
+<button>Notify me!</button>    
+
+<pre><code>window<span class="preprocessor">.addEventListener</span>(<span class="string">"load"</span>, function(){
+    if(Notification &amp;&amp; Notification<span class="preprocessor">.permission</span> !== <span class="string">"granted"</span>){
+        Notification<span class="preprocessor">.requestPermission</span>(function(status){
+            if(Notification<span class="preprocessor">.permission</span> !== status){
+                Notification<span class="preprocessor">.permission</span> = status<span class="comment">;</span>
+            }
+        })<span class="comment">;</span>
+    }
+    var button = document<span class="preprocessor">.getElementsByTagName</span>(<span class="string">"button"</span>)[<span class="number">0</span>]<span class="comment">;</span>
+    button<span class="preprocessor">.addEventListener</span>(<span class="string">"click"</span>, function(){
+        var t = Date<span class="preprocessor">.now</span>()<span class="comment">;</span>
+        var options={
+            dir: <span class="string">"ltr"</span>,
+            lang: <span class="string">"utf-8"</span>,
+            icon: <span class="string">"http://ihuster.com/static/avatar/m_default.png"</span>,
+            body: <span class="string">"你好呀"</span>+t
+        }<span class="comment">;</span>
+        if(Notification &amp;&amp; Notification<span class="preprocessor">.permission</span> === <span class="string">"granted"</span>){
+            var n = new Notification(<span class="string">"HUSTecho, "</span>+ t, options)<span class="comment">;    </span>
+            n<span class="preprocessor">.onshow</span> = function(){
+                console<span class="preprocessor">.log</span>(<span class="string">"You got me!"</span>)<span class="comment">;</span>
+            }<span class="comment">;</span>
+            n<span class="preprocessor">.onclick</span> = function() {
+                alert(<span class="string">"You clicked me!"</span>)<span class="comment">;</span>
+                window<span class="preprocessor">.location</span> = <span class="string">"/"</span><span class="comment">;</span>
+            }<span class="comment">;</span>
+            n<span class="preprocessor">.onclose</span> = function(){
+                console<span class="preprocessor">.log</span>(<span class="string">"notification closed!"</span>)<span class="comment">;</span>
+            }<span class="comment">;        </span>
+            n<span class="preprocessor">.onerror</span> = function() {
+                console<span class="preprocessor">.log</span>(<span class="string">"An error accured"</span>)<span class="comment">;</span>
+            }            
+        }else if(Notification &amp;&amp; Notification<span class="preprocessor">.permission</span> !== <span class="string">"denied"</span>) {
+            Notification<span class="preprocessor">.requestPermission</span>(function(status){
+                if(Notification<span class="preprocessor">.permission</span> !== status){
+                    Notification<span class="preprocessor">.permission</span> = status<span class="comment">;</span>
+                }
+
+                if(status === <span class="string">"granted"</span>){
+                    for(var i = <span class="number">0</span><span class="comment">; i &lt; 3; i++){</span>
+                        var n = new Notification(<span class="string">"Hi! "</span> + i, {
+                            tag: <span class="string">"Beyoung"</span>,
+                            icon: <span class="string">"http://ihuster.com/static/avatar/b_default.png"</span>,
+                            body: <span class="string">"你好呀，我是第"</span> + i +<span class="string">"条消息啦！"</span>
+                        })<span class="comment">;</span>
+                    }
+                }
+            })<span class="comment">;</span>
+        }else{
+            alert(<span class="string">"Hi!"</span>)<span class="comment">;</span>
+        }
+    })<span class="comment">;</span>
+})<span class="comment">;</span></code></pre>
+<h3>浏览器兼容</h3>
+<p>桌面版chrome实现的最为完善，相当于一个附属app了，chrome把消息系统独立了出来，点击桌面工具栏的提醒图标可以打开消息中心查看所有的消息,一次最多可以显示三条消息，firefox一次只能显示一条消息，循环发出多条消息的话firefox居然一条也不显示。。。手机上目前只有firefox支持，其他的浏览器都不支持，安卓上的chrome提醒<a href="https://plus.google.com/+PaulIrish/posts/YQekMvUDQtR" target="_blank">应该</a>在开发中（PS：没测过safari，其他的浏览器都是使用的最新版的）。</p>
+<p><img src="/img/post/caniuse.png" alt="can i use"><br><img src="/img/post/message.png" alt="chrome message box"><br><img src="/img/post/firefox-notification.png" alt="firefox mobile notification"></p>
+<h3>下一步计划</h3>
+<p>准备使用socket.js + nodejs做一个聊天室。使用用户名作为tag以显示单一聊天对象的最新消息，点击后跳转到与该聊天对象聊天的界面。但考虑到浏览器的性能问题，实测chrome最新版连续显示20条左右的信息，再点击通知栏的消息图标就会卡住，当然也有可能是我的电脑不行了吧。。所以使用pageVisibility API来优化性能，当聊天对象正在聊天页面的时候就不显示消息，否则才显示。</p>
+<h3>参考资料：</h3>
+<ul>
+<li>W3C: <a href="http://www.w3.org/TR/notifications" target="_blank">Web Notifications</a></li>
+<li>MDN: <a href="https://developer.mozilla.org/en-US/docs/WebAPI/Using_Web_Notifications" target="_blank">Using Web Notifications</a></li>
+<li>whatwg: <a href="http://notifications.spec.whatwg.org/" target="_blank">Notification API</a></li>
+<li><a href="http://mobilehtml5.org/" target="_blank">MobileHTML5</a></li>
+</ul>
+]]></content>
+    <category scheme="http://beyoung.me/tags/HTML5/" term="HTML5"/>
+    <category scheme="http://beyoung.me/tags/notification/" term="notification"/>
+  </entry>
   <entry>
     <title type="html"><![CDATA[数组合并排序的实现]]></title>
     <link href="http://beyoung.me/2014/04/01/concatsort/"/>

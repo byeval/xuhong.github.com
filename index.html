@@ -99,6 +99,8 @@
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
+    <li><a href="/tags/HTML5/">HTML5</a><small>1</small></li>
+  
     <li><a href="/tags/Life/">Life</a><small>1</small></li>
   
     <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
@@ -114,6 +116,8 @@
     <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
   
     <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/notification/">notification</a><small>1</small></li>
   
     <li><a href="/tags/python/">python</a><small>2</small></li>
   
@@ -133,6 +137,130 @@
       <div class="mid-col">
         <div class="mid-col-container">
       <div id="content" class="inner"><div itemscope itemtype="http://schema.org/Blog">
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-05-22T12:04:41.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  May 22 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/HTML5/">HTML5</a>, <a href="/tags/notification/">notification</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/05/22/notification/" itemprop="url">
+            使用HTML5 Notification API开启浏览器桌面提醒</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <script>
+    window.addEventListener("load", function(){
+        if(Notification && Notification.permission !== "granted"){
+            Notification.requestPermission(function(status){
+                if(Notification.permission !== status){
+                    Notification.permission = status;
+                }
+            });
+        }
+        var button = document.getElementsByTagName("button")[0];
+        button.addEventListener("click", function(){
+            var t = Date.now();
+            var options={
+                dir: "ltr",
+                lang: "utf-8",
+                icon: "/images/gravatar.png",
+                body: "你好呀"+t
+            };
+            if(Notification && Notification.permission === "granted"){
+                var n = new Notification("HUSTecho, "+ t, options);    
+                n.onshow = function(){
+                    console.log("You got me!");
+                };
+                n.onclick = function() {
+                    alert("You clicked me!");
+                    window.location = "http://beyoung.me";
+                };
+                n.onclose = function(){
+                    console.log("notification closed!");
+                };        
+                n.onerror = function() {
+                    console.log("An error accured");
+                }            
+            }else if(Notification && Notification.permission !== "denied") {
+                Notification.requestPermission(function(status){
+                    if(Notification.permission !== status){
+                        Notification.permission = status;
+                    }
+
+                    if(status === "granted"){
+                        for(var i = 0; i < 3; i++){
+                            var n = new Notification("Hi! " + i, {
+                                tag: "soManyNotifications",
+                                icon: "/images/gravatar.png",
+                                body: "你好呀，我是第" + i +"条消息啦！"
+                            });
+                        }
+                    }
+                });
+            }else{
+                alert("Hi!");
+            }
+        });
+    });
+</script>
+
+<p>前两天发现一款app，安装了app和相应的chrome插件以后，可以将安卓手机上的消息在电脑桌面上弹窗显示。这样一来，工作的时候就可以完全把手机扔在一边安心工作了，而不用时时查看是否错过了什么消息，如下图所示：</p>
+<p><img src="/img/post/notification.png" alt="notification"></p>
+<p>这个应用实现的原理其实很简单，大概原理是，监听手机的消息系统，当有新消息的时候就同步到服务器，服务器接收到通知，然后通过HTML5的Notification API推送消息到电脑。之前有玩过这个API，这次再完整地学习一遍，记录下来。</p>
+<h3>概览</h3>
+<h4>申请权限</h4>
+<p>出于安全考虑，要发送桌面消息，需要先申请用户授权。Notification对象提供了一个静态的方法——<code>requestPermission()</code>，它接收一个回调函数作为参数，并把返回值传递给回调函数作为参数：</p>
+<pre><code>Notification<span class="preprocessor">.requestPermission</span>(function(status){
+            if(Notification<span class="preprocessor">.permission</span> !== status){
+                Notification<span class="preprocessor">.permission</span> = status<span class="comment">;</span>
+            }
+        })<span class="comment">;</span></code></pre>
+<p>返回值为字符串，有以下三个值：</p>
+<ul>
+<li><code>default</code></li>
+<li><code>granted</code></li>
+<li><code>denied</code></li>
+</ul>
+<p>默认为<code>default</code>，也就是需要询问，表现和<code>denied</code>一样。</p>
+
+            <p style="text-align:right">
+              <a href="/2014/05/22/notification/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   

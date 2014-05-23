@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用HTML5 Notification API开启浏览器桌面提醒 | ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  <meta name="description" content="Just another weblog.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="使用HTML5 Notification API开启浏览器桌面提醒"/>
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="http://beyoung.me/images/gravatar.png"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+  <section class="aboutme">
+    <p>
+      Just another weblog.
+    </p>
+  </section>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/HTML5/">HTML5</a><small>1</small></li>
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/notification/">notification</a><small>1</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<!--div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-05-22T12:04:41.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  May 22 2014
+</time>
+
+
+
+
+
+</div>
+
+	</div-->
+        <h1 class="title" itemprop="name">使用HTML5 Notification API开启浏览器桌面提醒</h1>
+      	<div class="entry-content" itemprop="articleBody"><script>
+    window.addEventListener("load", function(){
+        if(Notification && Notification.permission !== "granted"){
+            Notification.requestPermission(function(status){
+                if(Notification.permission !== status){
+                    Notification.permission = status;
+                }
+            });
+        }
+        var button = document.getElementsByTagName("button")[0];
+        button.addEventListener("click", function(){
+            var t = Date.now();
+            var options={
+                dir: "ltr",
+                lang: "utf-8",
+                icon: "/images/gravatar.png",
+                body: "你好呀"+t
+            };
+            if(Notification && Notification.permission === "granted"){
+                var n = new Notification("HUSTecho, "+ t, options);    
+                n.onshow = function(){
+                    console.log("You got me!");
+                };
+                n.onclick = function() {
+                    alert("You clicked me!");
+                    window.location = "http://beyoung.me";
+                };
+                n.onclose = function(){
+                    console.log("notification closed!");
+                };        
+                n.onerror = function() {
+                    console.log("An error accured");
+                }            
+            }else if(Notification && Notification.permission !== "denied") {
+                Notification.requestPermission(function(status){
+                    if(Notification.permission !== status){
+                        Notification.permission = status;
+                    }
+
+                    if(status === "granted"){
+                        for(var i = 0; i < 3; i++){
+                            var n = new Notification("Hi! " + i, {
+                                tag: "soManyNotifications",
+                                icon: "/images/gravatar.png",
+                                body: "你好呀，我是第" + i +"条消息啦！"
+                            });
+                        }
+                    }
+                });
+            }else{
+                alert("Hi!");
+            }
+        });
+    });
+</script>
+
+<p>前两天发现一款app，安装了app和相应的chrome插件以后，可以将安卓手机上的消息在电脑桌面上弹窗显示。这样一来，工作的时候就可以完全把手机扔在一边安心工作了，而不用时时查看是否错过了什么消息，如下图所示：</p>
+<p><img src="/img/post/notification.png" alt="notification"></p>
+<p>这个应用实现的原理其实很简单，大概原理是，监听手机的消息系统，当有新消息的时候就同步到服务器，服务器接收到通知，然后通过HTML5的Notification API推送消息到电脑。之前有玩过这个API，这次再完整地学习一遍，记录下来。</p>
+<h3>概览</h3>
+<h4>申请权限</h4>
+<p>出于安全考虑，要发送桌面消息，需要先申请用户授权。Notification对象提供了一个静态的方法——<code>requestPermission()</code>，它接收一个回调函数作为参数，并把返回值传递给回调函数作为参数：</p>
+<pre><code>Notification<span class="preprocessor">.requestPermission</span>(function(status){
+            if(Notification<span class="preprocessor">.permission</span> !== status){
+                Notification<span class="preprocessor">.permission</span> = status<span class="comment">;</span>
+            }
+        })<span class="comment">;</span></code></pre>
+<p>返回值为字符串，有以下三个值：</p>
+<ul>
+<li><code>default</code></li>
+<li><code>granted</code></li>
+<li><code>denied</code></li>
+</ul>
+<p>默认为<code>default</code>，也就是需要询问，表现和<code>denied</code>一样。</p>
+<a id="more"></a>
+
+<h4>创建消息</h4>
+<p>用户授权以后，你就可以通过下面方式创建一条桌面提醒了：</p>
+<pre><code><span class="keyword">var</span> n = <span class="keyword">new</span> Notification(title, options);    </code></pre>
+<p><code>options</code>为字典，传入<code>Notification</code>对象的属性。</p>
+<h3>属性</h3>
+<p>Notification对象有如下几个只读属性：</p>
+<ul>
+<li><code>dir</code>(文字方向，经测试都不支持)</li>
+<li><code>lang</code>(语言)</li>
+<li><code>body</code>(消息体)</li>
+<li><code>tag</code>(标签)</li>
+<li><code>icon</code>(icon地址)</li>
+</ul>
+<p>这几个属性都可以在创建消息的时候，作为option传入Notification构造函数。提一下<code>tag</code>属性，在有很多消息的时候，这个属性就非常有用，它会用拥有相同<code>tag</code>的最新的消息取代之前的消息，只显示一条最新的消息。比如在一个聊天室系统中，同时和几个人在聊天的时候，就可以以人名为<code>tag</code>显示不同人的最新消息。</p>
+<h3>事件</h3>
+<p>Notification对象有四个事件，分别是</p>
+<ul>
+<li><code>onshow()</code></li>
+<li><code>onclick()</code></li>
+<li><code>onclose()</code></li>
+<li><code>onerror()</code></li>
+</ul>
+<p>分别在消息显示、被点击、被关闭和出错的时候被触发。下面的例子中完整的展示了这四个事件的使用。通常情况下，<strong>只需要处理点击事件就够了</strong>，比如点击消息后跳转到某一特定的页面。</p>
+<h3>例子</h3>
+<p>下面这个例子当你首次授权的时候，点击按钮会得到三条消息，但通过tag让它只显示最新的一条消息。以后每次点击按钮的时候都会得到一条加了时间戳的消息，点击消息体或关闭消息都会触发相应的事件。</p>
+<button>Notify me!</button>    
+
+<pre><code>window<span class="preprocessor">.addEventListener</span>(<span class="string">"load"</span>, function(){
+    if(Notification &amp;&amp; Notification<span class="preprocessor">.permission</span> !== <span class="string">"granted"</span>){
+        Notification<span class="preprocessor">.requestPermission</span>(function(status){
+            if(Notification<span class="preprocessor">.permission</span> !== status){
+                Notification<span class="preprocessor">.permission</span> = status<span class="comment">;</span>
+            }
+        })<span class="comment">;</span>
+    }
+    var button = document<span class="preprocessor">.getElementsByTagName</span>(<span class="string">"button"</span>)[<span class="number">0</span>]<span class="comment">;</span>
+    button<span class="preprocessor">.addEventListener</span>(<span class="string">"click"</span>, function(){
+        var t = Date<span class="preprocessor">.now</span>()<span class="comment">;</span>
+        var options={
+            dir: <span class="string">"ltr"</span>,
+            lang: <span class="string">"utf-8"</span>,
+            icon: <span class="string">"http://ihuster.com/static/avatar/m_default.png"</span>,
+            body: <span class="string">"你好呀"</span>+t
+        }<span class="comment">;</span>
+        if(Notification &amp;&amp; Notification<span class="preprocessor">.permission</span> === <span class="string">"granted"</span>){
+            var n = new Notification(<span class="string">"HUSTecho, "</span>+ t, options)<span class="comment">;    </span>
+            n<span class="preprocessor">.onshow</span> = function(){
+                console<span class="preprocessor">.log</span>(<span class="string">"You got me!"</span>)<span class="comment">;</span>
+            }<span class="comment">;</span>
+            n<span class="preprocessor">.onclick</span> = function() {
+                alert(<span class="string">"You clicked me!"</span>)<span class="comment">;</span>
+                window<span class="preprocessor">.location</span> = <span class="string">"/"</span><span class="comment">;</span>
+            }<span class="comment">;</span>
+            n<span class="preprocessor">.onclose</span> = function(){
+                console<span class="preprocessor">.log</span>(<span class="string">"notification closed!"</span>)<span class="comment">;</span>
+            }<span class="comment">;        </span>
+            n<span class="preprocessor">.onerror</span> = function() {
+                console<span class="preprocessor">.log</span>(<span class="string">"An error accured"</span>)<span class="comment">;</span>
+            }            
+        }else if(Notification &amp;&amp; Notification<span class="preprocessor">.permission</span> !== <span class="string">"denied"</span>) {
+            Notification<span class="preprocessor">.requestPermission</span>(function(status){
+                if(Notification<span class="preprocessor">.permission</span> !== status){
+                    Notification<span class="preprocessor">.permission</span> = status<span class="comment">;</span>
+                }
+
+                if(status === <span class="string">"granted"</span>){
+                    for(var i = <span class="number">0</span><span class="comment">; i &lt; 3; i++){</span>
+                        var n = new Notification(<span class="string">"Hi! "</span> + i, {
+                            tag: <span class="string">"Beyoung"</span>,
+                            icon: <span class="string">"http://ihuster.com/static/avatar/b_default.png"</span>,
+                            body: <span class="string">"你好呀，我是第"</span> + i +<span class="string">"条消息啦！"</span>
+                        })<span class="comment">;</span>
+                    }
+                }
+            })<span class="comment">;</span>
+        }else{
+            alert(<span class="string">"Hi!"</span>)<span class="comment">;</span>
+        }
+    })<span class="comment">;</span>
+})<span class="comment">;</span></code></pre>
+<h3>浏览器兼容</h3>
+<p>桌面版chrome实现的最为完善，相当于一个附属app了，chrome把消息系统独立了出来，点击桌面工具栏的提醒图标可以打开消息中心查看所有的消息,一次最多可以显示三条消息，firefox一次只能显示一条消息，循环发出多条消息的话firefox居然一条也不显示。。。手机上目前只有firefox支持，其他的浏览器都不支持，安卓上的chrome提醒<a href="https://plus.google.com/+PaulIrish/posts/YQekMvUDQtR" target="_blank">应该</a>在开发中（PS：没测过safari，其他的浏览器都是使用的最新版的）。</p>
+<p><img src="/img/post/caniuse.png" alt="can i use"><br><img src="/img/post/message.png" alt="chrome message box"><br><img src="/img/post/firefox-notification.png" alt="firefox mobile notification"></p>
+<h3>下一步计划</h3>
+<p>准备使用socket.js + nodejs做一个聊天室。使用用户名作为tag以显示单一聊天对象的最新消息，点击后跳转到与该聊天对象聊天的界面。但考虑到浏览器的性能问题，实测chrome最新版连续显示20条左右的信息，再点击通知栏的消息图标就会卡住，当然也有可能是我的电脑不行了吧。。所以使用pageVisibility API来优化性能，当聊天对象正在聊天页面的时候就不显示消息，否则才显示。</p>
+<h3>参考资料：</h3>
+<ul>
+<li>W3C: <a href="http://www.w3.org/TR/notifications" target="_blank">Web Notifications</a></li>
+<li>MDN: <a href="https://developer.mozilla.org/en-US/docs/WebAPI/Using_Web_Notifications" target="_blank">Using Web Notifications</a></li>
+<li>whatwg: <a href="http://notifications.spec.whatwg.org/" target="_blank">Notification API</a></li>
+<li><a href="http://mobilehtml5.org/" target="_blank">MobileHTML5</a></li>
+</ul>
+</div>
+
+
+</article>
+
+  <!--div class="share">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  
+  </div>
+  <script type="text/javascript">
+    var addthis_config = {"data_track_addressbar":true};
+  </script>
+  <script type="text/javascript"
+          src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=undefined">
+  </script>
+</div-->
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<div class="ds-thread"></div></div>
+</section>
+
+
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+
