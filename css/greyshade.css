@@ -325,6 +325,10 @@ a:hover {
   .container .mid-col .mid-col-container #content article .meta {
     float: none;
   }
+  .container .mid-col .mid-col-container #content article:-webkit-full-screen .post,
+  .container .mid-col .mid-col-container #content article:-webkit-full-screen #comment {
+    width: 90%;
+  }
 }
 .widget {
   margin-bottom: 30px;
@@ -367,8 +371,4 @@ a:hover {
 }
 .widgets small:after {
   content: ')';
-}
-article:-webkit-full-screen .post,
-article:-webkit-full-screen #comment {
-  width: 90%;
 }
