@@ -1265,6 +1265,44 @@ body {
 .container .mid-col .mid-col-container #content article .title {
   margin-left: 0px;
 }
+.container .mid-col .mid-col-container #content article .menu {
+  float: right;
+}
+.container .mid-col .mid-col-container #content article .menu i {
+  background: url("/images/sprites.png") no-repeat 0 0;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 10px;
+  cursor: pointer;
+}
+.container .mid-col .mid-col-container #content article .menu .icon-expand {
+  background-position: 0 0;
+}
+.container .mid-col .mid-col-container #content article .menu .icon-contract {
+  background-position: -16px 0;
+}
+.container .mid-col .mid-col-container #content article .menu .icon-list {
+  background-position: -32px 0;
+}
+.container .mid-col .mid-col-container #content article .menu ul {
+  display: none;
+  border-left: 1px solid #ddd;
+}
+.container .mid-col .mid-col-container #content article .menu ul li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #ddd;
+}
+.container .mid-col .mid-col-container #content article .menu ul li a {
+  font-size: 0.5em;
+  font-weight: 500;
+  padding: 10px;
+}
+.container .mid-col .mid-col-container #content article .menu.on ul {
+  display: block;
+}
 .container .mid-col .mid-col-container #content article .entry-content {
   margin-left: 0px;
   line-height: 2;
@@ -1352,6 +1390,14 @@ body {
   -o-transition: color 0.3s;
   -ms-transition: color 0.3s;
   transition: color 0.3s;
+}
+.container .mid-col .mid-col-container #content:-webkit-full-screen {
+  overflow-y: auto;
+}
+.container .mid-col .mid-col-container #content:-webkit-full-screen .post,
+.container .mid-col .mid-col-container #content:-webkit-full-screen #comment {
+  width: 70%;
+  margin: 0 auto;
 }
 .container .mid-col footer {
   width: 100%;
