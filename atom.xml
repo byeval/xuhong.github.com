@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Remember, Let go, Move on.]]></subtitle>
   <link href="http://beyoung.me/atom.xml" rel="self"/>
   <link href="http://beyoung.me"/>
-  <updated>2014-05-24T07:57:09.053Z</updated>
+  <updated>2014-05-24T10:41:06.342Z</updated>
   <id>http://beyoung.me/</id>
   <author>
     <name><![CDATA[BeYoung]]></name>
@@ -16,7 +16,7 @@
     <link href="http://beyoung.me/2014/05/23/fullscreen/"/>
     <id>http://beyoung.me/2014/05/23/fullscreen/</id>
     <published>2014-05-23T15:36:11.000Z</published>
-    <updated>2014-05-24T07:56:49.000Z</updated>
+    <updated>2014-05-24T10:40:10.000Z</updated>
     <content type="html"><![CDATA[<p>给博客加了一个小功能，全屏显示页面，使用的是HTML5的Fullscreen API，简单介绍一下这个API的使用。</p>
 <h3>如何使用</h3>
 <h4>方法</h4>
@@ -33,6 +33,7 @@
 </ul>
 <p>HTML 标签属性: allowFullScreen，像flash使用的<code>&lt;object&gt;</code>和<code>&lt;embed&gt;</code>可以设置是否允许全屏，这个特性同样可以应用于<code>&lt;iframe&gt;</code>标签：</p>
 <pre><code><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">src</span>=<span class="value">""</span> <span class="attribute">allowFullScreen</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>    </code></pre>
+<p><a id="more"></a></p>
 <h4>全屏样式</h4>
 <p>全屏元素：</p>
 <pre><code><span class="id">#rosa</span><span class="pseudo">:-webkit-full-screen</span><span class="rules">{

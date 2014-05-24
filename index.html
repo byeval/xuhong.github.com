@@ -194,96 +194,12 @@
 </ul>
 <p>HTML 标签属性: allowFullScreen，像flash使用的<code>&lt;object&gt;</code>和<code>&lt;embed&gt;</code>可以设置是否允许全屏，这个特性同样可以应用于<code>&lt;iframe&gt;</code>标签：</p>
 <pre><code><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">src</span>=<span class="value">""</span> <span class="attribute">allowFullScreen</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>    </code></pre>
-<h4>全屏样式</h4>
-<p>全屏元素：</p>
-<pre><code><span class="id">#rosa</span><span class="pseudo">:-webkit-full-screen</span><span class="rules">{
-    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">100</span>%;</span></span>
-    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100</span>%;</span></span>
-    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#11ee11</span>;</span></span>
-<span class="rule">}</span></span>
-<span class="id">#rosa</span><span class="pseudo">:-moz-full-screen</span><span class="rules">{
-    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">100</span>%;</span></span>
-    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100</span>%;</span></span>
-    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#11ee11</span>;</span></span>
-<span class="rule">}</span></span>
-<span class="id">#rosa</span><span class="pseudo">:-ms-fullscreen</span><span class="rules">{
-    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">100</span>%;</span></span>
-    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100</span>%;</span></span>
-    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#11ee11</span>;</span></span>
-<span class="rule">}</span></span>
-<span class="id">#rosa</span><span class="pseudo">:fullscreen</span><span class="rules">{
-    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">100</span>%;</span></span>
-    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100</span>%;</span></span>
-    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#11ee11</span>;</span></span>
-<span class="rule">}</span></span></code></pre>
-<p>所有全屏化的祖先元素：</p>
-<pre><code><span class="id">#rosa</span><span class="pseudo">:fullscreen-ancestor</span><span class="rules">{
-    <span class="rule"><span class="attribute">z-index</span>:<span class="value"> -<span class="number">1</span>;</span></span>
-<span class="rule">}</span></span></code></pre>
-<h4>监听状态变化</h4>
-<p>可以监听全屏状态的变化：</p>
-<pre><code>element.addEventListener(<span class="string">"fullscreenchange"</span>, <span class="keyword">function</span>(e){
-    <span class="comment">//不同的浏览器需要添加相应的前缀，webkit、moz、ms;</span>
-})    </code></pre>
-<h3>例子</h3>
-<p>点击下面的红色方块，将会使这个方块进去全屏样式，并且改变背景的颜色。或者点击页面右上角的全屏图标也可以进入全屏。</p>
-<p><p data-height="268" data-theme-id="0" data-slug-hash="pfybn" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/xuhong/pen/pfybn/'>pfybn</a> by 旭鸿 (<a href='http://codepen.io/xuhong'>@xuhong</a>) on <a href='http://codepen.io'>CodePen</a>.</p></p>
-<script async src="//codepen.io/assets/embed/ei.js"></script>
-
-<pre><code><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
-    <span class="function"><span class="keyword">function</span> <span class="title">launchFullscreen</span><span class="params">(element)</span> {</span>
-      <span class="keyword">if</span>(element.requestFullscreen) {
-        element.requestFullscreen();
-      } <span class="keyword">else</span> <span class="keyword">if</span>(element.mozRequestFullScreen) {
-        element.mozRequestFullScreen();
-      } <span class="keyword">else</span> <span class="keyword">if</span>(element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen();
-      } <span class="keyword">else</span> <span class="keyword">if</span>(element.msRequestFullscreen) {
-        element.msRequestFullscreen();
-      }
-    }
-
-    <span class="function"><span class="keyword">function</span> <span class="title">exitFullscreen</span><span class="params">()</span>{</span>
-        <span class="keyword">if</span>(document.exitFullscreen) {
-        document.exitFullscreen();
-      } <span class="keyword">else</span> <span class="keyword">if</span>(document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } <span class="keyword">else</span> <span class="keyword">if</span>(document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } <span class="keyword">else</span> <span class="keyword">if</span>(document.msExitFullscreen) {
-          document.msExitFullscreen();
-      }
-    }
-
-    <span class="keyword">var</span> rosa = document.getElementById(<span class="string">'rosa'</span>);        
-    <span class="keyword">var</span> btn1 = document.getElementsByTagName(<span class="string">"button"</span>)[<span class="number">0</span>];
-    <span class="keyword">var</span> btn2 = document.getElementsByTagName(<span class="string">"button"</span>)[<span class="number">1</span>];
-
-    document.addEventListener(<span class="string">"keydown"</span>, <span class="keyword">function</span>(e) {
-        <span class="keyword">if</span> (e.keyCode == <span class="number">13</span>) {
-            launchFullscreen(rosa);
-        }
-    });
-    btn1.addEventListener(<span class="string">"click"</span>, <span class="keyword">function</span>(){
-        launchFullscreen(rosa);
-    });
-    btn2.addEventListener(<span class="string">"click"</span>, <span class="keyword">function</span>(){
-        exitFullscreen();
-    })
-</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></pre>
-<h3>兼容性：</h3>
-<p>在桌面上主流浏览器（只测试了最新版）都支持，移动设备上呢，经测试firefox和chrome都支持啦，国产浏览器测试了UC和QQ浏览器，不负众望，都不支持。。。</p>
-<p><img src="/img/post/caniusefs.png" alt="caniuse"></p>
-<h3>一点心得</h3>
-<p>其实我们对全屏并不陌生，我们在看视频的时候经常会使用全屏模式，当然，之前的那些都不是HTML5实现的。全屏的好处就是可以屏蔽掉那些可能分散我们注意力的元素，让我们可以更加专注于感兴趣的东西。这个api非常适合在mobile上web app使用，当进入全屏以后，整个感觉就像是一个完全独立的应用，非常的原生态。</p>
-<h3>参考资料</h3>
-<ul>
-<li>MSDN: <a href="http://msdn.microsoft.com/en-us/library/ie/dn265028.aspx" target="_blank">Fullscreen API</a></li>
-<li>MDN: <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode" target="_blank">Using_full_screen_mode</a></li>
-<li>W3C <a href="https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html" target="_blank">Fullscreen</a></li>
-<li><a href="http://davidwalsh.name/fullscreen" target="_blank">davidwalsh blog</a></li>
-</ul>
-
+<p>
+            <p style="text-align:right">
+              <a href="/2014/05/23/fullscreen/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
           
         </div>
 
