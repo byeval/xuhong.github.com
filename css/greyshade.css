@@ -368,3 +368,7 @@ a:hover {
 .widgets small:after {
   content: ')';
 }
+article:-webkit-full-screen .post,
+article:-webkit-full-screen #comment {
+  width: 90%;
+}
