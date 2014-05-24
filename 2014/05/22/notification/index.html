@@ -4,6 +4,9 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
   
   <title>使用HTML5 Notification API开启浏览器桌面提醒 | ForeverYoung</title>
   <meta name="author" content="BeYoung">
@@ -99,7 +102,7 @@
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
-    <li><a href="/tags/HTML5/">HTML5</a><small>1</small></li>
+    <li><a href="/tags/HTML5/">HTML5</a><small>2</small></li>
   
     <li><a href="/tags/Life/">Life</a><small>1</small></li>
   
@@ -110,6 +113,8 @@
     <li><a href="/tags/css3/">css3</a><small>1</small></li>
   
     <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/fullscreen/">fullscreen</a><small>1</small></li>
   
     <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
   
@@ -156,7 +161,11 @@
 </div>
 
 	</div-->
-        <h1 class="title" itemprop="name">使用HTML5 Notification API开启浏览器桌面提醒</h1>
+
+        <h1 class="title" itemprop="name">使用HTML5 Notification API开启浏览器桌面提醒<div class="menu">
+          <i class="icon-list"></i>
+          <i class="icon-expand"></i>
+        </div></h1>
       	<div class="entry-content" itemprop="articleBody"><p>前两天发现一款app，安装了app和相应的chrome插件以后，可以将安卓手机上的消息在电脑桌面上弹窗显示。这样一来，工作的时候就可以完全把手机扔在一边安心工作了，而不用时时查看是否错过了什么消息，如下图所示：</p>
 <p><img src="/img/post/notification.png" alt="notification"></p>
 <p>这个应用实现的原理其实很简单，大概原理是，监听手机的消息系统，当有新消息的时候就同步到服务器，服务器接收到通知，然后通过HTML5的Notification API推送消息到电脑。之前有玩过这个API，这次再完整地学习一遍，记录下来。</p>

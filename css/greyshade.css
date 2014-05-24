@@ -102,6 +102,15 @@ body {
 .container .mid-col .mid-col-container #content article .title {
   margin-left: 0px;
 }
+.container .mid-col .mid-col-container #content article .menu {
+  float: right;
+  padding: 10px 15px;
+  background: #ddd;
+}
+.container .mid-col .mid-col-container #content article:hover {
+  color: #f8f8f8;
+  background: #d33e3e;
+}
 .container .mid-col .mid-col-container #content article .entry-content {
   margin-left: 0px;
   line-height: 2;
@@ -117,7 +126,7 @@ body {
   -o-transition: 0.3s;
   transition: 0.3s;
 }
-.container .mid-col .mid-col-container #content article .entry-content .more-link:hover {
+.container .mid-col .mid-col-container #content article .entry-content:hover {
   background: #d33e3e;
   color: #f8f8f8;
   text-decoration: none;
