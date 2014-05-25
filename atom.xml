@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Remember, Let go, Move on.]]></subtitle>
   <link href="http://beyoung.me/atom.xml" rel="self"/>
   <link href="http://beyoung.me"/>
-  <updated>2014-05-24T10:41:06.342Z</updated>
+  <updated>2014-05-25T11:28:23.718Z</updated>
   <id>http://beyoung.me/</id>
   <author>
     <name><![CDATA[BeYoung]]></name>
@@ -12,11 +12,21 @@
   </author>
   <generator uri="http://zespia.tw/hexo">Hexo</generator>
   <entry>
+    <title type="html"><![CDATA[使用HTML5 geolocation API获取地理位置]]></title>
+    <link href="http://beyoung.me/2014/05/24/geolocation/"/>
+    <id>http://beyoung.me/2014/05/24/geolocation/</id>
+    <published>2014-05-24T15:10:54.000Z</published>
+    <updated>2014-05-24T15:20:48.000Z</updated>
+    <content type="html"><![CDATA[]]></content>
+    <category scheme="http://beyoung.me/tags/HTML5/" term="HTML5"/>
+    <category scheme="http://beyoung.me/tags/geolocation/" term="geolocation"/>
+  </entry>
+  <entry>
     <title type="html"><![CDATA[使用fullscreen API全屏浏览网页]]></title>
     <link href="http://beyoung.me/2014/05/23/fullscreen/"/>
     <id>http://beyoung.me/2014/05/23/fullscreen/</id>
     <published>2014-05-23T15:36:11.000Z</published>
-    <updated>2014-05-24T10:40:10.000Z</updated>
+    <updated>2014-05-25T11:27:55.000Z</updated>
     <content type="html"><![CDATA[<p>给博客加了一个小功能，全屏显示页面，使用的是HTML5的Fullscreen API，简单介绍一下这个API的使用。</p>
 <h3>如何使用</h3>
 <h4>方法</h4>
@@ -111,11 +121,11 @@
         exitFullscreen();
     })
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></pre>
-<h3>兼容性：</h3>
+<h3>兼容性</h3>
 <p>在桌面上主流浏览器（只测试了最新版）都支持，移动设备上呢，经测试firefox和chrome都支持啦，国产浏览器测试了UC和QQ浏览器，不负众望，都不支持。。。</p>
 <p><img src="/img/post/caniusefs.png" alt="caniuse"></p>
 <h3>一点心得</h3>
-<p>其实我们对全屏并不陌生，我们在看视频的时候经常会使用全屏模式，当然，之前的那些都不是HTML5实现的。全屏的好处就是可以屏蔽掉那些可能分散我们注意力的元素，让我们可以更加专注于感兴趣的东西。这个api非常适合在mobile上web app使用，当进入全屏以后，整个感觉就像是一个完全独立的应用，非常的原生态。</p>
+<p>其实我们对全屏并不陌生，我们在看视频的时候经常会使用全屏模式，当然，之前的那些都不是HTML5实现的。全屏的好处就是可以屏蔽掉那些可能分散我们注意力的元素，让我们可以更加专注于感兴趣的东西。这个api非常适合在mobile上web app使用，当进入全屏以后，整个感觉就像是一个完全独立的应用，非常的原生态。另外发现一个奇怪的bug，<strong>fullscreen的样式必须分开写，而不能用逗号隔开写在一起</strong></p>
 <h3>参考资料</h3>
 <ul>
 <li>MSDN: <a href="http://msdn.microsoft.com/en-us/library/ie/dn265028.aspx" target="_blank">Fullscreen API</a></li>

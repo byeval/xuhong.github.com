@@ -1391,14 +1391,6 @@ body {
   -ms-transition: color 0.3s;
   transition: color 0.3s;
 }
-.container .mid-col .mid-col-container #content:-webkit-full-screen {
-  overflow-y: auto;
-}
-.container .mid-col .mid-col-container #content:-webkit-full-screen .post,
-.container .mid-col .mid-col-container #content:-webkit-full-screen #comment {
-  width: 70%;
-  margin: 0 auto;
-}
 .container .mid-col footer {
   width: 100%;
 }
@@ -1465,6 +1457,41 @@ a {
 }
 a:hover {
   color: #d33e3e;
+}
+:-webkit-full-screen {
+  overflow-y: auto;
+}
+:-webkit-full-screen .post,
+:-webkit-full-screen #comment {
+  width: 70%;
+  margin: 0 auto;
+}
+:-moz-full-screen {
+  background: #fff;
+  overflow-y: auto;
+}
+:-moz-full-screen .post,
+:-moz-full-screen #comment {
+  width: 70%;
+  margin: 0 auto;
+}
+:-ms-full-screen {
+  background: #fff;
+  overflow-y: auto;
+}
+:-ms-full-screen .post,
+:-ms-full-screen #comment {
+  width: 70%;
+  margin: 0 auto;
+}
+:fullscreen {
+  background: #fff;
+  overflow-y: auto;
+}
+:fullscreen .post,
+:fullscreen #comment {
+  width: 70%;
+  margin: 0 auto;
 }
 @media screen and (max-width: 1040px) {
   body {

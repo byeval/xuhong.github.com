@@ -11,13 +11,15 @@
     };
 
     function exitFullscreen() {
-        if (document.exitFullscreen) {
+      if(document.exitFullscreen) {
             document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
+      } else if(document.cancelFullscreen){
+            document.cancelFullscreen();
+      } else if(document.mozCancelFullScreen) {
             document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
+      } else if(document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
+      } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
         }
     };
@@ -49,7 +51,7 @@
        	list = document.createElement('ul');
     for (var i = 0; i < t.length; i++) {
         t[i].id = "t" + (i+1);
-        li += "<li><a href='#t" + (i+1) + "'>" + t[i].innerText + "</a></li>";
+        li += "<li><a href='#t" + (i+1) + "'>" + t[i].textContent + "</a></li>";
     }
     list.innerHTML = li;
     menu.appendChild(list);
