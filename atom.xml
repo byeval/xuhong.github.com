@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Remember, Let go, Move on.]]></subtitle>
   <link href="http://beyoung.me/atom.xml" rel="self"/>
   <link href="http://beyoung.me"/>
-  <updated>2014-06-01T12:08:21.701Z</updated>
+  <updated>2014-06-01T12:22:38.924Z</updated>
   <id>http://beyoung.me/</id>
   <author>
     <name><![CDATA[BeYoung]]></name>
@@ -16,8 +16,8 @@
     <link href="http://beyoung.me/2014/05/26/vibrate_api/"/>
     <id>http://beyoung.me/2014/05/26/vibrate_api/</id>
     <published>2014-05-26T10:39:43.000Z</published>
-    <updated>2014-06-01T12:06:28.000Z</updated>
-    <content type="html"><![CDATA[<p>前两天写了Notification API的使用，后来一想，这个提醒对桌面的意义其实要大于移动设备，比如chrome为此专门建立一个消息中心的扩展。对移动设备而言，这种消息提醒并不能引起注意，当手机装在口袋的时候，我们并不能及时的收到提醒。那么移动设备是怎么提醒我们的呢？——使用铃声和震动。然后发现HTML5真有一个震动的API——vibrate。</p>
+    <updated>2014-06-01T12:22:25.000Z</updated>
+    <content type="html"><![CDATA[<p>前两天写了<a href="http://beyoung.me/2014/05/22/notification/">Notification API</a>的使用，后来一想，这个提醒对桌面的意义其实要大于移动设备，比如chrome为此专门建立一个消息中心的扩展。对移动设备而言，这种消息提醒并不能引起注意，当手机装在口袋的时候，我们并不能及时的收到提醒。那么移动设备是怎么提醒我们的呢？——使用铃声和震动。然后发现HTML5真有一个震动的API——vibrate。</p>
 <h3>如何使用</h3>
 <p>vibrate API的使用非常简单，无需申请权限，这一点其实也有待商议，是否会骚扰用户？</p>
 <h4>检测支持</h4>
@@ -85,10 +85,11 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
     btn[1].addEventListener('click', function(){
         startVibrate([1000, 500, 1000, 500, 1000, 500, 1000, 500, 1000, 500, 1000, 500]);
     });
-    btn[3].addEventListener('click', function(){
-        peristVibrate(1000,500);
+    btn[2].addEventListener('click', function(){
+        if(document.visibilityState === "hidden")
+            peristVibrate(1000,500);
     })
-    btn[4].addEventListener('click', function(){
+    btn[3].addEventListener('click', function(){
         stopVibrate();
     })
 </script>]]></content>
