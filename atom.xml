@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Remember, Let go, Move on.]]></subtitle>
   <link href="http://beyoung.me/atom.xml" rel="self"/>
   <link href="http://beyoung.me"/>
-  <updated>2014-06-01T12:48:21.925Z</updated>
+  <updated>2014-06-01T12:52:04.250Z</updated>
   <id>http://beyoung.me/</id>
   <author>
     <name><![CDATA[BeYoung]]></name>
@@ -16,7 +16,7 @@
     <link href="http://beyoung.me/2014/05/26/vibrate_api/"/>
     <id>http://beyoung.me/2014/05/26/vibrate_api/</id>
     <published>2014-05-26T10:39:43.000Z</published>
-    <updated>2014-06-01T12:48:10.000Z</updated>
+    <updated>2014-06-01T12:51:52.000Z</updated>
     <content type="html"><![CDATA[<p>前两天写了<a href="http://beyoung.me/2014/05/22/notification/">Notification API</a>的使用，后来一想，这个提醒对桌面的意义其实要大于移动设备，比如chrome为此专门建立一个消息中心的扩展。对移动设备而言，这种消息提醒并不能引起注意，当手机装在口袋的时候，我们并不能及时的收到提醒。那么移动设备是怎么提醒我们的呢？——使用铃声和震动。然后发现HTML5真有一个震动的API——vibrate。</p>
 <h3>如何使用</h3>
 <p>vibrate API的使用非常简单，无需申请权限，这一点其实也有待商议，是否会骚扰用户？</p>
@@ -62,7 +62,7 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
 </ol>
 <p>这段代码导致chrome上震动出现异常，变成那种很轻微的抽搐似的震动。。firefox则不受影响。</p>
 <ol>
-<li><code>navigator.vibrate([v,s,v,s])</code>这种方式的震动是不能被取消的，因为它自己再震动结束后会自动取消，所以上面提到的两种取消震动的方式对它都没用。</li>
+<li><code>navigator.vibrate([v,s,v,s])</code>这种方式的震动在firefox上是不能被取消的，因为它自己在震动结束后会自动取消，所以上面提到的两种取消震动的方式对它都没用。但在chrome上却是可以通过上面方式取消的。</li>
 </ol>
 <h3>展望</h3>
 <p>这个API是纯粹的为移动设备而存在的，尤其是基于browser的实时web app，如游戏、聊天，但现在这个API还远不够好玩，因为在<code>visibilityState</code>为<code>false</code>的时候浏览器会自动取消震动，出于对移动设备耗电的考虑。这样的话，想用这个api来进行提醒的目的就达不到了。但对于web app游戏而言还是有用处的，可以使用它大大的提高用户体验。等将来移动设备的性能越来越好，移动网络越来越快，浏览器的生态系统更加完善的时候，基本上所有的独立应用都可以不需要了，游戏、聊天等都可以在浏览器中进行，不过这貌似得很久很久以后了。。。突然想到，话说现在不是各种智能设备炒得火热么？前端工程师是不是也可以做个智能震动棒啥的了。。。</p>
@@ -77,7 +77,7 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
 
     function stopVibrate() {
         if(vibrateInterval) clearInterval(vibrateInterval);
-        navigator.vibrate([]);
+        navigator.vibrate();
     }
 
     function peristVibrate(duration, interval) {
