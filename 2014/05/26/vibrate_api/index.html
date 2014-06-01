@@ -220,7 +220,7 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
 
     function stopVibrate() {
         if(vibrateInterval) clearInterval(vibrateInterval);
-        navigator.vibrate();
+        navigator.vibrate([]);
     }
 
     function peristVibrate(duration, interval) {
