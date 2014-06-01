@@ -207,6 +207,14 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
 
 <h3>兼容</h3>
 <p>IE系列都不兼容，chrome和firefox最新版本都兼容：<br><img src="/img/post/caniusevibrate.png" alt="caniuse vibrate"></p>
+<h3>BUG</h3>
+<ol>
+<li>这个api不能和<code>visibilityState</code>组合使用，我在android chorme35上测试，监听<code>visibilityChange</code>事件，当它发生变化时就发出震动：<br> document.addEventListener(“visibilityChange”, peristVibrate());</li>
+</ol>
+<p>这段代码导致chrome上震动出现异常，变成那种很轻微的抽搐似的震动。。firefox则不受影响。</p>
+<ol>
+<li><code>navigator.vibrate([v,s,v,s])</code>这种方式的震动是不能被取消的，因为它自己再震动结束后会自动取消，所以上面提到的两种取消震动的方式对它都没用。</li>
+</ol>
 <h3>展望</h3>
 <p>这个API是纯粹的为移动设备而存在的，尤其是基于browser的实时web app，如游戏、聊天，但现在这个API还远不够好玩，因为在<code>visibilityState</code>为<code>false</code>的时候浏览器会自动取消震动，出于对移动设备耗电的考虑。这样的话，想用这个api来进行提醒的目的就达不到了。但对于web app游戏而言还是有用处的，可以使用它大大的提高用户体验。等将来移动设备的性能越来越好，移动网络越来越快，浏览器的生态系统更加完善的时候，基本上所有的独立应用都可以不需要了，游戏、聊天等都可以在浏览器中进行，不过这貌似得很久很久以后了。。。突然想到，话说现在不是各种智能设备炒得火热么？前端工程师是不是也可以做个智能震动棒啥的了。。。</p>
 <h3>参考资料</h3>
@@ -242,7 +250,7 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
     btn[3].addEventListener('click', function(){
         stopVibrate();
     });
-    document.addEventListener("visibilityChange", peristVibrate());
+
 </script></div>
 
 
