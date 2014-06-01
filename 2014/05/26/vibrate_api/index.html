@@ -237,12 +237,12 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
         startVibrate([1000, 500, 1000, 500, 1000, 500, 1000, 500, 1000, 500, 1000, 500]);
     });
     btn[2].addEventListener('click', function(){
-        if(document.visibilityState === "hidden")
-            peristVibrate(1000,500);
-    })
+        peristVibrate(1000,500);
+    });
     btn[3].addEventListener('click', function(){
         stopVibrate();
-    })
+    });
+    document.addEventListener(visibilityChange, peristVibrate());
 </script></div>
 
 
