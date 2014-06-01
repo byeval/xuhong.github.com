@@ -8,7 +8,7 @@
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
   <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
   
-  <title>flexbox完全指南 | ForeverYoung</title>
+  <title>使用vibrate api在移动设备上发出震动 | ForeverYoung</title>
   <meta name="author" content="BeYoung">
   
   <meta name="description" content="Just another weblog.">
@@ -16,7 +16,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="flexbox完全指南"/>
+  <meta property="og:title" content="使用vibrate api在移动设备上发出震动"/>
   <meta property="og:site_name" content="ForeverYoung"/>
 
   
@@ -149,11 +149,11 @@
           
 <div class="date">
 
-<time datetime="2014-02-24T14:46:19.000Z"
+<time datetime="2014-05-26T10:39:43.000Z"
       
       data-updated="true"
        itemprop="datePublished">
-  Feb 24 2014
+  May 26 2014
 </time>
 
 
@@ -164,81 +164,85 @@
 
 	</div-->
 
-        <h1 class="title" itemprop="name">flexbox完全指南<div class="menu">
+        <h1 class="title" itemprop="name">使用vibrate api在移动设备上发出震动<div class="menu">
           <i class="icon-list"></i>
           <i class="icon-expand"></i>
         </div></h1>
-      	<div class="entry-content" itemprop="articleBody"><p>flexbox属性的标准写法从09年到现在一直在变化，现在终于确定了。这几天看了一些笔试题，发现考了不少相关的知识，很多网站都已经开始使用它进行网页布局了，移动端的使用非常多（比如赶集网和百姓网）。所以记录一下，大多数参考自<a href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">css-tricks</a>。</p>
-<h3>语法和属性</h3>
-<p><strong> 作用于弹性盒的属性：</strong></p>
-<ul>
-<li>display: flex | inline-flex;</li>
-<li>flex-derection: row(<strong>default</strong>) | row-reverse | column | column-reverse;</li>
-<li>flex-wrap: nowrap (<strong>default</strong>) | wrap | wrap-reverse;</li>
-<li>flex-flow: &lt;‘flex-derection’&gt; || &lt;‘flex-wrap’&gt;;</li>
-<li>justify-content: flex-start | flex-end | center | space-between | space-around;</li>
-<li>align-items: flex-start | flex-end | center | baseline | stretch;</li>
-<li>alegn-content: flex-start | center | baseline | space-between | space-around |stretch;<a id="more"></a></li>
-</ul>
-<p><strong> 作用于弹性盒子元素的属性：</strong></p>
-<ul>
-<li>order: <integer>;</li>
-<li>flex-grow: <number> default 0;</li>
-<li>flex-shrink: <number> default 1;</li>
-<li>flex-basis: <length> | auto(<strong>default</strong>);</li>
-<li>flex: none | [ &lt;‘flex-grow’&gt; &lt;‘flex-shrink’&gt;? || &lt;‘flex-basis’&gt; ];</li>
-<li>align-self: auto | felx-start | flex-end | center | baseline | stretch;</li>
-</ul>
-<h3>浏览器支持</h3>
-<p><strong>modern</strong> means the recent syntax from the specification e.g. <code>display: flex;</code><br><strong>hybrid</strong> means an odd unofficial syntax from 2011 e.g. <code>display: flexbox;</code><br><strong>old</strong> means the old syntax from 2009 e.g. <code>display: box;</code><br><img src="/img/post/table.png" alt=""></p>
-<p>css-tricks提供了一个sass@mixin用来减轻兼顾不同版本的痛苦：</p>
-<pre><code>@mixin flexbox() {
-    <span class="method">display:</span> -webkit-box;
-    <span class="method">display:</span> -moz-box;
-    <span class="method">display:</span> -ms-flexbox;
-    <span class="method">display:</span> -webkit-flex;
-    <span class="method">display:</span> flex;
+      	<div class="entry-content" itemprop="articleBody"><p>前两天写了Notification API的使用，后来一想，这个提醒对桌面的意义其实要大于移动设备，比如chrome为此专门建立一个消息中心的扩展。对移动设备而言，这种消息提醒并不能引起注意，当手机装在口袋的时候，我们并不能及时的收到提醒。那么移动设备是怎么提醒我们的呢？——使用铃声和震动。然后发现HTML5真有一个震动的API——vibrate。</p>
+<h3>如何使用</h3>
+<p>vibrate API的使用非常简单，无需申请权限，这一点其实也有待商议，是否会骚扰用户？</p>
+<h4>检测支持</h4>
+<p>因为无需申请权限，其实这一步就可有可无了，不支持的话就让它静默的失败就好了：</p>
+<pre><code><span class="keyword">var</span> supportVibrate = <span class="string">"vibrate"</span> <span class="keyword">in</span> navigator;</code></pre>
+<p><a id="more"></a></p>
+<h4>发出震动</h4>
+<p>下面的代码将发起1s的震动：</p>
+<pre><code>navigator<span class="preprocessor">.vibrate</span>(<span class="number">1000</span>)<span class="comment">;</span></code></pre>
+<p>下面的代码将先震动1s，再静止0.5s，再震动1s……这个频率来电震动是一样的：</p>
+<pre><code>navigator<span class="preprocessor">.vibrate</span>([<span class="number">1000</span>, <span class="number">500</span>, <span class="number">1000</span>, <span class="number">500</span>, <span class="number">1000</span>, <span class="number">5000</span>])<span class="comment">;</span></code></pre>
+<h4>清除震动</h4>
+<p>下面两种方法都可以清除震动：</p>
+<pre><code>navigator<span class="preprocessor">.vibrate</span>(<span class="number">0</span>)<span class="comment">;</span>
+navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</span></code></pre>
+<h4>持续震动</h4>
+<p>可以通过使用setInterval和clearInterval来实现：</p>
+<pre><code>var vibrateInterval;
+
+<span class="function"><span class="keyword">function</span> <span class="title">startVibrate</span><span class="params">(duration)</span> {</span>
+    <span class="transposed_variable">navigator.</span>vibrate(duration);
 }
 
-@mixin flex(<span class="char">$v</span>alues) {
-    -webkit-box-<span class="method">flex:</span> <span class="char">$v</span>alues;
-    -moz-box-<span class="method">flex:</span>  <span class="char">$v</span>alues;
-    -webkit-<span class="method">flex:</span>  <span class="char">$v</span>alues;
-    -ms-<span class="method">flex:</span>  <span class="char">$v</span>alues;
-    <span class="method">flex:</span>  <span class="char">$v</span>alues;
+<span class="function"><span class="keyword">function</span> <span class="title">stopVibrate</span><span class="params">()</span> {</span>
+    <span class="keyword">if</span>(vibrateInterval) clearInterval(vibrateInterval);
+    <span class="transposed_variable">navigator.</span>vibrate();
 }
 
-@mixin order(<span class="char">$v</span>al) {
-    -webkit-box-ordinal-<span class="method">group:</span> <span class="char">$v</span>al;  
-    -moz-box-ordinal-<span class="method">group:</span> <span class="char">$v</span>al;     
-    -ms-flex-<span class="method">order:</span> <span class="char">$v</span>al;     
-    -webkit-<span class="method">order:</span> <span class="char">$v</span>al;  
-    <span class="method">order:</span> <span class="char">$v</span>al;
-}
-
-.wrapper {
-    @include flexbox();
-}
-
-.item {
-    @include flex(<span class="number">1</span> <span class="number">200</span>px);
-    @include order(<span class="number">2</span>);
+<span class="function"><span class="keyword">function</span> <span class="title">peristVibrate</span><span class="params">(duration, interval)</span> {</span>
+    vibrateInterval = setInterval(<span class="keyword">function</span>()<span class="cell">{
+            startVibrate(duration);
+        }</span>, interval);
 }</code></pre>
-<h3>实际使用</h3>
-<ol>
-<li><p>使用弹性盒实现子元素在父元素中完美居中：</p>
-<p> <p data-height="268" data-theme-id="0" data-slug-hash="mnKGq" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/xuhong/pen/mnKGq'>mnKGq</a> by 旭鸿 (<a href='http://codepen.io/xuhong'>@xuhong</a>) on <a href='http://codepen.io'>CodePen</a>.</p></p>
- <script async src="//codepen.io/assets/embed/ei.js"></script>
-</li>
-<li><p>使用弹性盒实现双飞翼布局：</p>
-<p> <p data-height="268" data-theme-id="0" data-slug-hash="GBoqt" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/xuhong/pen/GBoqt'>GBoqt</a> by 旭鸿 (<a href='http://codepen.io/xuhong'>@xuhong</a>) on <a href='http://codepen.io'>CodePen</a>.</p></p>
- <script async src="//codepen.io/assets/embed/ei.js"></script>
-</li>
-<li><p>使用弹性盒实现自适应网页设计：</p>
-<p> <p data-height="268" data-theme-id="0" data-slug-hash="qIAwr" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/HugoGiraudel/pen/qIAwr'>Demo Flexbox 3</a> by Hugo Giraudel (<a href='http://codepen.io/HugoGiraudel'>@HugoGiraudel</a>) on <a href='http://codepen.io'>CodePen</a>.</p></p>
- <script async src="//codepen.io/assets/embed/ei.js"></script></li>
-</ol>
-</div>
+<h3>例子</h3>
+<button>vibrate once</button><br><button>vibrate like calling</button><br><button>perist vibrate</button><br><button>stop vibrate</button>
+
+<h3>兼容</h3>
+<p>IE系列都不兼容，chrome和firefox最新版本都兼容：<br><img src="/img/post/caniusevibrate.png" alt="caniuse vibrate"></p>
+<h3>展望</h3>
+<p>这个API是纯粹的为移动设备而存在的，尤其是基于browser的实时web app，如游戏、聊天，但现在这个API还远不够好玩，因为在<code>visibilityState</code>为<code>false</code>的时候浏览器会自动取消震动，出于对移动设备耗电的考虑。这样的话，想用这个api来进行提醒的目的就达不到了。但对于web app游戏而言还是有用处的，可以使用它大大的提高用户体验。等将来移动设备的性能越来越好，移动网络越来越快，浏览器的生态系统更加完善的时候，基本上所有的独立应用都可以不需要了，游戏、聊天等都可以在浏览器中进行，不过这貌似得很久很久以后了。。。突然想到，话说现在不是各种智能设备炒得火热么？前端工程师是不是也可以做个智能震动棒啥的了。。。</p>
+<h3>参考资料</h3>
+<p>w3c: <a href="http://www.w3.org/TR/vibration/" target="_blank">vibrate api</a><br>david walsh blog: <a href="http://davidwalsh.name/vibration-api" target="_blank">vibrate api</a><br>Terence Eden&#39;s Blog: <a href="http://shkspr.mobi/blog/2014/01/malicious-use-of-the-html5-vibrate-api/" target="_blank">Malicious Use of the HTML5 Vibrate API</a><br>caniuse: <a href="http://caniuse.com/#feat=vibration" target="_blank">vibrate</a></p>
+<script>
+    var vibrateInterval;
+
+    function startVibrate(duration) {
+        navigator.vibrate(duration);
+    }
+
+    function stopVibrate() {
+        if(vibrateInterval) clearInterval(vibrateInterval);
+        navigator.vibrate();
+    }
+
+    function peristVibrate(duration, interval) {
+        vibrateInterval = setInterval(function(){
+                startVibrate(duration);
+            }, interval);
+    }
+
+    var btn = document.getElementsByTagName('button');
+    btn[0].addEventListener('click',function(){
+        startVibrate(1000);
+    });
+    btn[1].addEventListener('click', function(){
+        startVibrate([1000, 500, 1000, 500, 1000, 500, 1000, 500, 1000, 500, 1000, 500]);
+    });
+    btn[3].addEventListener('click', function(){
+        peristVibrate(1000,500);
+    })
+    btn[4].addEventListener('click', function(){
+        stopVibrate();
+    })
+</script></div>
 
 
 </article>

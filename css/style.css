@@ -1540,6 +1540,10 @@ a:hover {
   .container .mid-col .mid-col-container #content:-webkit-full-screen #comment {
     width: 90%;
   }
+  .container .mid-col .mid-col-container #content:-moz-full-screen .post,
+  .container .mid-col .mid-col-container #content:-moz-full-screen #comment {
+    width: 90%;
+  }
 }
 .widget {
   margin-bottom: 30px;

@@ -116,8 +116,6 @@
   
     <li><a href="/tags/fullscreen/">fullscreen</a><small>1</small></li>
   
-    <li><a href="/tags/geolocation/">geolocation</a><small>1</small></li>
-  
     <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
   
     <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
@@ -129,6 +127,8 @@
     <li><a href="/tags/python/">python</a><small>2</small></li>
   
     <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+    <li><a href="/tags/vibrate/">vibrate</a><small>1</small></li>
   
   </ul>
 </div>
@@ -186,31 +186,28 @@
 <pre><code><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">src</span>=<span class="value">""</span> <span class="attribute">allowFullScreen</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>    </code></pre>
 <p><a id="more"></a></p>
 <h4>全屏样式</h4>
-<p>全屏元素：</p>
-<pre><code><span class="id">#rosa</span><span class="pseudo">:-webkit-full-screen</span><span class="rules">{
+<p>全屏元素的样式：</p>
+<pre><code><span class="pseudo">:-webkit-full-screen</span><span class="rules">{
     <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">100</span>%;</span></span>
     <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100</span>%;</span></span>
     <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#11ee11</span>;</span></span>
 <span class="rule">}</span></span>
-<span class="id">#rosa</span><span class="pseudo">:-moz-full-screen</span><span class="rules">{
+<span class="pseudo">:-moz-full-screen</span><span class="rules">{
     <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">100</span>%;</span></span>
     <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100</span>%;</span></span>
     <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#11ee11</span>;</span></span>
 <span class="rule">}</span></span>
-<span class="id">#rosa</span><span class="pseudo">:-ms-fullscreen</span><span class="rules">{
+<span class="pseudo">:-ms-fullscreen</span><span class="rules">{
     <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">100</span>%;</span></span>
     <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100</span>%;</span></span>
     <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#11ee11</span>;</span></span>
 <span class="rule">}</span></span>
-<span class="id">#rosa</span><span class="pseudo">:fullscreen</span><span class="rules">{
+<span class="pseudo">:fullscreen</span><span class="rules">{
     <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">100</span>%;</span></span>
     <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100</span>%;</span></span>
     <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#11ee11</span>;</span></span>
 <span class="rule">}</span></span></code></pre>
-<p>所有全屏化的祖先元素：</p>
-<pre><code><span class="id">#rosa</span><span class="pseudo">:fullscreen-ancestor</span><span class="rules">{
-    <span class="rule"><span class="attribute">z-index</span>:<span class="value"> -<span class="number">1</span>;</span></span>
-<span class="rule">}</span></span></code></pre>
+<p>所有全屏化的祖先元素样式：<br>    :fullscreen-ancestor{<br>        z-index: -1;<br>    }</p>
 <h4>监听状态变化</h4>
 <p>可以监听全屏状态的变化：</p>
 <pre><code>element.addEventListener(<span class="string">"fullscreenchange"</span>, <span class="keyword">function</span>(e){
