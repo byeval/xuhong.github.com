@@ -102,7 +102,7 @@
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
-    <li><a href="/tags/HTML5/">HTML5</a><small>3</small></li>
+    <li><a href="/tags/HTML5/">HTML5</a><small>5</small></li>
   
     <li><a href="/tags/Life/">Life</a><small>1</small></li>
   
@@ -116,6 +116,8 @@
   
     <li><a href="/tags/fullscreen/">fullscreen</a><small>1</small></li>
   
+    <li><a href="/tags/geolocation/">geolocation</a><small>1</small></li>
+  
     <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
   
     <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
@@ -126,9 +128,15 @@
   
     <li><a href="/tags/python/">python</a><small>2</small></li>
   
+    <li><a href="/tags/source/">source</a><small>1</small></li>
+  
     <li><a href="/tags/thought/">thought</a><small>1</small></li>
   
+    <li><a href="/tags/touch_event/">touch_event</a><small>1</small></li>
+  
     <li><a href="/tags/vibrate/">vibrate</a><small>1</small></li>
+  
+    <li><a href="/tags/zepto/">zepto</a><small>2</small></li>
   
   </ul>
 </div>
@@ -171,7 +179,7 @@
       	<div class="entry-content" itemprop="articleBody"><p>前两天发现一款app，安装了app和相应的chrome插件以后，可以将安卓手机上的消息在电脑桌面上弹窗显示。这样一来，工作的时候就可以完全把手机扔在一边安心工作了，而不用时时查看是否错过了什么消息，如下图所示：</p>
 <p><img src="/img/post/notification.png" alt="notification"></p>
 <p>这个应用实现的原理其实很简单，大概原理是，监听手机的消息系统，当有新消息的时候就同步到服务器，服务器接收到通知，然后通过HTML5的Notification API推送消息到电脑。之前有玩过这个API，这次再完整地学习一遍，记录下来。</p>
-<h3>概览</h3>
+<h3>如何使用</h3>
 <h4>申请权限</h4>
 <p>出于安全考虑，要发送桌面消息，需要先申请用户授权。Notification对象提供了一个静态的方法——<code>requestPermission()</code>，它接收一个回调函数作为参数，并把返回值传递给回调函数作为参数：</p>
 <pre><code>Notification<span class="preprocessor">.requestPermission</span>(function(status){

@@ -102,7 +102,7 @@
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
-    <li><a href="/tags/HTML5/">HTML5</a><small>3</small></li>
+    <li><a href="/tags/HTML5/">HTML5</a><small>5</small></li>
   
     <li><a href="/tags/Life/">Life</a><small>1</small></li>
   
@@ -116,6 +116,8 @@
   
     <li><a href="/tags/fullscreen/">fullscreen</a><small>1</small></li>
   
+    <li><a href="/tags/geolocation/">geolocation</a><small>1</small></li>
+  
     <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
   
     <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
@@ -126,9 +128,15 @@
   
     <li><a href="/tags/python/">python</a><small>2</small></li>
   
+    <li><a href="/tags/source/">source</a><small>1</small></li>
+  
     <li><a href="/tags/thought/">thought</a><small>1</small></li>
   
+    <li><a href="/tags/touch_event/">touch_event</a><small>1</small></li>
+  
     <li><a href="/tags/vibrate/">vibrate</a><small>1</small></li>
+  
+    <li><a href="/tags/zepto/">zepto</a><small>2</small></li>
   
   </ul>
 </div>
@@ -144,6 +152,328 @@
       <div class="mid-col">
         <div class="mid-col-container">
       <div id="content" class="inner"><div itemscope itemtype="http://schema.org/Blog">
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-06-05T16:07:15.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Jun 6 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/HTML5/">HTML5</a>, <a href="/tags/touch_event/">touch_event</a>, <a href="/tags/zepto/">zepto</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/06/06/touch_events/" itemprop="url">
+            移动设备触摸屏事件</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p><code>zepto</code>在移动设备上得到大范围的使用，一方面是因为其体积很小，加载速度快，另外一方面就是由于它对触摸屏事件的支持很优秀。它有一个<code>touch</code>模块，用来处理移动设备上的点击（<code>tap</code>）和滑动（<code>swipe</code>）事件，主要就是通过对<code>touchEvent</code>的属性来实现的。</p>
+<h3>属性列表</h3>
+<p><strong><code>Touch</code></strong>对象有如下几个属性：</p>
+<ul>
+<li>identifier</li>
+<li>target</li>
+<li>screenX</li>
+<li>screenY</li>
+<li>clientX</li>
+<li>clientY</li>
+<li>pageX</li>
+<li>pageY</li>
+</ul>
+<p><code>identifier</code>是每个触摸点的身份证明，以此来区分不同的触摸点。<code>target</code>是触摸点所在的元素。其他的属性通过名称就都可以知道了。</p>
+<p><strong><code>TouchList</code></strong>对象包含一个触摸事件中的所有触摸点的列表。有一个<code>length</code>属性和<code>item</code>方法，<code>item(0)</code>可以获得列表中第一个触摸点。</p>
+<p><strong><code>TouchEvent</code></strong>对象有如下几个属性：</p>
+<ul>
+<li>touches</li>
+<li>targetTouches</li>
+<li>changedTouches</li>
+<li>altKey</li>
+<li>metaKey</li>
+<li>ctrlKey</li>
+<li>shiftKey</li>
+</ul>
+<p><code>touches</code>是与屏幕接触的所有触摸点数组，<code>targetTouches</code>是目标DOM元素上的触摸点数组，<code>changedTouches</code>是发生改变了的触摸点数组，它们都是<code>touchList</code>对象，后面四个都是布尔值，表示触摸时相应的键是否被按下。</p>
+<h3>事件类型</h3>
+<p><code>touchEvent</code>有以下四种事件类型：</p>
+<ul>
+<li>touchstart //开始</li>
+<li>touchend  //结束</li>
+<li>touchmove  //移动</li>
+<li>touchcancel  //取消</li>
+</ul>
+<h3>例子</h3>
+<p>手指拖动元素</p>
+<div style="position:relative;width:100%;height:320px;background:#f1f1f1;padding:0"><div id="dragme" style="position:absolute;left:0;top:0;width:40px;height:40px;background:#11ff11"></div><br></div>
+
+
+<p>判断滑动方向：</p>
+<div id="swipe" style="width:100%;height:320px;background:#f1f1f1;padding:0"></div>
+
+<p>canvas画布绘画：</p>
+<canvas id="canvas" style="width:100%;height:320px;background:#f1f1f1;padding:0"></canvas>
+
+<p>禁止缩放和滚动：<br>禁止缩放使用<code>viewport</code>即可，禁止滚动需要禁止<code>touchmove</code>的默认事件：</p>
+<pre><code><span class="transposed_variable">document.</span><span class="transposed_variable">body.</span>addEventListener(<span class="string">'touchmove'</span>, <span class="keyword">function</span>(event) <span class="cell">{
+  event.preventDefault();
+}</span>, false);     </code></pre>
+<h3>参考资料</h3>
+<ul>
+<li>zepto: <a href="https://github.com/madrobby/zepto/blob/master/src/touch.js" target="_blank">touch.js</a></li>
+<li>w3c: <a href="http://www.w3.org/TR/touch-events" target="_blank">touch-events</a></li>
+</ul>
+<script>
+    function $(id){
+        return document.getElementById(id);
+    }
+
+    var dragme = $('dragme');
+
+    dragme.addEventListener('touchmove', function(e){
+        if(e.targetTouches.length === 1){
+            var point = e.targetTouches[0];
+            console.log(point.identifier);
+            dragme.style.left = point.pageX + 'px';
+            dragme.style.top = point.pageY + 'px';
+        }
+    });
+
+    var swipe = $('swipe'),
+        touch = {};
+
+    function swipeDirection(x1, x2, y1, y2) {
+        return Math.abs(x1 - x2) >= Math.abs(y1 - y2) ? (x1 - x2 > 0 ? 'Left' : 'Right') : ( y1 - y2 > 0 ? 'Up' : 'Down')
+    }
+
+    swipe.addEventListener('touchstart', function(e){
+        if(e.targetTouches.length === 1) {
+            var point = e.targetTouches[0];
+            touch.x1 = point.pageX;
+            touch.y1 = point.pageY;
+            console.log('touchstart')
+        }
+    });
+
+    swipe.addEventListener('touchend', function(e){
+        if(e.targetTouches.length === 1) {
+            e.preventDefault();
+            var point = e.targetTouches[0];
+            console.log('touchend');
+            touch.x2 = point.pageX;
+            touch.y2 = point.pageY;
+            direction = swipeDirection(touch.x1, touch.x2, touch.y1, touch.y2);
+            swipe.innerHTML = '你的滑动方向是：' + direction;
+            console.log(direction);
+        }
+    });
+
+    swipe.addEventListener('touchmove',function(e){
+        e.preventDefault();
+    });
+
+    var canvas = $('canvas'),
+        ctx = canvas.getContext('2d');
+        ctx.strokeStyle = 'rgba(0,0,0,1)';
+        ctx.lineWidth = 3;
+    var x,y,point;
+
+    canvas.addEventListener('touchstart', function(e){
+        if(e.targetTouches.length === 1) {
+            point = e.changedTouches[0];
+            x = point.pageX;
+            y = point.pageY;
+            console.log(x+','+y);
+            console.log(e.touches);
+        }
+    });
+
+    canvas.addEventListener('touchmove', function(e){
+        if(e.touches.length === 1) {
+            e.preventDefault();
+            ctx.beginPath();
+            ctx.moveTo(x,y);
+            point = e.changedTouches[0];
+            x = e.changedTouches[0].pageX;
+            y = e.changedTouches[0].pageY;
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.closePath();
+            console.log(x+','+y);
+        }
+    });
+
+    canvas.addEventListener('touchend', function(e){
+        if(e.touches.length === 0){
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            point = e.changedTouches[0];
+            x = point.pageX;
+            y = point.pageY;
+            ctx.lineTo(x,y);
+            ctx.stroke();
+            ctx.closePath();
+            console.log(x+','+y);
+        }
+    });
+
+    // canvas.on('touchstart',function(e){
+    //    if(e.originalEvent.touches.length===1){
+    //        x = e.originalEvent.changedTouches[0].pageX;
+    //        y = e.originalEvent.changedTouches[0].pageY; 
+    //        $('#output').text(x+','+y);
+    //    }    
+ //   }); 
+ //   canvas.on('touchmove',function(e){
+    //    e.preventDefault();
+    //    if(e.originalEvent.touches.length===1){
+    //        context.beginPath();
+    //        context.moveTo(x,y);
+    //        x = e.originalEvent.changedTouches[0].pageX;
+    //        y = e.originalEvent.changedTouches[0].pageY; 
+    //        context.lineTo(x,y);
+    //        context.stroke();
+    //        context.closePath();
+    //        $('#output').text(x+','+y);
+    //    }    
+ //   });
+ //   canvas.on('touchend',function(e){
+    //    if(e.originalEvent.touches.length===0){
+    //        context.beginPath();
+    //        context.moveTo(x,y);
+    //        x = e.originalEvent.changedTouches[0].pageX;
+    //        y = e.originalEvent.changedTouches[0].pageY; 
+    //        context.lineTo(x,y);
+    //        context.stroke();
+    //        context.closePath();
+    //        $('#output').text(x+','+y);
+    //    }    
+ //   });
+
+
+</script>
+          
+        </div>
+
+
+</article>
+
+
+<script src="/js/article.js"></script>
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-05-31T07:53:38.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  May 31 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/zepto/">zepto</a>, <a href="/tags/source/">source</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/05/31/read_the_zepto_source_code/" itemprop="url">
+            zepto源码阅读笔记</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>花了一下午的时间阅读了zepto的源码，就像<a href="http://zeptojs.com" target="_blank">zepto首页</a>的那个幻灯片说的，从zepto精简的源码中学习如何实现你最喜欢的方法。提升你的代码功力。其他的不多说了，主要记录遇到的疑惑和解决疑惑中学到的知识。</p>
+<h3>源码解析</h3>
+<p><code>zepto</code>有一个<code>matches</code>方法:</p>
+<pre><code>zepto<span class="variable">.matches</span> = function(element, <span class="keyword">selector</span>) {
+  <span class="keyword">if</span> (!<span class="keyword">selector</span> || !element || element<span class="variable">.nodeType</span> !== <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>
+  var matchesSelector = element<span class="variable">.webkitMatchesSelector</span> || element<span class="variable">.mozMatchesSelector</span> ||
+                        element<span class="variable">.oMatchesSelector</span> || element<span class="variable">.matchesSelector</span>
+  <span class="keyword">if</span> (matchesSelector) <span class="keyword">return</span> matchesSelector<span class="variable">.call</span>(element, <span class="keyword">selector</span>)
+  <span class="comment">// fall back to performing a selector:</span>
+  var match, parent = element<span class="variable">.parentNode</span>, temp = !parent
+  <span class="keyword">if</span> (temp) (parent = tempParent)<span class="variable">.appendChild</span>(element)
+  match = ~zepto<span class="variable">.qsa</span>(parent, <span class="keyword">selector</span>)<span class="variable">.indexOf</span>(element)
+  temp &amp;&amp; tempParent<span class="variable">.removeChild</span>(element)
+  <span class="keyword">return</span> match
+  }</code></pre>
+<p>其中有如一行代码：</p>
+<pre><code>match = ~zepto<span class="variable">.qsa</span>(parent, <span class="keyword">selector</span>)<span class="variable">.indexOf</span>(element)</code></pre>
+<blockquote>
+<p>Q: 为什么要使用按位取反符号呢？</p>
+<p>A:因为JS中<code>0</code>是被转换作<code>false</code>值的，其他的数字都被转换为<code>true</code>值，而<code>indexOf</code>方法在没有发现匹配的时候是返回<code>-1</code>，直接用它进行判断也可以，比如判断返回值是否等于<code>-1</code>，不过这样不够cool，所以这里就用了这个小hack，<code>~-1 === 0</code></p>
+</blockquote>
+<p><a href="http://stackoverflow.com/questions/15961998/understand-zepto-matches-function" target="_blank">参考</a>。另外，matchesSelector也值得注意一下。</p>
+<p>再看看<code>dasherize</code>方法：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">dasherize</span><span class="params">(str)</span> {</span>
+    <span class="keyword">return</span> <span class="transposed_variable">str.</span>replace(/::/g, <span class="string">'/'</span>)
+       .replace(/(<span class="matrix">[A-Z]</span>+)(<span class="matrix">[A-Z]</span><span class="matrix">[a-z]</span>)/g, <span class="string">'$1_$2'</span>)
+       .replace(/(<span class="matrix">[a-z\d]</span>)(<span class="matrix">[A-Z]</span>)/g, <span class="string">'$1_$2'</span>)
+       .replace(/_/g, <span class="string">'-'</span>)
+       .toLowerCase()
+  }</code></pre>
+<p>这个<code>$1</code>、<code>$2</code>肯定都知道，就是分组匹配的第一组和第二组，那么下面的<code>$1</code>呢？</p>
+<pre><code>var singleTagRE = /^&lt;(\w+)\s<span class="variable">*\</span>/?&gt;(?:&lt;\/\<span class="number">1</span>&gt;|)<span class="variable">$/</span>;
+<span class="keyword">if</span> (singleTagRE.test(html)) dom = <span class="variable">$(</span>document.createElement(RegExp.<span class="variable">$1</span>))</code></pre>
+<blockquote>
+<p>Q: <code>RegExp.$1</code>是什么？</p>
+<p>A:在模式匹配期间找到的，所存储的最近的1个部分，上面例子中的就是<code>(\w+)</code>对应的tag名称。只读。全局对象<code>RegExp</code>会在每次成功匹配一个带括号的分组时，将匹配成功的结果存储起来。每当产生一个带括号的成功匹配时，$1…$9 属性的值就被修改。 可以在一个正则表达式模式中指定任意多个带括号的子匹配，但只能存储最新的九个。</p>
+</blockquote>
+<h4>其他</h4>
+<blockquote>
+<p>注意数组方法传入函数时函数被传入的参数，比如<code>Array.prototype.replace()</code>方法，传入<code>function</code>作为参数时，传入function的参数为<br>    function(match, contents, offset, s)</p>
+</blockquote>
+<h3>整体架构</h3>
+<h3>小结一下</h3>
+<p>其实如果是为了看各种方法的实现的话，还有很多其他的代码可以看，比如经典的<a href="">undercorejs</a>、<a href="">undercore.String</a>、<a href="">ployfill</a>等，zepto源码完整的阅读下来，收获更多的是一个框架的整体架构和书写方式。之前阅读jQuery的时候，感觉读的晕晕的，因为源码太长了，阅读起来花的时间也比较长，看了前面忘了后面，没有一种整体把握的感觉。当然也可能是我阅读的方法不对，比如分模块阅读可能会好点。zepto则完全不一样，它只有1500行，详细的看每一条语句也不会花超过一天的时间，即使一句句的顺序往下看也不会迷失。zepto整个源码阅读下来非常顺畅，一气呵成，就像它宣扬的，“clear and concise”。</p>
+<h3>吐糟</h3>
+<ul>
+<li>代码风格有点让人受不了啊=。=居然不写分号，酱紫真的好么？！！！</li>
+<li>风格不够统一，明明定义了<code>isObject()</code>方法，有的地方使用，有的地方又忘了使用，跑去用<code>typeof</code>了……</li>
+<li>大量使用三元运算符，阅读起来有点困难啊，不过倒是蛮cool滴^_^</li>
+</ul>
+
+          
+        </div>
+
+
+</article>
+
+
+<script src="/js/article.js"></script>
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   
@@ -189,6 +519,64 @@
 <p>
             <p style="text-align:right">
               <a href="/2014/05/26/vibrate_api/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+<script src="/js/article.js"></script>
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-05-24T15:10:54.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  May 24 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/HTML5/">HTML5</a>, <a href="/tags/geolocation/">geolocation</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/05/24/geolocation/" itemprop="url">
+            使用HTML5 geolocation API获取地理位置</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>这两天在忙毕设，所以暂时就玩一些简单点的API，今天这个geolocation也很简单。其实之前看<a href="http://book.douban.com/subject/10608238/" target="_blank">《HTML5程序设计》</a>的时候都有玩过这些API，但都没记录下来，所以过段时间也就都忘了，没有融入到自己的知识系统中去。这次趁着毕设这段时间系统的再学习一遍，顺便写点博客，代码也都保存到github上去，方便自己进行总结和查看，如果能顺便帮到他人的话，那真真是极好的啦~</p>
+<h3>如何使用</h3>
+<h4>检测支持</h4>
+<pre><code><span class="keyword">if</span>('geolocation' <span class="keyword">in</span> navigator){
+    //<span class="keyword">get</span> <span class="keyword">the</span> user location
+} <span class="keyword">else</span>{
+    //<span class="keyword">tell</span> user <span class="keyword">to</span> update his browser
+}</code></pre>
+<p>
+            <p style="text-align:right">
+              <a href="/2014/05/24/geolocation/" class="more-link">
                 Continue Reading
               </a>
             </p>
@@ -305,7 +693,7 @@
             <p>前两天发现一款app，安装了app和相应的chrome插件以后，可以将安卓手机上的消息在电脑桌面上弹窗显示。这样一来，工作的时候就可以完全把手机扔在一边安心工作了，而不用时时查看是否错过了什么消息，如下图所示：</p>
 <p><img src="/img/post/notification.png" alt="notification"></p>
 <p>这个应用实现的原理其实很简单，大概原理是，监听手机的消息系统，当有新消息的时候就同步到服务器，服务器接收到通知，然后通过HTML5的Notification API推送消息到电脑。之前有玩过这个API，这次再完整地学习一遍，记录下来。</p>
-<h3>概览</h3>
+<h3>如何使用</h3>
 <h4>申请权限</h4>
 <p>出于安全考虑，要发送桌面消息，需要先申请用户授权。Notification对象提供了一个静态的方法——<code>requestPermission()</code>，它接收一个回调函数作为参数，并把返回值传递给回调函数作为参数：</p>
 <pre><code>Notification<span class="preprocessor">.requestPermission</span>(function(status){
@@ -575,174 +963,6 @@ inherit(Child,<span class="keyword">Parent</span>);</code></pre>
 
 <script src="/js/article.js"></script>
 
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  
-	<div class="meta">
-          
-<div class="date">
-
-<time datetime="2013-12-31T14:21:52.000Z"
-      
-      data-updated="true"
-       itemprop="datePublished">
-  Dec 31 2013
-</time>
-
-
-
-
-
-</div>
-
-          
-
- 
- <div class="tags">
-   <a href="/tags/Life/">Life</a>
- </div>
-
-
-          
-	</div>
-        <h1 class="title" itemprop="name">
-          <a href="/2013/12/31/Bye-2013,-Hello-2014/" itemprop="url">
-            Bye 2013, Hello 2014</a>
-        </h1>
-        <div class="entry-content" itemprop="articleBody">
-          
-            <p>还记得去年元旦之前的那个晚上，自己一个人在东十二的517自习，那段时间正是我写博客最频繁的时期，但大都是技术相关的笔记，无关生活，或者说生活单调的以至于没有东西可写。坐在自习室中，看着大家分享着各自的年终总结，自己当时也很想写一篇，但最终还是舍不得花那个时间，只在微博上留了一句：</p>
-<p><img src="/img/post/weibo1.png" alt="weibo1"></p>
-<p>后来呢？大年三十也还是没有写年终总结，如今，关于2012年的记忆，可能只剩下暑假骑行川藏线的片段了以及自习室里的“有缘人”了，其他的呢，需要很努力才想的起来零星点点。之前自己也感叹过，为很多记忆碎片不经整理，慢慢的从脑海中溢出而感到可惜，现在既然决心要改善了，那今年这篇年终总结就不能再错过了。Not only let go, but also remember, remember for the future.<br>
-            <p style="text-align:right">
-              <a href="/2013/12/31/Bye-2013,-Hello-2014/" class="more-link">
-                Continue Reading
-              </a>
-            </p>
-          
-        </div>
-
-
-</article>
-
-
-<script src="/js/article.js"></script>
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  
-	<div class="meta">
-          
-<div class="date">
-
-<time datetime="2013-12-22T10:53:50.000Z"
-      
-      data-updated="true"
-       itemprop="datePublished">
-  Dec 22 2013
-</time>
-
-
-
-
-
-</div>
-
-          
-
- 
- <div class="tags">
-   <a href="/tags/python/">python</a>
- </div>
-
-
-          
-	</div>
-        <h1 class="title" itemprop="name">
-          <a href="/2013/12/22/python-tutorial/" itemprop="url">
-            python-tutorial</a>
-        </h1>
-        <div class="entry-content" itemprop="articleBody">
-          
-            <p>花了几天的时间把python官网的英文教程翻看了一遍，做了一点笔记。之前有在dive into python和learn python in the hard way上系统的学习过python，但时间久了，很多基础的东西都不记得的（虽说其实很多都差不多==），所以这次再看官网英文教程的时候顺便做了下笔记。不同语言之间所共有的就不记录了，记录一点python所特有的方法，或是我之前没接触过的。</p>
-<h2>number</h2>
-<p><strong>1.</strong>python支持虚数，虚数位以<code>j</code>或<code>J</code>为后缀，如下所示：</p>
-<pre><code><span class="attribute">1+2j</code></pre>
-<p>如果要分别获得虚数的实部和虚部，可以使用下面的方式：</p>
-<pre><code>a = -<span class="number">1</span> + <span class="number">0.5</span>j
-a<span class="variable">.real</span> <span class="preprocessor">#实部</span>
-a<span class="variable">.imag</span> <span class="preprocessor">#虚部</span></code></pre>
-<p>在交互状态下，最后一次输出的结果会赋值给<code>_</code>，如下例所示：</p>
-<pre><code><span class="title">tax</span> = <span class="number">12.5</span> / <span class="number">100</span>
-<span class="title">price</span> = <span class="number">100.50</span>
-<span class="title">price</span> * tax # <span class="number">12.5625</span>
-<span class="title">price</span> + _ # <span class="number">113.0625</span>
-<span class="title">round</span>(_,<span class="number">2</span>)</code></pre>
-<h2>string</h2>
-
-            <p style="text-align:right">
-              <a href="/2013/12/22/python-tutorial/" class="more-link">
-                Continue Reading
-              </a>
-            </p>
-          
-        </div>
-
-
-</article>
-
-
-<script src="/js/article.js"></script>
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  
-	<div class="meta">
-          
-<div class="date">
-
-<time datetime="2013-10-24T15:39:08.000Z"
-      
-      data-updated="true"
-       itemprop="datePublished">
-  Oct 24 2013
-</time>
-
-
-
-
-
-</div>
-
-          
-
- 
- <div class="tags">
-   <a href="/tags/thought/">thought</a>
- </div>
-
-
-          
-	</div>
-        <h1 class="title" itemprop="name">
-          <a href="/2013/10/24/why-i-build-the-website-ihuster.com/" itemprop="url">
-            我为什么要做这个社区？</a>
-        </h1>
-        <div class="entry-content" itemprop="articleBody">
-          
-            <p>这个社区其实是我的第二次尝试，第一次尝试大概在半年前，从大三的那个寒假开始，持续了两三个月的时间，最后因为种种原因静默的失败了，没有向任何人提起。一个星期前突然大脑短路，不小心删掉了开发盘上的所有数据，导致曾经的尝试记录全部都丢失了，那两三个月里所有的努力似乎也突然被抹去了，没有留下任何的痕迹。</p>
-<p>自我从拉萨回来，更新完游记之后，到现在将近一年的时间里，我的QQ空间和微博几乎都停止更新，这次我再度回到社交网络，并带来了自己的社交网站，必然是带着自己思考而来的。两年前我在QQ空间上说过，我们成长的过程中有两件事情亟待解决，一个是认识自己，一个是认识世界，这个社交网站就是结合现阶段我对自我的认识以及对这个世界的理解而建造的。
-            <p style="text-align:right">
-              <a href="/2013/10/24/why-i-build-the-website-ihuster.com/" class="more-link">
-                Continue Reading
-              </a>
-            </p>
-          
-        </div>
-
-
-</article>
-
-
-<script src="/js/article.js"></script>
-
 </div>
 
 <nav id="pagenavi">
@@ -753,7 +973,7 @@ a<span class="variable">.imag</span> <span class="preprocessor">#虚部</span></
         </a>
     
     <div class="center">
-      <a href="archives">Blog Archives</a>
+      <a href="./archives">Blog Archives</a>
     </div>
 </nav>
 </div>

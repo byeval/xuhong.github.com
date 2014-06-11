@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Remember, Let go, Move on.]]></subtitle>
   <link href="http://beyoung.me/atom.xml" rel="self"/>
   <link href="http://beyoung.me"/>
-  <updated>2014-06-01T12:57:19.169Z</updated>
+  <updated>2014-06-11T01:58:32.490Z</updated>
   <id>http://beyoung.me/</id>
   <author>
     <name><![CDATA[BeYoung]]></name>
@@ -12,11 +12,264 @@
   </author>
   <generator uri="http://zespia.tw/hexo">Hexo</generator>
   <entry>
+    <title type="html"><![CDATA[移动设备触摸屏事件]]></title>
+    <link href="http://beyoung.me/2014/06/06/touch_events/"/>
+    <id>http://beyoung.me/2014/06/06/touch_events/</id>
+    <published>2014-06-05T16:07:15.000Z</published>
+    <updated>2014-06-11T01:56:53.000Z</updated>
+    <content type="html"><![CDATA[<p><code>zepto</code>在移动设备上得到大范围的使用，一方面是因为其体积很小，加载速度快，另外一方面就是由于它对触摸屏事件的支持很优秀。它有一个<code>touch</code>模块，用来处理移动设备上的点击（<code>tap</code>）和滑动（<code>swipe</code>）事件，主要就是通过对<code>touchEvent</code>的属性来实现的。</p>
+<h3>属性列表</h3>
+<p><strong><code>Touch</code></strong>对象有如下几个属性：</p>
+<ul>
+<li>identifier</li>
+<li>target</li>
+<li>screenX</li>
+<li>screenY</li>
+<li>clientX</li>
+<li>clientY</li>
+<li>pageX</li>
+<li>pageY</li>
+</ul>
+<p><code>identifier</code>是每个触摸点的身份证明，以此来区分不同的触摸点。<code>target</code>是触摸点所在的元素。其他的属性通过名称就都可以知道了。</p>
+<p><strong><code>TouchList</code></strong>对象包含一个触摸事件中的所有触摸点的列表。有一个<code>length</code>属性和<code>item</code>方法，<code>item(0)</code>可以获得列表中第一个触摸点。</p>
+<p><strong><code>TouchEvent</code></strong>对象有如下几个属性：</p>
+<ul>
+<li>touches</li>
+<li>targetTouches</li>
+<li>changedTouches</li>
+<li>altKey</li>
+<li>metaKey</li>
+<li>ctrlKey</li>
+<li>shiftKey</li>
+</ul>
+<p><code>touches</code>是与屏幕接触的所有触摸点数组，<code>targetTouches</code>是目标DOM元素上的触摸点数组，<code>changedTouches</code>是发生改变了的触摸点数组，它们都是<code>touchList</code>对象，后面四个都是布尔值，表示触摸时相应的键是否被按下。</p>
+<h3>事件类型</h3>
+<p><code>touchEvent</code>有以下四种事件类型：</p>
+<ul>
+<li>touchstart //开始</li>
+<li>touchend  //结束</li>
+<li>touchmove  //移动</li>
+<li>touchcancel  //取消</li>
+</ul>
+<h3>例子</h3>
+<p>手指拖动元素</p>
+<div style="position:relative;width:100%;height:320px;background:#f1f1f1;padding:0"><div id="dragme" style="position:absolute;left:0;top:0;width:40px;height:40px;background:#11ff11"></div><br></div>
+
+
+<p>判断滑动方向：</p>
+<div id="swipe" style="width:100%;height:320px;background:#f1f1f1;padding:0"></div>
+
+<p>canvas画布绘画：</p>
+<canvas id="canvas" style="width:100%;height:320px;background:#f1f1f1;padding:0"></canvas>
+
+<p>禁止缩放和滚动：<br>禁止缩放使用<code>viewport</code>即可，禁止滚动需要禁止<code>touchmove</code>的默认事件：</p>
+<pre><code><span class="transposed_variable">document.</span><span class="transposed_variable">body.</span>addEventListener(<span class="string">'touchmove'</span>, <span class="keyword">function</span>(event) <span class="cell">{
+  event.preventDefault();
+}</span>, false);     </code></pre>
+<h3>参考资料</h3>
+<ul>
+<li>zepto: <a href="https://github.com/madrobby/zepto/blob/master/src/touch.js" target="_blank">touch.js</a></li>
+<li>w3c: <a href="http://www.w3.org/TR/touch-events" target="_blank">touch-events</a></li>
+</ul>
+<script>
+    function $(id){
+        return document.getElementById(id);
+    }
+
+    var dragme = $('dragme');
+
+    dragme.addEventListener('touchmove', function(e){
+        if(e.targetTouches.length === 1){
+            var point = e.targetTouches[0];
+            console.log(point.identifier);
+            dragme.style.left = point.pageX + 'px';
+            dragme.style.top = point.pageY + 'px';
+        }
+    });
+
+    var swipe = $('swipe'),
+        touch = {};
+
+    function swipeDirection(x1, x2, y1, y2) {
+        return Math.abs(x1 - x2) >= Math.abs(y1 - y2) ? (x1 - x2 > 0 ? 'Left' : 'Right') : ( y1 - y2 > 0 ? 'Up' : 'Down')
+    }
+
+    swipe.addEventListener('touchstart', function(e){
+        if(e.targetTouches.length === 1) {
+            var point = e.targetTouches[0];
+            touch.x1 = point.pageX;
+            touch.y1 = point.pageY;
+            console.log('touchstart')
+        }
+    });
+
+    swipe.addEventListener('touchend', function(e){
+        if(e.targetTouches.length === 1) {
+            e.preventDefault();
+            var point = e.targetTouches[0];
+            console.log('touchend');
+            touch.x2 = point.pageX;
+            touch.y2 = point.pageY;
+            direction = swipeDirection(touch.x1, touch.x2, touch.y1, touch.y2);
+            swipe.innerHTML = '你的滑动方向是：' + direction;
+            console.log(direction);
+        }
+    });
+
+    swipe.addEventListener('touchmove',function(e){
+        e.preventDefault();
+    });
+
+    var canvas = $('canvas'),
+        ctx = canvas.getContext('2d');
+        ctx.strokeStyle = 'rgba(0,0,0,1)';
+        ctx.lineWidth = 3;
+    var x,y,point;
+
+    canvas.addEventListener('touchstart', function(e){
+        if(e.targetTouches.length === 1) {
+            point = e.changedTouches[0];
+            x = point.pageX;
+            y = point.pageY;
+            console.log(x+','+y);
+            console.log(e.touches);
+        }
+    });
+
+    canvas.addEventListener('touchmove', function(e){
+        if(e.touches.length === 1) {
+            e.preventDefault();
+            ctx.beginPath();
+            ctx.moveTo(x,y);
+            point = e.changedTouches[0];
+            x = e.changedTouches[0].pageX;
+            y = e.changedTouches[0].pageY;
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.closePath();
+            console.log(x+','+y);
+        }
+    });
+
+    canvas.addEventListener('touchend', function(e){
+        if(e.touches.length === 0){
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            point = e.changedTouches[0];
+            x = point.pageX;
+            y = point.pageY;
+            ctx.lineTo(x,y);
+            ctx.stroke();
+            ctx.closePath();
+            console.log(x+','+y);
+        }
+    });
+
+    // canvas.on('touchstart',function(e){
+    //    if(e.originalEvent.touches.length===1){
+    //        x = e.originalEvent.changedTouches[0].pageX;
+    //        y = e.originalEvent.changedTouches[0].pageY; 
+    //        $('#output').text(x+','+y);
+    //    }    
+ //   }); 
+ //   canvas.on('touchmove',function(e){
+    //    e.preventDefault();
+    //    if(e.originalEvent.touches.length===1){
+    //        context.beginPath();
+    //        context.moveTo(x,y);
+    //        x = e.originalEvent.changedTouches[0].pageX;
+    //        y = e.originalEvent.changedTouches[0].pageY; 
+    //        context.lineTo(x,y);
+    //        context.stroke();
+    //        context.closePath();
+    //        $('#output').text(x+','+y);
+    //    }    
+ //   });
+ //   canvas.on('touchend',function(e){
+    //    if(e.originalEvent.touches.length===0){
+    //        context.beginPath();
+    //        context.moveTo(x,y);
+    //        x = e.originalEvent.changedTouches[0].pageX;
+    //        y = e.originalEvent.changedTouches[0].pageY; 
+    //        context.lineTo(x,y);
+    //        context.stroke();
+    //        context.closePath();
+    //        $('#output').text(x+','+y);
+    //    }    
+ //   });
+
+
+</script>]]></content>
+    <category scheme="http://beyoung.me/tags/HTML5/" term="HTML5"/>
+    <category scheme="http://beyoung.me/tags/touch_event/" term="touch_event"/>
+    <category scheme="http://beyoung.me/tags/zepto/" term="zepto"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[zepto源码阅读笔记]]></title>
+    <link href="http://beyoung.me/2014/05/31/read_the_zepto_source_code/"/>
+    <id>http://beyoung.me/2014/05/31/read_the_zepto_source_code/</id>
+    <published>2014-05-31T07:53:38.000Z</published>
+    <updated>2014-06-09T15:18:34.000Z</updated>
+    <content type="html"><![CDATA[<p>花了一下午的时间阅读了zepto的源码，就像<a href="http://zeptojs.com" target="_blank">zepto首页</a>的那个幻灯片说的，从zepto精简的源码中学习如何实现你最喜欢的方法。提升你的代码功力。其他的不多说了，主要记录遇到的疑惑和解决疑惑中学到的知识。</p>
+<h3>源码解析</h3>
+<p><code>zepto</code>有一个<code>matches</code>方法:</p>
+<pre><code>zepto<span class="variable">.matches</span> = function(element, <span class="keyword">selector</span>) {
+  <span class="keyword">if</span> (!<span class="keyword">selector</span> || !element || element<span class="variable">.nodeType</span> !== <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>
+  var matchesSelector = element<span class="variable">.webkitMatchesSelector</span> || element<span class="variable">.mozMatchesSelector</span> ||
+                        element<span class="variable">.oMatchesSelector</span> || element<span class="variable">.matchesSelector</span>
+  <span class="keyword">if</span> (matchesSelector) <span class="keyword">return</span> matchesSelector<span class="variable">.call</span>(element, <span class="keyword">selector</span>)
+  <span class="comment">// fall back to performing a selector:</span>
+  var match, parent = element<span class="variable">.parentNode</span>, temp = !parent
+  <span class="keyword">if</span> (temp) (parent = tempParent)<span class="variable">.appendChild</span>(element)
+  match = ~zepto<span class="variable">.qsa</span>(parent, <span class="keyword">selector</span>)<span class="variable">.indexOf</span>(element)
+  temp &amp;&amp; tempParent<span class="variable">.removeChild</span>(element)
+  <span class="keyword">return</span> match
+  }</code></pre>
+<p>其中有如一行代码：</p>
+<pre><code>match = ~zepto<span class="variable">.qsa</span>(parent, <span class="keyword">selector</span>)<span class="variable">.indexOf</span>(element)</code></pre>
+<blockquote>
+<p>Q: 为什么要使用按位取反符号呢？</p>
+<p>A:因为JS中<code>0</code>是被转换作<code>false</code>值的，其他的数字都被转换为<code>true</code>值，而<code>indexOf</code>方法在没有发现匹配的时候是返回<code>-1</code>，直接用它进行判断也可以，比如判断返回值是否等于<code>-1</code>，不过这样不够cool，所以这里就用了这个小hack，<code>~-1 === 0</code></p>
+</blockquote>
+<p><a href="http://stackoverflow.com/questions/15961998/understand-zepto-matches-function" target="_blank">参考</a>。另外，matchesSelector也值得注意一下。</p>
+<p>再看看<code>dasherize</code>方法：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">dasherize</span><span class="params">(str)</span> {</span>
+    <span class="keyword">return</span> <span class="transposed_variable">str.</span>replace(/::/g, <span class="string">'/'</span>)
+       .replace(/(<span class="matrix">[A-Z]</span>+)(<span class="matrix">[A-Z]</span><span class="matrix">[a-z]</span>)/g, <span class="string">'$1_$2'</span>)
+       .replace(/(<span class="matrix">[a-z\d]</span>)(<span class="matrix">[A-Z]</span>)/g, <span class="string">'$1_$2'</span>)
+       .replace(/_/g, <span class="string">'-'</span>)
+       .toLowerCase()
+  }</code></pre>
+<p>这个<code>$1</code>、<code>$2</code>肯定都知道，就是分组匹配的第一组和第二组，那么下面的<code>$1</code>呢？</p>
+<pre><code>var singleTagRE = /^&lt;(\w+)\s<span class="variable">*\</span>/?&gt;(?:&lt;\/\<span class="number">1</span>&gt;|)<span class="variable">$/</span>;
+<span class="keyword">if</span> (singleTagRE.test(html)) dom = <span class="variable">$(</span>document.createElement(RegExp.<span class="variable">$1</span>))</code></pre>
+<blockquote>
+<p>Q: <code>RegExp.$1</code>是什么？</p>
+<p>A:在模式匹配期间找到的，所存储的最近的1个部分，上面例子中的就是<code>(\w+)</code>对应的tag名称。只读。全局对象<code>RegExp</code>会在每次成功匹配一个带括号的分组时，将匹配成功的结果存储起来。每当产生一个带括号的成功匹配时，$1…$9 属性的值就被修改。 可以在一个正则表达式模式中指定任意多个带括号的子匹配，但只能存储最新的九个。</p>
+</blockquote>
+<h4>其他</h4>
+<blockquote>
+<p>注意数组方法传入函数时函数被传入的参数，比如<code>Array.prototype.replace()</code>方法，传入<code>function</code>作为参数时，传入function的参数为<br>    function(match, contents, offset, s)</p>
+</blockquote>
+<h3>整体架构</h3>
+<h3>小结一下</h3>
+<p>其实如果是为了看各种方法的实现的话，还有很多其他的代码可以看，比如经典的<a href="">undercorejs</a>、<a href="">undercore.String</a>、<a href="">ployfill</a>等，zepto源码完整的阅读下来，收获更多的是一个框架的整体架构和书写方式。之前阅读jQuery的时候，感觉读的晕晕的，因为源码太长了，阅读起来花的时间也比较长，看了前面忘了后面，没有一种整体把握的感觉。当然也可能是我阅读的方法不对，比如分模块阅读可能会好点。zepto则完全不一样，它只有1500行，详细的看每一条语句也不会花超过一天的时间，即使一句句的顺序往下看也不会迷失。zepto整个源码阅读下来非常顺畅，一气呵成，就像它宣扬的，“clear and concise”。</p>
+<h3>吐糟</h3>
+<ul>
+<li>代码风格有点让人受不了啊=。=居然不写分号，酱紫真的好么？！！！</li>
+<li>风格不够统一，明明定义了<code>isObject()</code>方法，有的地方使用，有的地方又忘了使用，跑去用<code>typeof</code>了……</li>
+<li>大量使用三元运算符，阅读起来有点困难啊，不过倒是蛮cool滴^_^</li>
+</ul>
+]]></content>
+    <category scheme="http://beyoung.me/tags/zepto/" term="zepto"/>
+    <category scheme="http://beyoung.me/tags/source/" term="source"/>
+  </entry>
+  <entry>
     <title type="html"><![CDATA[使用vibrate api在移动设备上发出震动]]></title>
     <link href="http://beyoung.me/2014/05/26/vibrate_api/"/>
     <id>http://beyoung.me/2014/05/26/vibrate_api/</id>
     <published>2014-05-26T10:39:43.000Z</published>
-    <updated>2014-06-01T12:57:07.000Z</updated>
+    <updated>2014-06-01T15:41:56.000Z</updated>
     <content type="html"><![CDATA[<p>前两天写了<a href="http://beyoung.me/2014/05/22/notification/">Notification API</a>的使用，后来一想，这个提醒对桌面的意义其实要大于移动设备，比如chrome为此专门建立一个消息中心的扩展。对移动设备而言，这种消息提醒并不能引起注意，当手机装在口袋的时候，我们并不能及时的收到提醒。那么移动设备是怎么提醒我们的呢？——使用铃声和震动。然后发现HTML5真有一个震动的API——vibrate。</p>
 <h3>如何使用</h3>
 <p>vibrate API的使用非常简单，无需申请权限，这一点其实也有待商议，是否会骚扰用户？</p>
@@ -58,11 +311,12 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
 <p>IE系列都不兼容，chrome和firefox最新版本都兼容：<br><img src="/img/post/caniusevibrate.png" alt="caniuse vibrate"></p>
 <h3>BUG</h3>
 <ol>
-<li>这个api不能和<code>visibilityState</code>组合使用，我在android chorme35上测试，监听<code>visibilityChange</code>事件，当它发生变化时就发出震动：<br> document.addEventListener(“visibilityChange”, peristVibrate());</li>
-</ol>
-<p>这段代码导致chrome上震动出现异常，变成那种很轻微的抽搐似的震动。。firefox则不受影响。</p>
-<ol>
-<li><code>navigator.vibrate([1000,500,1000,500])</code>这种方式的震动在firefox上是不能被取消的，因为它自己在震动结束后会自动取消，所以上面提到的两种取消震动的方式对它都没用。但在chrome上却是可以取消的，不过需要一一对应，也就是说<code>navigator.vibrate([1000,500,1000,500])</code>需要<code>navigator.vibrate([])</code>来取消，<code>navigator.vibrate(1000)</code>需要<code>navigator.vibrate()</code>来取消。</li>
+<li><p>这个api不能和<code>visibilityState</code>组合使用，我在android chorme35上测试，监听<code>visibilityChange</code>事件，当它发生变化时就发出震动：</p>
+<pre><code> document<span class="preprocessor">.addEventListener</span>(<span class="string">"visibilityChange"</span>, peristVibrate())<span class="comment">;</span></code></pre>
+<p> 这段代码导致chrome上震动出现异常，变成那种很轻微的抽搐似的震动。。firefox则不受影响。</p>
+</li>
+<li><p><code>navigator.vibrate([1000,500,1000,500])</code>这种方式的震动在firefox上是不能被取消的，因为它自己在震动结束后会自动取消，所以上面提到的两种取消震动的方式对它都没用。但在chrome上却是可以取消的，不过需要一一对应，也就是说<code>navigator.vibrate([1000,500,1000,500])</code>需要<code>navigator.vibrate([])</code>来取消，<code>navigator.vibrate(1000)</code>需要<code>navigator.vibrate()</code>来取消。</p>
+</li>
 </ol>
 <h3>展望</h3>
 <p>这个API是纯粹的为移动设备而存在的，尤其是基于browser的实时web app，如游戏、聊天，但现在这个API还远不够好玩，因为在<code>visibilityState</code>为<code>false</code>的时候浏览器会自动取消震动，出于对移动设备耗电的考虑。这样的话，想用这个api来进行提醒的目的就达不到了。但对于web app游戏而言还是有用处的，可以使用它大大的提高用户体验。等将来移动设备的性能越来越好，移动网络越来越快，浏览器的生态系统更加完善的时候，基本上所有的独立应用都可以不需要了，游戏、聊天等都可以在浏览器中进行，不过这貌似得很久很久以后了。。。突然想到，话说现在不是各种智能设备炒得火热么？前端工程师是不是也可以做个智能震动棒啥的了。。。</p>
@@ -85,8 +339,8 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
                 startVibrate(duration);
             }, interval);
     }
-
-    var btn = document.getElementsByTagName('button');
+    var con = document.getElementById('content'),
+        btn = con.getElementsByTagName('button');
     btn[0].addEventListener('click',function(){
         startVibrate(1000);
     });
@@ -103,6 +357,244 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
 </script>]]></content>
     <category scheme="http://beyoung.me/tags/HTML5/" term="HTML5"/>
     <category scheme="http://beyoung.me/tags/vibrate/" term="vibrate"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[使用HTML5 geolocation API获取地理位置]]></title>
+    <link href="http://beyoung.me/2014/05/24/geolocation/"/>
+    <id>http://beyoung.me/2014/05/24/geolocation/</id>
+    <published>2014-05-24T15:10:54.000Z</published>
+    <updated>2014-06-06T03:48:31.000Z</updated>
+    <content type="html"><![CDATA[<p>这两天在忙毕设，所以暂时就玩一些简单点的API，今天这个geolocation也很简单。其实之前看<a href="http://book.douban.com/subject/10608238/" target="_blank">《HTML5程序设计》</a>的时候都有玩过这些API，但都没记录下来，所以过段时间也就都忘了，没有融入到自己的知识系统中去。这次趁着毕设这段时间系统的再学习一遍，顺便写点博客，代码也都保存到github上去，方便自己进行总结和查看，如果能顺便帮到他人的话，那真真是极好的啦~</p>
+<h3>如何使用</h3>
+<h4>检测支持</h4>
+<pre><code><span class="keyword">if</span>('geolocation' <span class="keyword">in</span> navigator){
+    //<span class="keyword">get</span> <span class="keyword">the</span> user location
+} <span class="keyword">else</span>{
+    //<span class="keyword">tell</span> user <span class="keyword">to</span> update his browser
+}</code></pre>
+<p><a id="more"></a></p>
+<h4>获取位置</h4>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">geolocation</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (<span class="transposed_variable">navigator.</span>geolocation)<span class="cell">{
+        navigator.geolocation.getCurrentPosition(geo_success, geo_error, geo_options);
+    }</span> <span class="keyword">else</span><span class="cell">{
+        console.log(<span class="string">'Geolocation is not support by this browser'</span>);
+    }</span>
+}
+<span class="function"><span class="keyword">function</span> <span class="title">geo_success</span><span class="params">(position)</span>{</span>
+    var crd = <span class="transposed_variable">position.</span>coords;
+    <span class="transposed_variable">console.</span><span class="built_in">log</span>(<span class="string">'我找到你啦，你在：'</span>)
+    <span class="transposed_variable">console.</span><span class="built_in">log</span>(<span class="string">'latitude: '</span> + <span class="transposed_variable">crd.</span>latitude);
+    <span class="transposed_variable">console.</span><span class="built_in">log</span>(<span class="string">'longitude: '</span> + <span class="transposed_variable">crd.</span>longitude);
+    <span class="transposed_variable">console.</span><span class="built_in">log</span>(<span class="string">'accuracy: '</span> + <span class="transposed_variable">crd.</span>accuracy);
+    <span class="transposed_variable">console.</span><span class="built_in">log</span>(<span class="string">'timestamp:'</span> + <span class="transposed_variable">position.</span>timestamp);
+}
+<span class="function"><span class="keyword">function</span> <span class="title">geo_error</span><span class="params">(err)</span>{</span>
+    <span class="transposed_variable">console.</span>warn(<span class="string">'ERROE('</span> + <span class="transposed_variable">err.</span>code + <span class="string">'): '</span> + <span class="transposed_variable">err.</span>message)
+}
+var geo_options = <span class="cell">{
+    enableHighAccuracy: true,
+    maxmumAge:<span class="number">60000</span>,
+    timeout:<span class="number">10000</span> 
+}</span>;
+geolocation();</code></pre>
+<p><code>getCurrentPosition()</code>接受三个可选参数，分别是获取位置成功、失败的回调函数以及选项参数，当函数调用的时候，浏览器会向用户申请地理位置授权，用户授权之后，将会调用定位成功的回调函数并将<code>position</code>对象作为参数传入回调函数，<code>position</code>对象包含里面有两个属性，分别是坐标相关的值<code>coords</code>和获得对象的时间戳<code>timestamp</code>：</p>
+<pre><code>position = {
+    <span class="method">coords:</span>{},
+    <span class="method">timestamp:</span> <span class="string">''</span>
+}</code></pre>
+<p><code>coords</code>中包含了我们所需要的所有信息，但调用<code>getCurrentPosition()</code>方法时我们只能得到<code>latitude</code>、<code>longitude</code>、<code>accuracy</code>这三个参数，其余参数都为<code>null</code>：</p>
+<pre><code>coords = {
+    <span class="method">latitude:</span><span class="string">''</span>,
+    <span class="method">longitude:</span><span class="string">''</span>,
+    <span class="method">altitude:</span><span class="string">''</span>,
+    <span class="method">accuracy:</span><span class="string">''</span>,
+    <span class="method">altitudeAccuracy:</span><span class="string">''</span>,
+    <span class="method">heading:</span><span class="string">''</span>,
+    <span class="method">speed:</span><span class="string">''</span>,
+};</code></pre>
+<p>当用户拒绝授权地理定位时，就会触发定位失败的回调函数，并将<code>postionError</code>对象作为参数传入回调函数，<code>postionError</code>对象包含我们需要的错误信息，一般根据<code>code</code>的值来判断错误的原因并采取相应的措施：</p>
+<pre><code><span class="class">PositionError</span> = {
+    <span class="method">code:</span> <span class="number">1</span>,
+    <span class="method">message:</span> <span class="string">'User denied Geolocation'</span>
+}</code></pre>
+<p><code>code === 1</code> 对应<code>PERMISSION_DENIED</code>，<code>code === 2</code> 对应<code>POSITION_UNAVAILABLE</code>，<code>code === 3</code>对应<code>TIMEOUT</code>。</p>
+<p><code>position</code>对象接受三个可选的参数，分别是</p>
+<ul>
+<li><code>enableHighAccuracy</code></li>
+<li><code>maxmumAge</code></li>
+<li><code>timeout</code></li>
+</ul>
+<p>当<code>enableHighAccuracy</code>值为<code>true</code>时，表示使用高精度定位，这时返回的<code>position</code>对象的<code>accuracy</code>就会比较小，但这样会比较耗电，所以默认值为<code>false</code>。<br><code>maxmumAge</code>表示接受缓存的毫秒数，这是根据<code>position</code>对象的<code>timestamp</code>来进行判断的，如果下次调用时与上次调用之间间隔的时长小于这个值，就使用上次的值。默认为0，也就是立即更新。设置<code>maxmumAge</code>为<code>Infinity</code>则强制使用缓存的<code>postion</code>对象。<br><code>timeout</code>表示超时的毫秒数，因为定位是个比较耗电的操作，所以一般最好设置一下这个值，如果超过这个时长仍定位失败就停止定位或告知用户检查网络。<br>所以上面代码中就是表示使用高精度定位，1分钟以内的数据有效，定时超过10s就出发<code>TIMEOUT</code>错误。</p>
+<h4>实时更新</h4>
+<pre><code>watchid = navigator<span class="preprocessor">.geolocation</span><span class="preprocessor">.watchPosition</span>(geo_success, geo_error, geo_options)<span class="comment">;</span></code></pre>
+<p><code>watchPosition()</code>方法接受的参数和<code>getCurrentPosition()</code>一样，不一样的地方在于它会一直监测用户位置的变化，并持续调用。如果想要停止持续定位，使用下面这行代码即可：</p>
+<pre><code><span class="function"><span class="title">clearWatch</span><span class="params">(watchid)</span></code></pre>
+<p>另外，<code>watchPosition()</code>的<code>maxmumAge</code>指向第一次返回的<code>position</code>对象。</p>
+<h3>例子</h3>
+<p><button>Find me</button></p>
+<p><button>Fuck off</button><br>    <div id="map" style="font-weight:bold;"></div></p>
+<p>计算两个地点之间的距离可以通过下面的代码实现：</p>
+<pre><code>var totalDistance = <span class="number">0.0</span>,
+    lastLat,
+    lastLong;
+
+<span class="transposed_variable">Number.</span><span class="transposed_variable">prototype.</span>toRadians = <span class="keyword">function</span>()<span class="cell">{
+    return this*Math.PI/<span class="number">180</span>;
+}</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">getDistance</span><span class="params">(latitude1, longitude1, latitude2, longitude2)</span>{</span>
+    var R = <span class="number">6371</span>;
+    var deltaLatitude = (latitude2- latitude1).toRadians();
+    var deltaLongitude = (longitude2 - longitude1).toRadians();
+    var a = <span class="transposed_variable">Math.</span><span class="built_in">sin</span>(deltaLatitude/<span class="number">2</span>) * 
+            <span class="transposed_variable">Math.</span><span class="built_in">sin</span>(deltaLatitude/<span class="number">2</span>) + 
+            <span class="transposed_variable">Math.</span><span class="built_in">cos</span>(latitude1) *
+            <span class="transposed_variable">Math.</span><span class="built_in">cos</span>(latitude2) *
+            <span class="transposed_variable">Math.</span><span class="built_in">sin</span>(deltaLongitude/<span class="number">2</span>) *
+            <span class="transposed_variable">Math.</span><span class="built_in">sin</span>(deltaLongitude/<span class="number">2</span>);
+    var c = <span class="number">2</span> * <span class="transposed_variable">Math.</span><span class="built_in">atan2</span>(<span class="transposed_variable">Math.</span><span class="built_in">sqrt</span>(a), <span class="transposed_variable">Math.</span><span class="built_in">sqrt</span>(<span class="number">1</span>-a));
+    var d = R * c;
+    <span class="keyword">return</span> d;
+}</code></pre>
+<h3>兼容</h3>
+<p>形式一片大好，基本上所有的主流浏览器都支持啦，IE从9以后也开始支持了，移动浏览器基本上都支持，特意测试了一下UC和QQ浏览器，也是支持的~</p>
+<p><img src="/img/post/caniusegeolocation.png" alt="can i use geolocation"></p>
+<h3>展望</h3>
+<p>通过这个api，我们可以获得用户的地理位置，那么可以做些什么呢？比如web版的陌陌？比如跑步减肥的web app？</p>
+<h3>参考资料</h3>
+<ul>
+<li>W3C: <a href="http://www.w3.org/TR/geolocation-API/" target="_blank">geolocation</a></li>
+<li>MDN: <a href="https://developer.mozilla.org/en-US/docs/WebAPI/Using_geolocation" target="_blank">Using geolocation</a></li>
+<li>caniuse: <a href="http://caniuse.com/#feat=geolocation" target="_blank">geolocation</a></li>
+</ul>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Le0TTyOMqClUrYnCkxOVROlH"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+
+
+<script>
+    var geo = (function(){
+        var posArray = [],
+            options = {
+                enableHighAccuracy: true,
+                maxmumAge:1000,
+                timeout:10000
+            };
+
+        function isSupport(){
+            return 'geolocation' in navigator;;
+        }
+
+        function getGeo(){
+            isSupport() && navigator.geolocation.getCurrentPosition(success, error, options);
+        }
+
+        function watchGeo(){
+            isSupport() && navigator.geolocation.watchPosition(success, error, options);
+        }
+
+        function success(position){
+            var crd = position.coords,
+                pos = [crd.latitude, crd.longitude];
+            posArray.push(pos);
+            updatePos(posArray);
+            console.log('我找到你啦，你在：')
+            console.log('latitude: ' + crd.latitude);
+            console.log('longitude: ' + crd.longitude);
+            console.log('accuracy: ' + crd.accuracy);
+            console.log('timestamp:' + position.timestamp);
+        }
+
+        function error(err){
+            console.warn('ERROE(' + err.code + '): ' + err.message);
+        }
+
+        function clearGeo(watchid){
+            isSupport() && navigator.geolocation.clearWatch(watchid);
+        }
+
+        return {
+            getGeo: getGeo,
+            watchGeo: watchGeo,
+            clearGeo: clearGeo,
+            posArray: posArray
+        }
+    })();
+
+    Number.prototype.toRadians = function(){
+        return this*Math.PI/180;
+    }
+
+    function getDistance(latitude1, longitude1, latitude2, longitude2){
+        var R = 6371;
+        var deltaLatitude = (latitude2 - latitude1).toRadians();
+        var deltaLongitude = (longitude2 - longitude1).toRadians();
+        var a = Math.sin(deltaLatitude/2) * 
+                Math.sin(deltaLatitude/2) + 
+                Math.cos(latitude1) *
+                Math.cos(latitude2) *
+                Math.sin(deltaLongitude/2) *
+                Math.sin(deltaLongitude/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c;
+        return d;
+    };
+
+    var con = document.getElementById('content'),
+        btn = con.getElementsByTagName('button'),
+        map = document.getElementById('map'),
+        len,
+        totalDistance = 0.0;
+    function updatePos(posArray){
+        len = posArray.length;
+        var current = posArray[len-1],
+            previous = posArray[len-2];
+
+        if(len>1){
+            d = getDistance(previous[0], previous[1], current[0], current[1]);
+            totalDistance += d;
+            map.innerHTML = '你当前的位置是：' +
+                            '</br>latitude: ' +
+                            current[0] +
+                            '</br>longitude: ' +
+                            current[1] +
+                            '</br>距离上次地点的距离为' +
+                            d +
+                            '</br>总共移动了' +
+                            totalDistance;
+        } else {
+            map.innerHTML = '你当前的位置是：' +
+                            '</br>latitude: ' +
+                            current[0] +
+                            '</br>longitude: ' +
+                            current[1] ;
+        }
+        //drawMap(posArray);
+    }
+
+    function drawMap(posArray){
+        var newPos = posArray[posArray.length-1],
+            map = new BMap.Map('map'),
+            points = posArray.map(function(array){
+                return new Bmap.Point(array[0], array[1]);
+            }),
+            curve = new BMap.CurveLine(points, {strokeColor:"red", strokeWeight: 3, strokeOpacity: 0.5});
+        map.centerAndZoom(new Bmap.Point(newPos[0], newPos[1]), 10);
+        map.addOverlay(curve);
+        curve.enableEditing();
+    }
+
+    function rmap(){
+        geo.clearGeo();
+        map.innerHTML="";
+    }
+
+    btn[0].addEventListener('click', geo.watchGeo);
+    btn[1].addEventListener('click', rmap);
+
+</script>]]></content>
+    <category scheme="http://beyoung.me/tags/HTML5/" term="HTML5"/>
+    <category scheme="http://beyoung.me/tags/geolocation/" term="geolocation"/>
   </entry>
   <entry>
     <title type="html"><![CDATA[使用fullscreen API全屏浏览网页]]></title>
@@ -222,11 +714,11 @@ navigator<span class="preprocessor">.vibrate</span>([])<span class="comment">;</
     <link href="http://beyoung.me/2014/05/22/notification/"/>
     <id>http://beyoung.me/2014/05/22/notification/</id>
     <published>2014-05-22T12:04:41.000Z</published>
-    <updated>2014-06-01T09:04:03.000Z</updated>
+    <updated>2014-06-04T06:04:45.000Z</updated>
     <content type="html"><![CDATA[<p>前两天发现一款app，安装了app和相应的chrome插件以后，可以将安卓手机上的消息在电脑桌面上弹窗显示。这样一来，工作的时候就可以完全把手机扔在一边安心工作了，而不用时时查看是否错过了什么消息，如下图所示：</p>
 <p><img src="/img/post/notification.png" alt="notification"></p>
 <p>这个应用实现的原理其实很简单，大概原理是，监听手机的消息系统，当有新消息的时候就同步到服务器，服务器接收到通知，然后通过HTML5的Notification API推送消息到电脑。之前有玩过这个API，这次再完整地学习一遍，记录下来。</p>
-<h3>概览</h3>
+<h3>如何使用</h3>
 <h4>申请权限</h4>
 <p>出于安全考虑，要发送桌面消息，需要先申请用户授权。Notification对象提供了一个静态的方法——<code>requestPermission()</code>，它接收一个回调函数作为参数，并把返回值传递给回调函数作为参数：</p>
 <pre><code>Notification<span class="preprocessor">.requestPermission</span>(function(status){

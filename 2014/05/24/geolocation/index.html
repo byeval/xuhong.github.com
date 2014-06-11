@@ -1,0 +1,486 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+  
+  <title>使用HTML5 geolocation API获取地理位置 | ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  <meta name="description" content="Just another weblog.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="使用HTML5 geolocation API获取地理位置"/>
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="http://beyoung.me/images/gravatar.png"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+  <section class="aboutme">
+    <p>
+      Just another weblog.
+    </p>
+  </section>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/HTML5/">HTML5</a><small>5</small></li>
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/fullscreen/">fullscreen</a><small>1</small></li>
+  
+    <li><a href="/tags/geolocation/">geolocation</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/notification/">notification</a><small>1</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/source/">source</a><small>1</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+    <li><a href="/tags/touch_event/">touch_event</a><small>1</small></li>
+  
+    <li><a href="/tags/vibrate/">vibrate</a><small>1</small></li>
+  
+    <li><a href="/tags/zepto/">zepto</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<!--div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-05-24T15:10:54.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  May 24 2014
+</time>
+
+
+
+
+
+</div>
+
+	</div-->
+
+        <h1 class="title" itemprop="name">使用HTML5 geolocation API获取地理位置<div class="menu">
+          <i class="icon-list"></i>
+          <i class="icon-expand"></i>
+        </div></h1>
+      	<div class="entry-content" itemprop="articleBody"><p>这两天在忙毕设，所以暂时就玩一些简单点的API，今天这个geolocation也很简单。其实之前看<a href="http://book.douban.com/subject/10608238/" target="_blank">《HTML5程序设计》</a>的时候都有玩过这些API，但都没记录下来，所以过段时间也就都忘了，没有融入到自己的知识系统中去。这次趁着毕设这段时间系统的再学习一遍，顺便写点博客，代码也都保存到github上去，方便自己进行总结和查看，如果能顺便帮到他人的话，那真真是极好的啦~</p>
+<h3>如何使用</h3>
+<h4>检测支持</h4>
+<pre><code><span class="keyword">if</span>('geolocation' <span class="keyword">in</span> navigator){
+    //<span class="keyword">get</span> <span class="keyword">the</span> user location
+} <span class="keyword">else</span>{
+    //<span class="keyword">tell</span> user <span class="keyword">to</span> update his browser
+}</code></pre>
+<p><a id="more"></a></p>
+<h4>获取位置</h4>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">geolocation</span><span class="params">()</span>{</span>
+    <span class="keyword">if</span> (<span class="transposed_variable">navigator.</span>geolocation)<span class="cell">{
+        navigator.geolocation.getCurrentPosition(geo_success, geo_error, geo_options);
+    }</span> <span class="keyword">else</span><span class="cell">{
+        console.log(<span class="string">'Geolocation is not support by this browser'</span>);
+    }</span>
+}
+<span class="function"><span class="keyword">function</span> <span class="title">geo_success</span><span class="params">(position)</span>{</span>
+    var crd = <span class="transposed_variable">position.</span>coords;
+    <span class="transposed_variable">console.</span><span class="built_in">log</span>(<span class="string">'我找到你啦，你在：'</span>)
+    <span class="transposed_variable">console.</span><span class="built_in">log</span>(<span class="string">'latitude: '</span> + <span class="transposed_variable">crd.</span>latitude);
+    <span class="transposed_variable">console.</span><span class="built_in">log</span>(<span class="string">'longitude: '</span> + <span class="transposed_variable">crd.</span>longitude);
+    <span class="transposed_variable">console.</span><span class="built_in">log</span>(<span class="string">'accuracy: '</span> + <span class="transposed_variable">crd.</span>accuracy);
+    <span class="transposed_variable">console.</span><span class="built_in">log</span>(<span class="string">'timestamp:'</span> + <span class="transposed_variable">position.</span>timestamp);
+}
+<span class="function"><span class="keyword">function</span> <span class="title">geo_error</span><span class="params">(err)</span>{</span>
+    <span class="transposed_variable">console.</span>warn(<span class="string">'ERROE('</span> + <span class="transposed_variable">err.</span>code + <span class="string">'): '</span> + <span class="transposed_variable">err.</span>message)
+}
+var geo_options = <span class="cell">{
+    enableHighAccuracy: true,
+    maxmumAge:<span class="number">60000</span>,
+    timeout:<span class="number">10000</span> 
+}</span>;
+geolocation();</code></pre>
+<p><code>getCurrentPosition()</code>接受三个可选参数，分别是获取位置成功、失败的回调函数以及选项参数，当函数调用的时候，浏览器会向用户申请地理位置授权，用户授权之后，将会调用定位成功的回调函数并将<code>position</code>对象作为参数传入回调函数，<code>position</code>对象包含里面有两个属性，分别是坐标相关的值<code>coords</code>和获得对象的时间戳<code>timestamp</code>：</p>
+<pre><code>position = {
+    <span class="method">coords:</span>{},
+    <span class="method">timestamp:</span> <span class="string">''</span>
+}</code></pre>
+<p><code>coords</code>中包含了我们所需要的所有信息，但调用<code>getCurrentPosition()</code>方法时我们只能得到<code>latitude</code>、<code>longitude</code>、<code>accuracy</code>这三个参数，其余参数都为<code>null</code>：</p>
+<pre><code>coords = {
+    <span class="method">latitude:</span><span class="string">''</span>,
+    <span class="method">longitude:</span><span class="string">''</span>,
+    <span class="method">altitude:</span><span class="string">''</span>,
+    <span class="method">accuracy:</span><span class="string">''</span>,
+    <span class="method">altitudeAccuracy:</span><span class="string">''</span>,
+    <span class="method">heading:</span><span class="string">''</span>,
+    <span class="method">speed:</span><span class="string">''</span>,
+};</code></pre>
+<p>当用户拒绝授权地理定位时，就会触发定位失败的回调函数，并将<code>postionError</code>对象作为参数传入回调函数，<code>postionError</code>对象包含我们需要的错误信息，一般根据<code>code</code>的值来判断错误的原因并采取相应的措施：</p>
+<pre><code><span class="class">PositionError</span> = {
+    <span class="method">code:</span> <span class="number">1</span>,
+    <span class="method">message:</span> <span class="string">'User denied Geolocation'</span>
+}</code></pre>
+<p><code>code === 1</code> 对应<code>PERMISSION_DENIED</code>，<code>code === 2</code> 对应<code>POSITION_UNAVAILABLE</code>，<code>code === 3</code>对应<code>TIMEOUT</code>。</p>
+<p><code>position</code>对象接受三个可选的参数，分别是</p>
+<ul>
+<li><code>enableHighAccuracy</code></li>
+<li><code>maxmumAge</code></li>
+<li><code>timeout</code></li>
+</ul>
+<p>当<code>enableHighAccuracy</code>值为<code>true</code>时，表示使用高精度定位，这时返回的<code>position</code>对象的<code>accuracy</code>就会比较小，但这样会比较耗电，所以默认值为<code>false</code>。<br><code>maxmumAge</code>表示接受缓存的毫秒数，这是根据<code>position</code>对象的<code>timestamp</code>来进行判断的，如果下次调用时与上次调用之间间隔的时长小于这个值，就使用上次的值。默认为0，也就是立即更新。设置<code>maxmumAge</code>为<code>Infinity</code>则强制使用缓存的<code>postion</code>对象。<br><code>timeout</code>表示超时的毫秒数，因为定位是个比较耗电的操作，所以一般最好设置一下这个值，如果超过这个时长仍定位失败就停止定位或告知用户检查网络。<br>所以上面代码中就是表示使用高精度定位，1分钟以内的数据有效，定时超过10s就出发<code>TIMEOUT</code>错误。</p>
+<h4>实时更新</h4>
+<pre><code>watchid = navigator<span class="preprocessor">.geolocation</span><span class="preprocessor">.watchPosition</span>(geo_success, geo_error, geo_options)<span class="comment">;</span></code></pre>
+<p><code>watchPosition()</code>方法接受的参数和<code>getCurrentPosition()</code>一样，不一样的地方在于它会一直监测用户位置的变化，并持续调用。如果想要停止持续定位，使用下面这行代码即可：</p>
+<pre><code><span class="function"><span class="title">clearWatch</span><span class="params">(watchid)</span></code></pre>
+<p>另外，<code>watchPosition()</code>的<code>maxmumAge</code>指向第一次返回的<code>position</code>对象。</p>
+<h3>例子</h3>
+<p><button>Find me</button></p>
+<p><button>Fuck off</button><br>    <div id="map" style="font-weight:bold;"></div></p>
+<p>计算两个地点之间的距离可以通过下面的代码实现：</p>
+<pre><code>var totalDistance = <span class="number">0.0</span>,
+    lastLat,
+    lastLong;
+
+<span class="transposed_variable">Number.</span><span class="transposed_variable">prototype.</span>toRadians = <span class="keyword">function</span>()<span class="cell">{
+    return this*Math.PI/<span class="number">180</span>;
+}</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">getDistance</span><span class="params">(latitude1, longitude1, latitude2, longitude2)</span>{</span>
+    var R = <span class="number">6371</span>;
+    var deltaLatitude = (latitude2- latitude1).toRadians();
+    var deltaLongitude = (longitude2 - longitude1).toRadians();
+    var a = <span class="transposed_variable">Math.</span><span class="built_in">sin</span>(deltaLatitude/<span class="number">2</span>) * 
+            <span class="transposed_variable">Math.</span><span class="built_in">sin</span>(deltaLatitude/<span class="number">2</span>) + 
+            <span class="transposed_variable">Math.</span><span class="built_in">cos</span>(latitude1) *
+            <span class="transposed_variable">Math.</span><span class="built_in">cos</span>(latitude2) *
+            <span class="transposed_variable">Math.</span><span class="built_in">sin</span>(deltaLongitude/<span class="number">2</span>) *
+            <span class="transposed_variable">Math.</span><span class="built_in">sin</span>(deltaLongitude/<span class="number">2</span>);
+    var c = <span class="number">2</span> * <span class="transposed_variable">Math.</span><span class="built_in">atan2</span>(<span class="transposed_variable">Math.</span><span class="built_in">sqrt</span>(a), <span class="transposed_variable">Math.</span><span class="built_in">sqrt</span>(<span class="number">1</span>-a));
+    var d = R * c;
+    <span class="keyword">return</span> d;
+}</code></pre>
+<h3>兼容</h3>
+<p>形式一片大好，基本上所有的主流浏览器都支持啦，IE从9以后也开始支持了，移动浏览器基本上都支持，特意测试了一下UC和QQ浏览器，也是支持的~</p>
+<p><img src="/img/post/caniusegeolocation.png" alt="can i use geolocation"></p>
+<h3>展望</h3>
+<p>通过这个api，我们可以获得用户的地理位置，那么可以做些什么呢？比如web版的陌陌？比如跑步减肥的web app？</p>
+<h3>参考资料</h3>
+<ul>
+<li>W3C: <a href="http://www.w3.org/TR/geolocation-API/" target="_blank">geolocation</a></li>
+<li>MDN: <a href="https://developer.mozilla.org/en-US/docs/WebAPI/Using_geolocation" target="_blank">Using geolocation</a></li>
+<li>caniuse: <a href="http://caniuse.com/#feat=geolocation" target="_blank">geolocation</a></li>
+</ul>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Le0TTyOMqClUrYnCkxOVROlH"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+
+
+<script>
+    var geo = (function(){
+        var posArray = [],
+            options = {
+                enableHighAccuracy: true,
+                maxmumAge:1000,
+                timeout:10000
+            };
+
+        function isSupport(){
+            return 'geolocation' in navigator;;
+        }
+
+        function getGeo(){
+            isSupport() && navigator.geolocation.getCurrentPosition(success, error, options);
+        }
+
+        function watchGeo(){
+            isSupport() && navigator.geolocation.watchPosition(success, error, options);
+        }
+
+        function success(position){
+            var crd = position.coords,
+                pos = [crd.latitude, crd.longitude];
+            posArray.push(pos);
+            updatePos(posArray);
+            console.log('我找到你啦，你在：')
+            console.log('latitude: ' + crd.latitude);
+            console.log('longitude: ' + crd.longitude);
+            console.log('accuracy: ' + crd.accuracy);
+            console.log('timestamp:' + position.timestamp);
+        }
+
+        function error(err){
+            console.warn('ERROE(' + err.code + '): ' + err.message);
+        }
+
+        function clearGeo(watchid){
+            isSupport() && navigator.geolocation.clearWatch(watchid);
+        }
+
+        return {
+            getGeo: getGeo,
+            watchGeo: watchGeo,
+            clearGeo: clearGeo,
+            posArray: posArray
+        }
+    })();
+
+    Number.prototype.toRadians = function(){
+        return this*Math.PI/180;
+    }
+
+    function getDistance(latitude1, longitude1, latitude2, longitude2){
+        var R = 6371;
+        var deltaLatitude = (latitude2 - latitude1).toRadians();
+        var deltaLongitude = (longitude2 - longitude1).toRadians();
+        var a = Math.sin(deltaLatitude/2) * 
+                Math.sin(deltaLatitude/2) + 
+                Math.cos(latitude1) *
+                Math.cos(latitude2) *
+                Math.sin(deltaLongitude/2) *
+                Math.sin(deltaLongitude/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c;
+        return d;
+    };
+
+    var con = document.getElementById('content'),
+        btn = con.getElementsByTagName('button'),
+        map = document.getElementById('map'),
+        len,
+        totalDistance = 0.0;
+    function updatePos(posArray){
+        len = posArray.length;
+        var current = posArray[len-1],
+            previous = posArray[len-2];
+
+        if(len>1){
+            d = getDistance(previous[0], previous[1], current[0], current[1]);
+            totalDistance += d;
+            map.innerHTML = '你当前的位置是：' +
+                            '</br>latitude: ' +
+                            current[0] +
+                            '</br>longitude: ' +
+                            current[1] +
+                            '</br>距离上次地点的距离为' +
+                            d +
+                            '</br>总共移动了' +
+                            totalDistance;
+        } else {
+            map.innerHTML = '你当前的位置是：' +
+                            '</br>latitude: ' +
+                            current[0] +
+                            '</br>longitude: ' +
+                            current[1] ;
+        }
+        //drawMap(posArray);
+    }
+
+    function drawMap(posArray){
+        var newPos = posArray[posArray.length-1],
+            map = new BMap.Map('map'),
+            points = posArray.map(function(array){
+                return new Bmap.Point(array[0], array[1]);
+            }),
+            curve = new BMap.CurveLine(points, {strokeColor:"red", strokeWeight: 3, strokeOpacity: 0.5});
+        map.centerAndZoom(new Bmap.Point(newPos[0], newPos[1]), 10);
+        map.addOverlay(curve);
+        curve.enableEditing();
+    }
+
+    function rmap(){
+        geo.clearGeo();
+        map.innerHTML="";
+    }
+
+    btn[0].addEventListener('click', geo.watchGeo);
+    btn[1].addEventListener('click', rmap);
+
+</script></div>
+
+
+</article>
+
+  <!--div class="share">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  
+  </div>
+  <script type="text/javascript">
+    var addthis_config = {"data_track_addressbar":true};
+  </script>
+  <script type="text/javascript"
+          src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=undefined">
+  </script>
+</div-->
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<div class="ds-thread"></div></div>
+</section>
+
+<script src="/js/article.js"></script>
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+

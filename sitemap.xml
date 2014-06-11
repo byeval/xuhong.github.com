@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://beyoung.me/2014/06/06/touch_events/</loc>
+    <lastmod>2014-06-11T01:56:53.000Z</lastmod>
+  </url>
+  <url>
+    <loc>http://beyoung.me/2014/05/31/read_the_zepto_source_code/</loc>
+    <lastmod>2014-06-09T15:18:34.000Z</lastmod>
+  </url>
+  <url>
+    <loc>http://beyoung.me/2014/05/24/geolocation/</loc>
+    <lastmod>2014-06-06T03:48:31.000Z</lastmod>
+  </url>
+  <url>
+    <loc>http://beyoung.me/2014/05/22/notification/</loc>
+    <lastmod>2014-06-04T06:04:45.000Z</lastmod>
+  </url>
+  <url>
     <loc>http://beyoung.me/2014/05/26/vibrate_api/</loc>
-    <lastmod>2014-06-01T12:57:07.000Z</lastmod>
+    <lastmod>2014-06-01T15:41:56.000Z</lastmod>
   </url>
   <url>
     <loc>http://beyoung.me/2014/05/23/fullscreen/</loc>
     <lastmod>2014-06-01T12:06:17.000Z</lastmod>
-  </url>
-  <url>
-    <loc>http://beyoung.me/2014/05/22/notification/</loc>
-    <lastmod>2014-06-01T09:04:03.000Z</lastmod>
   </url>
   <url>
     <loc>http://beyoung.me/2014/04/01/concatsort/</loc>
