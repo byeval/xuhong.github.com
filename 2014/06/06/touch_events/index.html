@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+  
+  <title>移动设备触摸屏事件 | ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  <meta name="description" content="Just another weblog.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="移动设备触摸屏事件"/>
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="http://beyoung.me/images/gravatar.png"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+  <section class="aboutme">
+    <p>
+      Just another weblog.
+    </p>
+  </section>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/HTML5/">HTML5</a><small>5</small></li>
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/fullscreen/">fullscreen</a><small>1</small></li>
+  
+    <li><a href="/tags/geolocation/">geolocation</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/notification/">notification</a><small>1</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+    <li><a href="/tags/touch_event/">touch_event</a><small>1</small></li>
+  
+    <li><a href="/tags/vibrate/">vibrate</a><small>1</small></li>
+  
+    <li><a href="/tags/zepto/">zepto</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<!--div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-06-05T16:07:15.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Jun 6 2014
+</time>
+
+
+
+
+
+</div>
+
+	</div-->
+
+        <h1 class="title" itemprop="name">移动设备触摸屏事件<div class="menu">
+          <i class="icon-list"></i>
+          <i class="icon-expand"></i>
+        </div></h1>
+      	<div class="entry-content" itemprop="articleBody"><p><code>zepto</code>在移动设备上得到大范围的使用，一方面是因为其体积很小，加载速度快，另外一方面就是由于它对触摸屏事件的支持很优秀。它有一个<code>touch</code>模块，用来处理移动设备上的点击（<code>tap</code>）和滑动（<code>swipe</code>）事件，主要就是通过对<code>touchEvent</code>的属性来实现的。</p>
+<h3>属性列表</h3>
+<p><strong><code>Touch</code></strong>对象有如下几个属性：</p>
+<ul>
+<li>identifier</li>
+<li>target</li>
+<li>screenX</li>
+<li>screenY</li>
+<li>clientX</li>
+<li>clientY</li>
+<li>pageX</li>
+<li>pageY</li>
+</ul>
+<p><code>identifier</code>是每个触摸点的身份证明，以此来区分不同的触摸点。<code>target</code>是触摸点所在的元素。其他的属性通过名称就都可以知道了。</p>
+<p><strong><code>TouchList</code></strong>对象包含一个触摸事件中的所有触摸点的列表。有一个<code>length</code>属性和<code>item</code>方法，<code>item(0)</code>可以获得列表中第一个触摸点。</p>
+<p><strong><code>TouchEvent</code></strong>对象有如下几个属性：</p>
+<ul>
+<li>touches</li>
+<li>targetTouches</li>
+<li>changedTouches</li>
+<li>altKey</li>
+<li>metaKey</li>
+<li>ctrlKey</li>
+<li>shiftKey</li>
+</ul>
+<p><code>touches</code>是与屏幕接触的所有触摸点数组，<code>targetTouches</code>是目标DOM元素上的触摸点数组，<code>changedTouches</code>是发生改变了的触摸点数组，它们都是<code>touchList</code>对象，后面四个都是布尔值，表示触摸时相应的键是否被按下。</p>
+<h3>事件类型</h3>
+<p><code>touchEvent</code>有以下四种事件类型：</p>
+<ul>
+<li>touchstart //开始</li>
+<li>touchend  //结束</li>
+<li>touchmove  //移动</li>
+<li>touchcancel  //取消</li>
+</ul>
+<h3>例子</h3>
+<p>手指拖动元素</p>
+<div style="position:relative;width:100%;height:320px;background:#f1f1f1;padding:0"><div id="dragme" style="position:absolute;left:0;top:0;width:40px;height:40px;background:#11ff11"></div><br></div>
+
+
+<p>判断滑动方向：</p>
+<div id="swipe" style="width:100%;height:320px;background:#f1f1f1;padding:0"></div>
+
+<p>canvas画布绘画：</p>
+<p><canvas id="canvas" width="320px" height="320px" style="background:#f1f1f1"></canvas></p>
+<p><button>清除</button><input type="color"/></p>
+<h3>其他</h3>
+<p>触发<code>touchend</code>事件时，<code>e.targetTouches.length</code>已经为<code>0</code>，如果要获得最后点的信息，应该通过<code>e.changedTouches[0]</code>来获得。</p>
+<p>禁止缩放和滚动：<br>禁止缩放使用<code>viewport</code>即可，禁止滚动需要禁止<code>touchmove</code>的默认事件：</p>
+<pre><code><span class="transposed_variable">document.</span><span class="transposed_variable">body.</span>addEventListener(<span class="string">'touchmove'</span>, <span class="keyword">function</span>(event) <span class="cell">{
+  event.preventDefault();
+}</span>, false);     </code></pre>
+<h3>参考资料</h3>
+<ul>
+<li>zepto: <a href="https://github.com/madrobby/zepto/blob/master/src/touch.js" target="_blank">touch.js</a></li>
+<li>w3c: <a href="http://www.w3.org/TR/touch-events" target="_blank">touch-events</a></li>
+</ul>
+<script>
+    function $(id){
+        return document.getElementById(id);
+    }
+
+    var dragme = $('dragme');
+
+    dragme.addEventListener('touchmove', function(e){
+        if(e.targetTouches.length === 1){
+            e.preventDefault();
+            var point = e.targetTouches[0],
+                top = dragme.parentNode.getBoundingClientRect().top,
+                left = dragme.parentNode.getBoundingClientRect().left;
+            dragme.style.left = (point.clientX - left - 20 < 0 ? 0 : point.clientX - left - 20) + 'px';
+            dragme.style.top = (point.clientY - top - 20< 0 ? 0 : point.clientY - top - 20) + 'px';
+        }
+    });
+
+    var swipe = $('swipe'),
+        touch = {};
+
+    function swipeDirection(x1, x2, y1, y2) {
+        return Math.abs(x1 - x2) >= Math.abs(y1 - y2) ? (x1 - x2 > 0 ? 'Left' : 'Right') : ( y1 - y2 > 0 ? 'Up' : 'Down')
+    }
+
+    swipe.addEventListener('touchstart', function(e){
+        console.log(e);
+        if(e.targetTouches.length === 1) {
+            var point = e.targetTouches[0];
+            touch.x1 = point.pageX;
+            touch.y1 = point.pageY;
+        }
+    });
+    swipe.addEventListener('touchmove',function(e){
+        e.preventDefault();
+    });
+
+    swipe.addEventListener('touchend', function(e){
+        if(e.targetTouches.length === 0) {
+            e.preventDefault();
+            var point = e.changedTouches[0];
+            touch.x2 = point.pageX;
+            touch.y2 = point.pageY;
+            direction = swipeDirection(touch.x1, touch.x2, touch.y1, touch.y2);
+            swipe.innerHTML = '你的滑动方向是：' + direction;
+            console.log(direction);    
+        }
+    });
+    var canvas = $('canvas'),
+        cbox = canvas.getBoundingClientRect(),
+        ctx = canvas.getContext('2d');
+        ctx.strokeStyle = 'rgba(0,0,0,1)';
+        ctx.lineWidth = 3;
+    var x,
+        y,
+        point;
+
+    function windowToCanvas(x,y){
+        return {
+            cx: x - cbox.left,
+            cy: y - cbox.top
+        }
+    };
+
+    canvas.addEventListener('touchstart', function(e){
+        if(e.targetTouches.length === 1) {
+            console.log(e.type);
+            point = e.targetTouches[0];
+            x = point.clientX - cbox.left;
+            y = point.clientY - cbox.top;
+            ctx.lineTo(x, y);
+            console.log(x +','+ y);
+        }
+    });
+
+    canvas.addEventListener('touchmove', function(e){
+        if(e.targetTouches.length === 1) {
+            e.preventDefault();
+            ctx.beginPath();
+            ctx.moveTo(x,y);
+            point = e.targetTouches[0];
+            x = point.clientX - cbox.left;
+            y = point.clientY - cbox.top;
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+    });
+
+    canvas.addEventListener('touchend', function(e){
+        if(e.touches.length === 0){
+            console.log(e.touches.length);
+        }
+    });
+
+    var con = document.getElementById('content'),
+        btn = con.getElementsByTagName('button'),
+        ipt = con.getElementsByTagName('input');
+        btn[0].addEventListener('click', function(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+        ipt[0].addEventListener('change', function(){
+            ctx.strokeStyle = ipt[0].value;
+        })
+</script></div>
+
+
+</article>
+
+  <!--div class="share">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  
+  </div>
+  <script type="text/javascript">
+    var addthis_config = {"data_track_addressbar":true};
+  </script>
+  <script type="text/javascript"
+          src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=undefined">
+  </script>
+</div-->
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<div class="ds-thread"></div></div>
+</section>
+
+<script src="/js/article.js"></script>
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+

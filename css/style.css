@@ -1351,6 +1351,11 @@ body {
 .container .mid-col .mid-col-container #content article .entry-content table td {
   text-align: left;
 }
+.container .mid-col .mid-col-container #content article .entry-content button {
+  width: 200px;
+  height: 30px;
+  margin-top: 10px;
+}
 .container .mid-col .mid-col-container #content article .meta {
   position: relative;
   float: right;
