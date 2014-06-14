@@ -297,7 +297,7 @@
         ctx.lineWidth = 3;
     var x,
         y,
-        point;
+        dot;
 
     function windowToCanvas(x,y){
         return {
@@ -308,12 +308,10 @@
 
     canvas.addEventListener('touchstart', function(e){
         if(e.targetTouches.length === 1) {
-            console.log(e.type);
-            point = e.targetTouches[0];
-            x = point.clientX - cbox.left;
-            y = point.clientY - cbox.top;
+            dot = e.targetTouches[0];
+            x = dot.clientX - cbox.left;
+            y = dot.clientY - cbox.top;
             ctx.lineTo(x, y);
-            console.log(x +','+ y);
         }
     });
 
@@ -322,17 +320,12 @@
             e.preventDefault();
             ctx.beginPath();
             ctx.moveTo(x,y);
-            point = e.targetTouches[0];
-            x = point.clientX - cbox.left;
-            y = point.clientY - cbox.top;
+            dot = e.targetTouches[0];
+            x = dot.clientX - cbox.left;
+            y = dot.clientY - cbox.top;
             ctx.lineTo(x, y);
             ctx.stroke();
-        }
-    });
-
-    canvas.addEventListener('touchend', function(e){
-        if(e.touches.length === 0){
-            console.log(e.touches.length);
+            ctx.closePath();
         }
     });
 

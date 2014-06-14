@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Remember, Let go, Move on.]]></subtitle>
   <link href="http://beyoung.me/atom.xml" rel="self"/>
   <link href="http://beyoung.me"/>
-  <updated>2014-06-14T15:38:13.178Z</updated>
+  <updated>2014-06-14T16:12:01.265Z</updated>
   <id>http://beyoung.me/</id>
   <author>
     <name><![CDATA[BeYoung]]></name>
@@ -16,7 +16,7 @@
     <link href="http://beyoung.me/2014/06/06/touch_events/"/>
     <id>http://beyoung.me/2014/06/06/touch_events/</id>
     <published>2014-06-05T16:07:15.000Z</published>
-    <updated>2014-06-14T15:26:03.000Z</updated>
+    <updated>2014-06-14T16:11:25.000Z</updated>
     <content type="html"><![CDATA[<p><code>zepto</code>在移动设备上得到大范围的使用，一方面是因为其体积很小，加载速度快，另外一方面就是由于它对触摸屏事件的支持很优秀。它有一个<code>touch</code>模块，用来处理移动设备上的点击（<code>tap</code>）和滑动（<code>swipe</code>）事件，主要就是通过对<code>touchEvent</code>的属性来实现的。</p>
 <h3>属性列表</h3>
 <p><strong><code>Touch</code></strong>对象有如下几个属性：</p>
@@ -128,7 +128,7 @@
         ctx.lineWidth = 3;
     var x,
         y,
-        point;
+        dot;
 
     function windowToCanvas(x,y){
         return {
@@ -139,12 +139,10 @@
 
     canvas.addEventListener('touchstart', function(e){
         if(e.targetTouches.length === 1) {
-            console.log(e.type);
-            point = e.targetTouches[0];
-            x = point.clientX - cbox.left;
-            y = point.clientY - cbox.top;
+            dot = e.targetTouches[0];
+            x = dot.clientX - cbox.left;
+            y = dot.clientY - cbox.top;
             ctx.lineTo(x, y);
-            console.log(x +','+ y);
         }
     });
 
@@ -153,17 +151,12 @@
             e.preventDefault();
             ctx.beginPath();
             ctx.moveTo(x,y);
-            point = e.targetTouches[0];
-            x = point.clientX - cbox.left;
-            y = point.clientY - cbox.top;
+            dot = e.targetTouches[0];
+            x = dot.clientX - cbox.left;
+            y = dot.clientY - cbox.top;
             ctx.lineTo(x, y);
             ctx.stroke();
-        }
-    });
-
-    canvas.addEventListener('touchend', function(e){
-        if(e.touches.length === 0){
-            console.log(e.touches.length);
+            ctx.closePath();
         }
     });
 
