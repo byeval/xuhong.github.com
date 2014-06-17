@@ -321,70 +321,12 @@
   temp &amp;&amp; tempParent<span class="variable">.removeChild</span>(element)
   <span class="keyword">return</span> match
   }</code></pre>
-<p>其中有如一行代码：</p>
-<pre><code>match = ~zepto<span class="variable">.qsa</span>(parent, <span class="keyword">selector</span>)<span class="variable">.indexOf</span>(element)</code></pre>
-<blockquote>
-<p>Q: 为什么要使用按位取反符号呢？</p>
-<p>A:因为JS中<code>0</code>是被转换作<code>false</code>值的，其他的数字都被转换为<code>true</code>值，而<code>indexOf</code>方法在没有发现匹配的时候是返回<code>-1</code>，直接用它进行判断也可以，比如判断返回值是否等于<code>-1</code>，不过这样不够cool，所以这里就用了这个小hack，<code>~-1 === 0</code></p>
-</blockquote>
-<p><a href="http://stackoverflow.com/questions/15961998/understand-zepto-matches-function" target="_blank">参考</a>。另外，matchesSelector也值得注意一下。</p>
-<p>再看看<code>dasherize</code>方法：</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">dasherize</span><span class="params">(str)</span> {</span>
-    <span class="keyword">return</span> <span class="transposed_variable">str.</span>replace(/::/g, <span class="string">'/'</span>)
-       .replace(/(<span class="matrix">[A-Z]</span>+)(<span class="matrix">[A-Z]</span><span class="matrix">[a-z]</span>)/g, <span class="string">'$1_$2'</span>)
-       .replace(/(<span class="matrix">[a-z\d]</span>)(<span class="matrix">[A-Z]</span>)/g, <span class="string">'$1_$2'</span>)
-       .replace(/_/g, <span class="string">'-'</span>)
-       .toLowerCase()
-  }</code></pre>
-<p>这个<code>$1</code>、<code>$2</code>肯定都知道，就是分组匹配的第一组和第二组，那么下面的<code>$1</code>呢？</p>
-<pre><code>var singleTagRE = /^&lt;(\w+)\s<span class="variable">*\</span>/?&gt;(?:&lt;\/\<span class="number">1</span>&gt;|)<span class="variable">$/</span>;
-<span class="keyword">if</span> (singleTagRE.test(html)) dom = <span class="variable">$(</span>document.createElement(RegExp.<span class="variable">$1</span>))</code></pre>
-<blockquote>
-<p>Q: <code>RegExp.$1</code>是什么？</p>
-<p>A:在模式匹配期间找到的，所存储的最近的1个部分，上面例子中的就是<code>(\w+)</code>对应的tag名称。只读。全局对象<code>RegExp</code>会在每次成功匹配一个带括号的分组时，将匹配成功的结果存储起来。每当产生一个带括号的成功匹配时，$1…$9 属性的值就被修改。 可以在一个正则表达式模式中指定任意多个带括号的子匹配，但只能存储最新的九个。</p>
-</blockquote>
-<h4>其他</h4>
-<blockquote>
-<p>注意数组方法传入函数时函数被传入的参数，比如<code>Array.prototype.replace()</code>方法，传入<code>function</code>作为参数时，传入function的参数为<br>    function(match, contents, offset, s){}</p>
-</blockquote>
-<h3>整体架构</h3>
-<pre><code>var Zepto = (<span class="keyword">function</span>() {}
-
-window.Zepto = Zepto
-window.$ === undefined &amp;&amp; (window.$ = Zepto)
-
-zepto.init = <span class="keyword">function</span>(selector, context) {
-    var dom;
-    //<span class="keyword">...</span>
-    <span class="keyword">return</span> zepto.Z(dom, selector)
-}
-
-zepto.Z = <span class="keyword">function</span>(dom, selector) {
-    dom = dom || []
-    dom.__proto__ = $.fn
-    dom.selector = selector || <span class="string">''</span>
-    <span class="keyword">return</span> dom
-  }
-
-zepto.Z.prototype = $.fn
-
-$.fn = {
-    //zepto对象上的各种方法
-}
-
-$ = <span class="keyword">function</span>(selector, context){
-    <span class="keyword">return</span> zepto.init(selector, context)
-  }</code></pre>
-<h3>小结一下</h3>
-<p>其实如果是为了看各种方法的实现的话，还有很多其他的代码可以看，比如经典的<a href="">undercorejs</a>、<a href="">undercore.String</a>、<a href="">ployfill</a>等，zepto源码完整的阅读下来，收获更多的是一个框架的整体架构和书写方式。之前阅读jQuery的时候，感觉读的晕晕的，因为源码太长了，阅读起来花的时间也比较长，看了前面忘了后面，没有一种整体把握的感觉。当然也可能是我阅读的方法不对，比如分模块阅读可能会好点。zepto则完全不一样，它只有1500行，详细的看每一条语句也不会花超过一天的时间，即使一句句的顺序往下看也不会迷失。zepto整个源码阅读下来非常顺畅，一气呵成，就像它宣扬的，“clear and concise”。</p>
-<h3>吐糟</h3>
-<ul>
-<li>代码风格有点让人受不了啊=。=居然不写分号，酱紫真的好么？！！！</li>
-<li>风格不够统一，明明定义了<code>isObject()</code>方法，有的地方使用，有的地方又忘了使用，跑去用<code>typeof</code>了……</li>
-<li>大量使用三元运算符，阅读起来有点困难啊，不过倒是蛮cool滴^_^</li>
-<li>官方源码里面竟然不包含touch模块，去github上才发现这一点，要自己用nodejs打包下载。。</li>
-</ul>
-
+<p>其中有如一行代码：
+            <p style="text-align:right">
+              <a href="/2014/05/31/read_the_zepto_source_code/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
           
         </div>
 

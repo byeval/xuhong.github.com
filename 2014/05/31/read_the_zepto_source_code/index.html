@@ -193,7 +193,7 @@
   temp &amp;&amp; tempParent<span class="variable">.removeChild</span>(element)
   <span class="keyword">return</span> match
   }</code></pre>
-<p>其中有如一行代码：</p>
+<p>其中有如一行代码：<a id="more"></a></p>
 <pre><code>match = ~zepto<span class="variable">.qsa</span>(parent, <span class="keyword">selector</span>)<span class="variable">.indexOf</span>(element)</code></pre>
 <blockquote>
 <p>Q: 为什么要使用按位取反符号呢？</p>
@@ -220,33 +220,39 @@
 <p>注意数组方法传入函数时函数被传入的参数，比如<code>Array.prototype.replace()</code>方法，传入<code>function</code>作为参数时，传入function的参数为<br>    function(match, contents, offset, s){}</p>
 </blockquote>
 <h3>整体架构</h3>
-<pre><code>var Zepto = (<span class="keyword">function</span>() {}
+<pre><code><span class="comment">//首先要知道zepto的功能，它用来在全局注册DOM选取器，并给它们添加上常用的方法。知道这个就好理解了</span>
+<span class="comment">//注册全局变量，立即执行函数，用来返回DOM选取器</span>
+<span class="keyword">var</span> Zepto = (<span class="keyword">function</span>() {
+    $ = <span class="keyword">function</span>(selector, context){
+        <span class="keyword">return</span> zepto.init(selector, context)
+    }
+    zepto.init = <span class="keyword">function</span>(selector, context) {
+        <span class="keyword">var</span> dom
+        <span class="comment">//...根据不同的条件获取dom</span>
+        <span class="keyword">return</span> zepto.Z(dom, selector)
+    }
+    zepto.Z = <span class="keyword">function</span>(dom, selector) {
+        dom = dom || []
+        dom.__proto__ = $.fn;
+        dom.selector = selector || <span class="string">''</span>
+        <span class="keyword">return</span> dom
+    }
+    <span class="comment">//令dom对象和zepto共享原型 </span>
+    zepto.Z.prototype = $.fn
+    $.fn = {
+        <span class="comment">//注册在DOM上的各种方法</span>
+    }
+    <span class="comment">//返回选取器</span>
+    <span class="keyword">return</span> $
+})()    
 
+<span class="comment">//window环境全局注册Zepto对象    </span>
 window.Zepto = Zepto
-window.$ === undefined &amp;&amp; (window.$ = Zepto)
+<span class="comment">//注意：Zepto的$变量没有jQuery的noConflick()方法，所以要防止冲突</span>
+window.$ === <span class="literal">undefined</span> &amp;&amp; (window.$ = Zepto)
 
-zepto.init = <span class="keyword">function</span>(selector, context) {
-    var dom;
-    //<span class="keyword">...</span>
-    <span class="keyword">return</span> zepto.Z(dom, selector)
-}
-
-zepto.Z = <span class="keyword">function</span>(dom, selector) {
-    dom = dom || []
-    dom.__proto__ = $.fn
-    dom.selector = selector || <span class="string">''</span>
-    <span class="keyword">return</span> dom
-  }
-
-zepto.Z.prototype = $.fn
-
-$.fn = {
-    //zepto对象上的各种方法
-}
-
-$ = <span class="keyword">function</span>(selector, context){
-    <span class="keyword">return</span> zepto.init(selector, context)
-  }</code></pre>
+<span class="comment">//添加各个模块</span>
+;(<span class="keyword">function</span>($){})(zepto)</code></pre>
 <h3>小结一下</h3>
 <p>其实如果是为了看各种方法的实现的话，还有很多其他的代码可以看，比如经典的<a href="">undercorejs</a>、<a href="">undercore.String</a>、<a href="">ployfill</a>等，zepto源码完整的阅读下来，收获更多的是一个框架的整体架构和书写方式。之前阅读jQuery的时候，感觉读的晕晕的，因为源码太长了，阅读起来花的时间也比较长，看了前面忘了后面，没有一种整体把握的感觉。当然也可能是我阅读的方法不对，比如分模块阅读可能会好点。zepto则完全不一样，它只有1500行，详细的看每一条语句也不会花超过一天的时间，即使一句句的顺序往下看也不会迷失。zepto整个源码阅读下来非常顺畅，一气呵成，就像它宣扬的，“clear and concise”。</p>
 <h3>吐糟</h3>
