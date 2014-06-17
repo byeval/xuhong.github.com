@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+  
+  <title>使用HTML5 File API进行文件操作 | ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  <meta name="description" content="Just another weblog.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="使用HTML5 File API进行文件操作"/>
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="http://beyoung.me/images/gravatar.png"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+  <section class="aboutme">
+    <p>
+      Just another weblog.
+    </p>
+  </section>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/HTML5/">HTML5</a><small>6</small></li>
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/file_api/">file_api</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/fullscreen/">fullscreen</a><small>1</small></li>
+  
+    <li><a href="/tags/geolocation/">geolocation</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/notification/">notification</a><small>1</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/source/">source</a><small>1</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+    <li><a href="/tags/touch_event/">touch_event</a><small>1</small></li>
+  
+    <li><a href="/tags/vibrate/">vibrate</a><small>1</small></li>
+  
+    <li><a href="/tags/zepto/">zepto</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<!--div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-06-08T10:15:48.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Jun 8 2014
+</time>
+
+
+
+
+
+</div>
+
+	</div-->
+
+        <h1 class="title" itemprop="name">使用HTML5 File API进行文件操作<div class="menu">
+          <i class="icon-list"></i>
+          <i class="icon-expand"></i>
+        </div></h1>
+      	<div class="entry-content" itemprop="articleBody"><p>HTML5为我们提供了一种File API规范来与本地文件进行交互。通过这个API可以非常方便的实现很多以前需要复杂代码才能实现的功能，比如多文件上传、上传图片实时预览、断点续传、文件下载等。File API主要有以下几个接口：</p>
+<ul>
+<li>Blob</li>
+<li>File</li>
+<li>FileList</li>
+<li>FileReader</li>
+</ul>
+<p>下面将一一进行讲述。<br><a id="more"></a></p>
+<h3>检测支持</h3>
+<p>目前大部分现代浏览器都已经支持这个API，可以通过如下代码进行检测。</p>
+<pre><code><span class="keyword">if</span>(window<span class="variable">.File</span> &amp;&amp; window<span class="variable">.FileReader</span> &amp;&amp; window<span class="variable">.FileList</span> &amp;&amp; window<span class="variable">.Blob</span>){
+    <span class="comment">//return something</span>
+}<span class="keyword">else</span>{
+    <span class="comment">//return something</span>
+}</code></pre>
+<p>你可以根据你的应用需要使用的接口进行相应的检测。</p>
+<h3>Blob</h3>
+<p>Blob对象是一个代表二进制数据的基本对象，提供操作数据的接口，可以通过<code>Blob</code>构造函数创建一个<code>Blob</code>对象：</p>
+<pre><code><span class="keyword">var</span> myblob = <span class="keyword">new</span> Blob();</code></pre>
+<p>构造函数有两个可选的参数，一个是包含实际数据的<strong>数组</strong>，另一个是数据的类型。</p>
+<h4>属性</h4>
+<p><code>Blob</code>对象有三个属性，分别是：<br>- <code>size</code><br>- <code>type</code><br>- <code>isClosed</code></p>
+<p>分别用来获取<code>blob</code>的大小、类型和是否处于关闭的状态。</p>
+<h4>方法</h4>
+<ul>
+<li><p>slice([start], [end], [contentType])<br>类似数组的slice方法，当不传参数的时候就是<code>clone</code>对象，否则就返回一个指定类型（<code>contentType</code>）从<code>start</code>到<code>end</code>之间的<code>blob</code>对象。</p>
+<pre><code>  var <span class="keyword">file</span> = document.getElementById(<span class="string">'file'</span>).files[<span class="number">0</span>];
+  <span class="keyword">if</span>(<span class="keyword">file</span>){
+      <span class="comment">//克隆</span>
+      var fileClone = <span class="keyword">file</span>.slice();
+      var fileClone2 = <span class="keyword">file</span>.slice(<span class="number">0</span>, <span class="keyword">file</span>.<span class="keyword">size</span>);
+      <span class="comment">//获取后半部分</span>
+      var fileChunkFromEnd = <span class="keyword">file</span>.slice(-(Math.round(<span class="keyword">file</span>.<span class="keyword">size</span>/<span class="number">2</span>)));
+      <span class="comment">//获取前半部分</span>
+      var fileChunkFromStart = <span class="keyword">file</span>.slice(<span class="number">0</span>, Math.round(<span class="keyword">file</span>.<span class="keyword">size</span>/<span class="number">2</span>));
+      <span class="comment">//获取部分文件并指定文件类型</span>
+      var fileNoMetadata = <span class="keyword">file</span>.slice(<span class="number">0</span>, -<span class="number">150</span>, <span class="string">"application/experimental"</span>);
+  }</code></pre>
+</li>
+<li><p>close()<br>这个方法用来关闭<code>blob</code>，如果这个<code>blob</code>对象的<code>readability state</code>是<code>closed</code>，就终止调用，否则，就设置readability state<code>为</code>closed`。</p>
+</li>
+</ul>
+<h3>File</h3>
+<p>File对象包含文件的一些信息，是FileList对象的成员。</p>
+<h4>属性</h4>
+<ul>
+<li>name</li>
+<li>size</li>
+<li>type</li>
+<li>lastModifiedDate</li>
+</ul>
+<h3>FileList</h3>
+<p>FileList包含File对象列表，类数组结构。</p>
+<h4>属性</h4>
+<ul>
+<li>length<br>返回<code>FileList</code>对象里面File的长度。<h4>方法</h4>
+</li>
+<li>item(index)<br>从<code>FileList</code>对象中取出File。</li>
+</ul>
+<h3>FileReader</h3>
+<p>通过FileReader构造函数来创建一个FileReader对象：</p>
+<pre><code><span class="setting">reader = <span class="value">new FileReader();</span></span></code></pre>
+<p><code>FileReader</code>包括四个异步读取文件的方法：</p>
+<ul>
+<li>FileReader.readAsBinaryString(Blob|FIle)</li>
+<li>FileReader.readAsText(Blob|File, opt_encoding)</li>
+<li>FileReader.readAsDataURL(Blob|File)</li>
+<li>FileReader.readAsArrayBuffer(Blob|File)</li>
+</ul>
+<p>除了以上四种方法外，FileReader对象还有一个<code>abort</code>方法用来中止文件上传。</p>
+<blockquote>
+<p><strong>注</strong>：还有一个同步读取File或Blob中内容的对象<code>FileReaderSync</code>，但只能在web worker中使用。</p>
+</blockquote>
+<p>对<code>FileReader</code>对象调用其中某一种读取方法后，可以监听以下不同的状态来注册回调函数：<br>- onloadstart<br>- onprogress<br>- onload<br>- onabort<br>- onerror<br>- onloadend</p>
+<p>例如通过监听<code>onprogress</code>事件告知用户上传的进度。</p>
+<p>FileReader有三种状态：<br>- EMPTY<br>- LOADING<br>- DONE</p>
+<h3>例子</h3>
+<p>这个例子会列出所有上传的文件列表，当文件类型为图片时，将缩略图显示在列表下面，当文件大于100M时，将显示上传进度条。</p>
+<p><div id="drag"><input id="files" type="file" multiple><div id="progress"></div><div id="list"></div><div id="thumbimg"></div></div><style>#drag{overflow:auto;width:100%;height:320px;background:#f1f1f1;border:2px dashed #ddd;}.thumb{height:75px!important;display:inline-block;margin:10px;}#progress{width:0%;height:10px;background: #000000}</style></p>
+<h3>兼容性</h3>
+<p>IE从IE10开始支持File API，chrome和firefox都已经支持了蛮久，Android从4.4以后开始支持，safari已经支持了蛮久。</p>
+<p><img src="/img/post/caniusefileapi.png" alt="caniusefileapi"></p>
+<h3>总结</h3>
+<p>之前有人让我实现文件断点续传的功能，当初以为是很复杂的功能而拒绝掉了，现在想想其实蛮简单的，通过File API就可以轻松实现。上面的那个例子还是比较简单的，还有更多强大的功能可以通过这个API来实现。</p>
+<h3>参考资料</h3>
+<ul>
+<li>w3c:<a href="http://dev.w3.org/2006/webapi/FileAPI" target="_blank">File API</a></li>
+<li>HTML5Rock:<a href="http://www.html5rocks.com/zh/tutorials/file/dndfiles/" target="_blank">通过File API使用JavaScript读取文件</a></li>
+<li>caniuse:<a href="http://caniuse.com/#feat=fileapi" target="_blank">File API</a></li>
+<li>JavaScript标准参考教程:<a href="http://javascript.ruanyifeng.com/htmlapi/file.html" target="_blank">文件和二进制数据的操作</a></li>
+</ul>
+<script type="text/javascript">
+    var uploadFile = document.getElementById('files'),
+        dragFile = document.getElementById('drag'),
+        progress = document.getElementById('progress');
+
+    function handleFileSelect(evt){
+        evt.preventDefault();
+        var files = evt.target.files || evt.dataTransfer.files || evt.clipboardData.items;
+        var output = [];
+        for(var i = 0, f; f = files[i]; i++){
+            output.push('<li><strong>',f.name,'</strong>(',f.type || 'n/a',') - ',f.size, ' bytes, last modified: ',f.lastModifiedDate.toLocaleString(),'</li>');
+            //显示图片的缩略图
+            if(f.type.match('image.*')){
+                var reader = new FileReader();
+                reader.onload = function(e){
+                    thumb = new Image();
+                    thumb.src = e.target.result;
+                    thumb.className = 'thumb';
+                    // thumb.setAttribute('class','thumb');
+                    document.getElementById('thumbimg').appendChild(thumb);    
+                }
+                reader.readAsDataURL(f);
+            };
+            //只文件大于100M的文件才显示进度条
+            if(f.size > 100*1000*1000){
+                progress.style.width = '0%';
+                progress.textContent = '0%';
+                var reader = new FileReader();
+                reader.onprogress = updateProgress;
+                reader.readAsBinaryString(f);
+            }
+        }    
+        document.getElementById('list').innerHTML = '<ol>'+output.join('')+'</ol>';
+    }
+
+    function updateProgress(evt){
+        console.log(evt);
+        if(evt.lengthComputable){
+            var percentLoaded = Math.round((evt.loaded/evt.total)*100);
+            if(percentLoaded < 100) {
+                progress.style.width = percentLoaded + '%';
+                progress.textContent = percentLoaded + '%';
+            }
+        }
+    }
+
+    uploadFile.addEventListener('change', handleFileSelect, false);
+    dragFile.addEventListener('drop', handleFileSelect,false);
+
+    document.onpaste=function(e){
+        console.log(e);
+    }
+</script></div>
+        <script src="/js/article.js"></script>
+
+
+</article>
+
+  <!--div class="share">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  
+  </div>
+  <script type="text/javascript">
+    var addthis_config = {"data_track_addressbar":true};
+  </script>
+  <script type="text/javascript"
+          src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=undefined">
+  </script>
+</div-->
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<div class="ds-thread"></div></div>
+</section>
+
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+

@@ -102,7 +102,7 @@
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
-    <li><a href="/tags/HTML5/">HTML5</a><small>5</small></li>
+    <li><a href="/tags/HTML5/">HTML5</a><small>6</small></li>
   
     <li><a href="/tags/Life/">Life</a><small>1</small></li>
   
@@ -111,6 +111,8 @@
     <li><a href="/tags/blog/">blog</a><small>1</small></li>
   
     <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/file_api/">file_api</a><small>1</small></li>
   
     <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
   
@@ -128,13 +130,15 @@
   
     <li><a href="/tags/python/">python</a><small>2</small></li>
   
+    <li><a href="/tags/source/">source</a><small>1</small></li>
+  
     <li><a href="/tags/thought/">thought</a><small>1</small></li>
   
     <li><a href="/tags/touch_event/">touch_event</a><small>1</small></li>
   
     <li><a href="/tags/vibrate/">vibrate</a><small>1</small></li>
   
-    <li><a href="/tags/zepto/">zepto</a><small>1</small></li>
+    <li><a href="/tags/zepto/">zepto</a><small>2</small></li>
   
   </ul>
 </div>
@@ -185,7 +189,9 @@
 <li>clientX</li>
 <li>clientY</li>
 <li>pageX</li>
-<li>pageY</li>
+<li>pageY<a id="more"></a>
+
+</li>
 </ul>
 <p><code>identifier</code>是每个触摸点的身份证明，以此来区分不同的触摸点。<code>target</code>是触摸点所在的元素。其他的属性通过名称就都可以知道了。</p>
 <p><strong><code>TouchList</code></strong>对象包含一个触摸事件中的所有触摸点的列表。有一个<code>length</code>属性和<code>item</code>方法，<code>item(0)</code>可以获得列表中第一个触摸点。</p>
@@ -287,13 +293,6 @@
         y,
         dot;
 
-    function windowToCanvas(x,y){
-        return {
-            cx: x - cbox.left,
-            cy: y - cbox.top
-        }
-    };
-
     canvas.addEventListener('touchstart', function(e){
         if(e.targetTouches.length === 1) {
             dot = e.targetTouches[0];
@@ -327,6 +326,7 @@
             ctx.strokeStyle = ipt[0].value;
         })
 </script></div>
+        <script src="/js/article.js"></script>
 
 
 </article>
@@ -360,7 +360,6 @@
 <div class="ds-thread"></div></div>
 </section>
 
-<script src="/js/article.js"></script>
 </div>
   </div>
         <footer id="footer" class="inner">

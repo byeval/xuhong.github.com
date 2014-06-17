@@ -102,7 +102,7 @@
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
-    <li><a href="/tags/HTML5/">HTML5</a><small>5</small></li>
+    <li><a href="/tags/HTML5/">HTML5</a><small>6</small></li>
   
     <li><a href="/tags/Life/">Life</a><small>1</small></li>
   
@@ -111,6 +111,8 @@
     <li><a href="/tags/blog/">blog</a><small>1</small></li>
   
     <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/file_api/">file_api</a><small>1</small></li>
   
     <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
   
@@ -128,13 +130,15 @@
   
     <li><a href="/tags/python/">python</a><small>2</small></li>
   
+    <li><a href="/tags/source/">source</a><small>1</small></li>
+  
     <li><a href="/tags/thought/">thought</a><small>1</small></li>
   
     <li><a href="/tags/touch_event/">touch_event</a><small>1</small></li>
   
     <li><a href="/tags/vibrate/">vibrate</a><small>1</small></li>
   
-    <li><a href="/tags/zepto/">zepto</a><small>1</small></li>
+    <li><a href="/tags/zepto/">zepto</a><small>2</small></li>
   
   </ul>
 </div>
@@ -150,6 +154,62 @@
       <div class="mid-col">
         <div class="mid-col-container">
       <div id="content" class="inner"><div itemscope itemtype="http://schema.org/Blog">
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-06-08T10:15:48.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Jun 8 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/HTML5/">HTML5</a>, <a href="/tags/file_api/">file_api</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/06/08/file_api/" itemprop="url">
+            使用HTML5 File API进行文件操作</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>HTML5为我们提供了一种File API规范来与本地文件进行交互。通过这个API可以非常方便的实现很多以前需要复杂代码才能实现的功能，比如多文件上传、上传图片实时预览、断点续传、文件下载等。File API主要有以下几个接口：</p>
+<ul>
+<li>Blob</li>
+<li>File</li>
+<li>FileList</li>
+<li>FileReader</li>
+</ul>
+<p>下面将一一进行讲述。<br>
+            <p style="text-align:right">
+              <a href="/2014/06/08/file_api/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   
@@ -197,148 +257,12 @@
 <li>clientX</li>
 <li>clientY</li>
 <li>pageX</li>
-<li>pageY</li>
-</ul>
-<p><code>identifier</code>是每个触摸点的身份证明，以此来区分不同的触摸点。<code>target</code>是触摸点所在的元素。其他的属性通过名称就都可以知道了。</p>
-<p><strong><code>TouchList</code></strong>对象包含一个触摸事件中的所有触摸点的列表。有一个<code>length</code>属性和<code>item</code>方法，<code>item(0)</code>可以获得列表中第一个触摸点。</p>
-<p><strong><code>TouchEvent</code></strong>对象有如下几个属性：</p>
-<ul>
-<li>touches</li>
-<li>targetTouches</li>
-<li>changedTouches</li>
-<li>altKey</li>
-<li>metaKey</li>
-<li>ctrlKey</li>
-<li>shiftKey</li>
-</ul>
-<p><code>touches</code>是与屏幕接触的所有触摸点数组，<code>targetTouches</code>是目标DOM元素上的触摸点数组，<code>changedTouches</code>是发生改变了的触摸点数组，它们都是<code>touchList</code>对象，后面四个都是布尔值，表示触摸时相应的键是否被按下。</p>
-<h3>事件类型</h3>
-<p><code>touchEvent</code>有以下四种事件类型：</p>
-<ul>
-<li>touchstart //开始</li>
-<li>touchend  //结束</li>
-<li>touchmove  //移动</li>
-<li>touchcancel  //取消</li>
-</ul>
-<h3>例子</h3>
-<p>手指拖动元素</p>
-<div style="position:relative;width:100%;height:320px;background:#f1f1f1;padding:0"><div id="dragme" style="position:absolute;left:0;top:0;width:40px;height:40px;background:#11ff11"></div><br></div>
-
-
-<p>判断滑动方向：</p>
-<div id="swipe" style="width:100%;height:320px;background:#f1f1f1;padding:0"></div>
-
-<p>canvas画布绘画：</p>
-<p><canvas id="canvas" width="320px" height="320px" style="background:#f1f1f1"></canvas></p>
-<p><button>清除</button><input type="color"/></p>
-<h3>其他</h3>
-<p>触发<code>touchend</code>事件时，<code>e.targetTouches.length</code>已经为<code>0</code>，如果要获得最后点的信息，应该通过<code>e.changedTouches[0]</code>来获得。</p>
-<p>禁止缩放和滚动：<br>禁止缩放使用<code>viewport</code>即可，禁止滚动需要禁止<code>touchmove</code>的默认事件：</p>
-<pre><code><span class="transposed_variable">document.</span><span class="transposed_variable">body.</span>addEventListener(<span class="string">'touchmove'</span>, <span class="keyword">function</span>(event) <span class="cell">{
-  event.preventDefault();
-}</span>, false);     </code></pre>
-<h3>参考资料</h3>
-<ul>
-<li>zepto: <a href="https://github.com/madrobby/zepto/blob/master/src/touch.js" target="_blank">touch.js</a></li>
-<li>w3c: <a href="http://www.w3.org/TR/touch-events" target="_blank">touch-events</a></li>
-</ul>
-<script>
-    function $(id){
-        return document.getElementById(id);
-    }
-
-    var dragme = $('dragme');
-
-    dragme.addEventListener('touchmove', function(e){
-        if(e.targetTouches.length === 1){
-            e.preventDefault();
-            var point = e.targetTouches[0],
-                top = dragme.parentNode.getBoundingClientRect().top,
-                left = dragme.parentNode.getBoundingClientRect().left;
-            dragme.style.left = (point.clientX - left - 20 < 0 ? 0 : point.clientX - left - 20) + 'px';
-            dragme.style.top = (point.clientY - top - 20< 0 ? 0 : point.clientY - top - 20) + 'px';
-        }
-    });
-
-    var swipe = $('swipe'),
-        touch = {};
-
-    function swipeDirection(x1, x2, y1, y2) {
-        return Math.abs(x1 - x2) >= Math.abs(y1 - y2) ? (x1 - x2 > 0 ? 'Left' : 'Right') : ( y1 - y2 > 0 ? 'Up' : 'Down')
-    }
-
-    swipe.addEventListener('touchstart', function(e){
-        console.log(e);
-        if(e.targetTouches.length === 1) {
-            var point = e.targetTouches[0];
-            touch.x1 = point.pageX;
-            touch.y1 = point.pageY;
-        }
-    });
-    swipe.addEventListener('touchmove',function(e){
-        e.preventDefault();
-    });
-
-    swipe.addEventListener('touchend', function(e){
-        if(e.targetTouches.length === 0) {
-            e.preventDefault();
-            var point = e.changedTouches[0];
-            touch.x2 = point.pageX;
-            touch.y2 = point.pageY;
-            direction = swipeDirection(touch.x1, touch.x2, touch.y1, touch.y2);
-            swipe.innerHTML = '你的滑动方向是：' + direction;
-            console.log(direction);    
-        }
-    });
-    var canvas = $('canvas'),
-        cbox = canvas.getBoundingClientRect(),
-        ctx = canvas.getContext('2d');
-        ctx.strokeStyle = 'rgba(0,0,0,1)';
-        ctx.lineWidth = 3;
-    var x,
-        y,
-        dot;
-
-    function windowToCanvas(x,y){
-        return {
-            cx: x - cbox.left,
-            cy: y - cbox.top
-        }
-    };
-
-    canvas.addEventListener('touchstart', function(e){
-        if(e.targetTouches.length === 1) {
-            dot = e.targetTouches[0];
-            x = dot.clientX - cbox.left;
-            y = dot.clientY - cbox.top;
-            ctx.lineTo(x, y);
-        }
-    });
-
-    canvas.addEventListener('touchmove', function(e){
-        if(e.targetTouches.length === 1) {
-            e.preventDefault();
-            ctx.beginPath();
-            ctx.moveTo(x,y);
-            dot = e.targetTouches[0];
-            x = dot.clientX - cbox.left;
-            y = dot.clientY - cbox.top;
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.closePath();
-        }
-    });
-
-    var con = document.getElementById('content'),
-        btn = con.getElementsByTagName('button'),
-        ipt = con.getElementsByTagName('input');
-        btn[0].addEventListener('click', function(){
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        });
-        ipt[0].addEventListener('change', function(){
-            ctx.strokeStyle = ipt[0].value;
-        })
-</script>
+<li>pageY
+            <p style="text-align:right">
+              <a href="/2014/06/06/touch_events/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
           
         </div>
 
@@ -346,7 +270,128 @@
 </article>
 
 
-<script src="/js/article.js"></script>
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-05-31T07:53:38.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  May 31 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/zepto/">zepto</a>, <a href="/tags/source/">source</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/05/31/read_the_zepto_source_code/" itemprop="url">
+            zepto源码阅读笔记</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>花了一下午的时间阅读了zepto的源码，就像<a href="http://zeptojs.com" target="_blank">zepto首页</a>的那个幻灯片说的，从zepto精简的源码中学习如何实现你最喜欢的方法。提升你的代码功力。其他的不多说了，主要记录遇到的疑惑和解决疑惑中学到的知识。</p>
+<h3>源码解析</h3>
+<p><code>zepto</code>有一个<code>matches</code>方法:</p>
+<pre><code>zepto<span class="variable">.matches</span> = function(element, <span class="keyword">selector</span>) {
+  <span class="keyword">if</span> (!<span class="keyword">selector</span> || !element || element<span class="variable">.nodeType</span> !== <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>
+  var matchesSelector = element<span class="variable">.webkitMatchesSelector</span> || element<span class="variable">.mozMatchesSelector</span> ||
+                        element<span class="variable">.oMatchesSelector</span> || element<span class="variable">.matchesSelector</span>
+  <span class="keyword">if</span> (matchesSelector) <span class="keyword">return</span> matchesSelector<span class="variable">.call</span>(element, <span class="keyword">selector</span>)
+  <span class="comment">// fall back to performing a selector:</span>
+  var match, parent = element<span class="variable">.parentNode</span>, temp = !parent
+  <span class="keyword">if</span> (temp) (parent = tempParent)<span class="variable">.appendChild</span>(element)
+  match = ~zepto<span class="variable">.qsa</span>(parent, <span class="keyword">selector</span>)<span class="variable">.indexOf</span>(element)
+  temp &amp;&amp; tempParent<span class="variable">.removeChild</span>(element)
+  <span class="keyword">return</span> match
+  }</code></pre>
+<p>其中有如一行代码：</p>
+<pre><code>match = ~zepto<span class="variable">.qsa</span>(parent, <span class="keyword">selector</span>)<span class="variable">.indexOf</span>(element)</code></pre>
+<blockquote>
+<p>Q: 为什么要使用按位取反符号呢？</p>
+<p>A:因为JS中<code>0</code>是被转换作<code>false</code>值的，其他的数字都被转换为<code>true</code>值，而<code>indexOf</code>方法在没有发现匹配的时候是返回<code>-1</code>，直接用它进行判断也可以，比如判断返回值是否等于<code>-1</code>，不过这样不够cool，所以这里就用了这个小hack，<code>~-1 === 0</code></p>
+</blockquote>
+<p><a href="http://stackoverflow.com/questions/15961998/understand-zepto-matches-function" target="_blank">参考</a>。另外，matchesSelector也值得注意一下。</p>
+<p>再看看<code>dasherize</code>方法：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">dasherize</span><span class="params">(str)</span> {</span>
+    <span class="keyword">return</span> <span class="transposed_variable">str.</span>replace(/::/g, <span class="string">'/'</span>)
+       .replace(/(<span class="matrix">[A-Z]</span>+)(<span class="matrix">[A-Z]</span><span class="matrix">[a-z]</span>)/g, <span class="string">'$1_$2'</span>)
+       .replace(/(<span class="matrix">[a-z\d]</span>)(<span class="matrix">[A-Z]</span>)/g, <span class="string">'$1_$2'</span>)
+       .replace(/_/g, <span class="string">'-'</span>)
+       .toLowerCase()
+  }</code></pre>
+<p>这个<code>$1</code>、<code>$2</code>肯定都知道，就是分组匹配的第一组和第二组，那么下面的<code>$1</code>呢？</p>
+<pre><code>var singleTagRE = /^&lt;(\w+)\s<span class="variable">*\</span>/?&gt;(?:&lt;\/\<span class="number">1</span>&gt;|)<span class="variable">$/</span>;
+<span class="keyword">if</span> (singleTagRE.test(html)) dom = <span class="variable">$(</span>document.createElement(RegExp.<span class="variable">$1</span>))</code></pre>
+<blockquote>
+<p>Q: <code>RegExp.$1</code>是什么？</p>
+<p>A:在模式匹配期间找到的，所存储的最近的1个部分，上面例子中的就是<code>(\w+)</code>对应的tag名称。只读。全局对象<code>RegExp</code>会在每次成功匹配一个带括号的分组时，将匹配成功的结果存储起来。每当产生一个带括号的成功匹配时，$1…$9 属性的值就被修改。 可以在一个正则表达式模式中指定任意多个带括号的子匹配，但只能存储最新的九个。</p>
+</blockquote>
+<h4>其他</h4>
+<blockquote>
+<p>注意数组方法传入函数时函数被传入的参数，比如<code>Array.prototype.replace()</code>方法，传入<code>function</code>作为参数时，传入function的参数为<br>    function(match, contents, offset, s){}</p>
+</blockquote>
+<h3>整体架构</h3>
+<pre><code>var Zepto = (<span class="keyword">function</span>() {}
+
+window.Zepto = Zepto
+window.$ === undefined &amp;&amp; (window.$ = Zepto)
+
+zepto.init = <span class="keyword">function</span>(selector, context) {
+    var dom;
+    //<span class="keyword">...</span>
+    <span class="keyword">return</span> zepto.Z(dom, selector)
+}
+
+zepto.Z = <span class="keyword">function</span>(dom, selector) {
+    dom = dom || []
+    dom.__proto__ = $.fn
+    dom.selector = selector || <span class="string">''</span>
+    <span class="keyword">return</span> dom
+  }
+
+zepto.Z.prototype = $.fn
+
+$.fn = {
+    //zepto对象上的各种方法
+}
+
+$ = <span class="keyword">function</span>(selector, context){
+    <span class="keyword">return</span> zepto.init(selector, context)
+  }</code></pre>
+<h3>小结一下</h3>
+<p>其实如果是为了看各种方法的实现的话，还有很多其他的代码可以看，比如经典的<a href="">undercorejs</a>、<a href="">undercore.String</a>、<a href="">ployfill</a>等，zepto源码完整的阅读下来，收获更多的是一个框架的整体架构和书写方式。之前阅读jQuery的时候，感觉读的晕晕的，因为源码太长了，阅读起来花的时间也比较长，看了前面忘了后面，没有一种整体把握的感觉。当然也可能是我阅读的方法不对，比如分模块阅读可能会好点。zepto则完全不一样，它只有1500行，详细的看每一条语句也不会花超过一天的时间，即使一句句的顺序往下看也不会迷失。zepto整个源码阅读下来非常顺畅，一气呵成，就像它宣扬的，“clear and concise”。</p>
+<h3>吐糟</h3>
+<ul>
+<li>代码风格有点让人受不了啊=。=居然不写分号，酱紫真的好么？！！！</li>
+<li>风格不够统一，明明定义了<code>isObject()</code>方法，有的地方使用，有的地方又忘了使用，跑去用<code>typeof</code>了……</li>
+<li>大量使用三元运算符，阅读起来有点困难啊，不过倒是蛮cool滴^_^</li>
+<li>官方源码里面竟然不包含touch模块，去github上才发现这一点，要自己用nodejs打包下载。。</li>
+</ul>
+
+          
+        </div>
+
+
+</article>
+
+
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   
@@ -402,7 +447,6 @@
 </article>
 
 
-<script src="/js/article.js"></script>
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   
@@ -460,7 +504,6 @@
 </article>
 
 
-<script src="/js/article.js"></script>
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   
@@ -526,7 +569,6 @@
 </article>
 
 
-<script src="/js/article.js"></script>
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   
@@ -594,7 +636,6 @@
 </article>
 
 
-<script src="/js/article.js"></script>
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   
@@ -655,7 +696,6 @@
 </article>
 
 
-<script src="/js/article.js"></script>
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   
@@ -720,7 +760,6 @@ inherit(Child,<span class="keyword">Parent</span>);</code></pre>
 </article>
 
 
-<script src="/js/article.js"></script>
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   
@@ -780,113 +819,6 @@ inherit(Child,<span class="keyword">Parent</span>);</code></pre>
 </article>
 
 
-<script src="/js/article.js"></script>
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  
-	<div class="meta">
-          
-<div class="date">
-
-<time datetime="2014-02-05T10:03:58.000Z"
-      
-      data-updated="true"
-       itemprop="datePublished">
-  Feb 5 2014
-</time>
-
-
-
-
-
-</div>
-
-          
-
- 
- <div class="tags">
-   <a href="/tags/python/">python</a>, <a href="/tags/gevent/">gevent</a>
- </div>
-
-
-          
-	</div>
-        <h1 class="title" itemprop="name">
-          <a href="/2014/02/05/gevent-in-action/" itemprop="url">
-            gevent-in-action</a>
-        </h1>
-        <div class="entry-content" itemprop="articleBody">
-          
-            <p>并发的核心思想在于，大的任务可以分解为一系列的子任务，后者可以被调度成同步执行或异步执行，而不是一次一个地或者同步地执行。两个子任务之间的切换就是上下文切换。</p>
-<p>在gevent里面，上下文切换时通过<code>yielding</code>来完成的。</p>
-<h3>同步和异步执行</h3>
-<p>当我们在受限于网络或IO的函数中使用gevent，这些函数会被协作式的调度，gevent的真正能力会得到发挥。</p>
-<p>下面有一张来自gevent指南的控制流程图，形象地解释程序的执行顺序，如下图：
-            <p style="text-align:right">
-              <a href="/2014/02/05/gevent-in-action/" class="more-link">
-                Continue Reading
-              </a>
-            </p>
-          
-        </div>
-
-
-</article>
-
-
-<script src="/js/article.js"></script>
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  
-	<div class="meta">
-          
-<div class="date">
-
-<time datetime="2013-12-31T14:21:52.000Z"
-      
-      data-updated="true"
-       itemprop="datePublished">
-  Dec 31 2013
-</time>
-
-
-
-
-
-</div>
-
-          
-
- 
- <div class="tags">
-   <a href="/tags/Life/">Life</a>
- </div>
-
-
-          
-	</div>
-        <h1 class="title" itemprop="name">
-          <a href="/2013/12/31/Bye-2013,-Hello-2014/" itemprop="url">
-            Bye 2013, Hello 2014</a>
-        </h1>
-        <div class="entry-content" itemprop="articleBody">
-          
-            <p>还记得去年元旦之前的那个晚上，自己一个人在东十二的517自习，那段时间正是我写博客最频繁的时期，但大都是技术相关的笔记，无关生活，或者说生活单调的以至于没有东西可写。坐在自习室中，看着大家分享着各自的年终总结，自己当时也很想写一篇，但最终还是舍不得花那个时间，只在微博上留了一句：</p>
-<p><img src="/img/post/weibo1.png" alt="weibo1"></p>
-<p>后来呢？大年三十也还是没有写年终总结，如今，关于2012年的记忆，可能只剩下暑假骑行川藏线的片段了以及自习室里的“有缘人”了，其他的呢，需要很努力才想的起来零星点点。之前自己也感叹过，为很多记忆碎片不经整理，慢慢的从脑海中溢出而感到可惜，现在既然决心要改善了，那今年这篇年终总结就不能再错过了。Not only let go, but also remember, remember for the future.<br>
-            <p style="text-align:right">
-              <a href="/2013/12/31/Bye-2013,-Hello-2014/" class="more-link">
-                Continue Reading
-              </a>
-            </p>
-          
-        </div>
-
-
-</article>
-
-
-<script src="/js/article.js"></script>
 
 </div>
 
