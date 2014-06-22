@@ -102,9 +102,13 @@
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
-    <li><a href="/tags/HTML5/">HTML5</a><small>6</small></li>
+    <li><a href="/tags/HTML5/">HTML5</a><small>8</small></li>
+  
+    <li><a href="/tags/History API/">History API</a><small>1</small></li>
   
     <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/Web Workers/">Web Workers</a><small>1</small></li>
   
     <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
   
@@ -161,6 +165,129 @@
           
 <div class="date">
 
+<time datetime="2014-03-28T02:35:08.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Mar 28 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/javascript/">javascript</a>, <a href="/tags/inherit/">inherit</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/03/28/inherit_in_javascript/" itemprop="url">
+            javascript中的继承</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>javascript中有两种继承，一种是常说的类式继承（classical），另一种是现代继承。</p>
+<h3>类式继承</h3>
+<p>实现类式继承的目标是通过构造Child()获取来自另一个构造函数Parent()的属性，从而创建对象。</p>
+<pre><code><span class="comment">//父构造函数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">(name)</span>{</span>
+    <span class="keyword">this</span>.name = name || <span class="string">"Echo"</span>;
+}
+<span class="comment">//向该原型中添加功能</span>
+<span class="keyword">Parent</span>.prototype.say = function(){
+    retrun <span class="keyword">this</span>.name;
+}
+<span class="comment">//子构造函数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>}
+<span class="comment">//实现继承</span>
+inherit(Child,<span class="keyword">Parent</span>);</code></pre>
+<p>下面我们就来实现inherit函数。
+            <p style="text-align:right">
+              <a href="/2014/03/28/inherit_in_javascript/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-02-24T14:46:19.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Feb 24 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/css3/">css3</a>, <a href="/tags/flexbox/">flexbox</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/02/24/flexbox/" itemprop="url">
+            flexbox完全指南</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>flexbox属性的标准写法从09年到现在一直在变化，现在终于确定了。这几天看了一些笔试题，发现考了不少相关的知识，很多网站都已经开始使用它进行网页布局了，移动端的使用非常多（比如赶集网和百姓网）。所以记录一下，大多数参考自<a href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">css-tricks</a>。</p>
+<h3>语法和属性</h3>
+<p><strong> 作用于弹性盒的属性：</strong></p>
+<ul>
+<li>display: flex | inline-flex;</li>
+<li>flex-derection: row(<strong>default</strong>) | row-reverse | column | column-reverse;</li>
+<li>flex-wrap: nowrap (<strong>default</strong>) | wrap | wrap-reverse;</li>
+<li>flex-flow: &lt;‘flex-derection’&gt; || &lt;‘flex-wrap’&gt;;</li>
+<li>justify-content: flex-start | flex-end | center | space-between | space-around;</li>
+<li>align-items: flex-start | flex-end | center | baseline | stretch;</li>
+<li>alegn-content: flex-start | center | baseline | space-between | space-around |stretch;
+            <p style="text-align:right">
+              <a href="/2014/02/24/flexbox/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
 <time datetime="2014-02-05T10:03:58.000Z"
       
       data-updated="true"
@@ -185,7 +312,7 @@
           
 	</div>
         <h1 class="title" itemprop="name">
-          <a href="/2014/02/05/gevent-in-action/" itemprop="url">
+          <a href="/2014/02/05/gevent_in_action/" itemprop="url">
             gevent-in-action</a>
         </h1>
         <div class="entry-content" itemprop="articleBody">
@@ -196,7 +323,7 @@
 <p>当我们在受限于网络或IO的函数中使用gevent，这些函数会被协作式的调度，gevent的真正能力会得到发挥。</p>
 <p>下面有一张来自gevent指南的控制流程图，形象地解释程序的执行顺序，如下图：
             <p style="text-align:right">
-              <a href="/2014/02/05/gevent-in-action/" class="more-link">
+              <a href="/2014/02/05/gevent_in_action/" class="more-link">
                 Continue Reading
               </a>
             </p>
@@ -238,7 +365,7 @@
           
 	</div>
         <h1 class="title" itemprop="name">
-          <a href="/2013/12/31/Bye-2013,-Hello-2014/" itemprop="url">
+          <a href="/2013/12/31/Bye_2013,Hello_2014/" itemprop="url">
             Bye 2013, Hello 2014</a>
         </h1>
         <div class="entry-content" itemprop="articleBody">
@@ -247,7 +374,7 @@
 <p><img src="/img/post/weibo1.png" alt="weibo1"></p>
 <p>后来呢？大年三十也还是没有写年终总结，如今，关于2012年的记忆，可能只剩下暑假骑行川藏线的片段了以及自习室里的“有缘人”了，其他的呢，需要很努力才想的起来零星点点。之前自己也感叹过，为很多记忆碎片不经整理，慢慢的从脑海中溢出而感到可惜，现在既然决心要改善了，那今年这篇年终总结就不能再错过了。Not only let go, but also remember, remember for the future.<br>
             <p style="text-align:right">
-              <a href="/2013/12/31/Bye-2013,-Hello-2014/" class="more-link">
+              <a href="/2013/12/31/Bye_2013,Hello_2014/" class="more-link">
                 Continue Reading
               </a>
             </p>
@@ -289,7 +416,7 @@
           
 	</div>
         <h1 class="title" itemprop="name">
-          <a href="/2013/12/22/python-tutorial/" itemprop="url">
+          <a href="/2013/12/22/python_tutorial/" itemprop="url">
             python-tutorial</a>
         </h1>
         <div class="entry-content" itemprop="articleBody">
@@ -311,7 +438,7 @@ a<span class="variable">.imag</span> <span class="preprocessor">#虚部</span></
 <h2>string</h2>
 
             <p style="text-align:right">
-              <a href="/2013/12/22/python-tutorial/" class="more-link">
+              <a href="/2013/12/22/python_tutorial/" class="more-link">
                 Continue Reading
               </a>
             </p>
@@ -353,7 +480,7 @@ a<span class="variable">.imag</span> <span class="preprocessor">#虚部</span></
           
 	</div>
         <h1 class="title" itemprop="name">
-          <a href="/2013/10/24/why-i-build-the-website-ihuster.com/" itemprop="url">
+          <a href="/2013/10/24/why_i_build_the_website_ihuster.com/" itemprop="url">
             我为什么要做这个社区？</a>
         </h1>
         <div class="entry-content" itemprop="articleBody">
@@ -361,7 +488,7 @@ a<span class="variable">.imag</span> <span class="preprocessor">#虚部</span></
             <p>这个社区其实是我的第二次尝试，第一次尝试大概在半年前，从大三的那个寒假开始，持续了两三个月的时间，最后因为种种原因静默的失败了，没有向任何人提起。一个星期前突然大脑短路，不小心删掉了开发盘上的所有数据，导致曾经的尝试记录全部都丢失了，那两三个月里所有的努力似乎也突然被抹去了，没有留下任何的痕迹。</p>
 <p>自我从拉萨回来，更新完游记之后，到现在将近一年的时间里，我的QQ空间和微博几乎都停止更新，这次我再度回到社交网络，并带来了自己的社交网站，必然是带着自己思考而来的。两年前我在QQ空间上说过，我们成长的过程中有两件事情亟待解决，一个是认识自己，一个是认识世界，这个社交网站就是结合现阶段我对自我的认识以及对这个世界的理解而建造的。
             <p style="text-align:right">
-              <a href="/2013/10/24/why-i-build-the-website-ihuster.com/" class="more-link">
+              <a href="/2013/10/24/why_i_build_the_website_ihuster.com/" class="more-link">
                 Continue Reading
               </a>
             </p>
@@ -403,7 +530,7 @@ a<span class="variable">.imag</span> <span class="preprocessor">#虚部</span></
           
 	</div>
         <h1 class="title" itemprop="name">
-          <a href="/2013/10/23/Remember-Let-go-Move-on/" itemprop="url">
+          <a href="/2013/10/23/Remember_Let_go_Move_on/" itemprop="url">
             Remember, Let go, Move on.</a>
         </h1>
         <div class="entry-content" itemprop="articleBody">

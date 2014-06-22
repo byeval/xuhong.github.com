@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Remember, Let go, Move on.]]></subtitle>
   <link href="http://beyoung.me/atom.xml" rel="self"/>
   <link href="http://beyoung.me"/>
-  <updated>2014-06-17T08:45:07.894Z</updated>
+  <updated>2014-06-22T11:20:03.622Z</updated>
   <id>http://beyoung.me/</id>
   <author>
     <name><![CDATA[BeYoung]]></name>
@@ -12,11 +12,113 @@
   </author>
   <generator uri="http://zespia.tw/hexo">Hexo</generator>
   <entry>
+    <title type="html"><![CDATA[使用Web Worker后台运行JavaScript]]></title>
+    <link href="http://beyoung.me/2014/06/10/web_worker/"/>
+    <id>http://beyoung.me/2014/06/10/web_worker/</id>
+    <published>2014-06-09T16:07:44.000Z</published>
+    <updated>2014-06-22T07:47:14.000Z</updated>
+    <content type="html"><![CDATA[<h3>概要</h3>
+<p>我们都知道JavaScript是单线程的，在执行JavaScript的时候会阻塞页面UI的渲染，所以最佳实践都是让JavaScript尽可能晚的执行，以防止用户界面假死导致用户流失。面试官也经常会问这个问题，<code>setInterval()</code>和<code>setTimeout()</code>这两个函数的副作用是什么？就是阻塞Js线程。那么有什么办法可以防止耗时的程序阻塞线程呢？Web Worker给我们带来了解决方案。</p>
+<h3>如何使用</h3>
+<h4>创建Worker</h4>
+<p>通过<code>Worker()</code>构造函数创建一个新的Web Worker，构造函数接受一个字符串参数，传入需要在后台执行的js代码的URL地址，受同源策略限制。</p>
+<pre><code><span class="keyword">var</span> worker = <span class="keyword">new</span> Worker(<span class="string">'worker.js'</span>);</code></pre>
+<p>如果不想创建单独的worker.js，可以采用<strong>内嵌Worker</strong>来实现，这要用到<a href="../2014/06/08/file_api/">上一篇博客</a>提到的<code>Blob</code>知识：<a id="more"></a></p>
+<pre><code>var blob = new Blob(["function fibonacci(n){return n <span class="tag">&lt;<span class="title">2?n:arguments.callee(n-1)+arguments.callee(n-2);}onmessage=function(e){postMessage(fibonacci(e.data));}"],{type:"text</span>/<span class="attribute">javascript</span>"}),
+<span class="attribute">url</span> = <span class="attribute">URL.createObjectURL</span>(<span class="attribute">blob</span>),
+<span class="attribute">worker</span> = <span class="attribute">new</span> <span class="attribute">Worker</span>(<span class="attribute">url</span>);</code></pre>
+<h4>方法</h4>
+<p>Worker非常简单，只有下面两个方法：</p>
+<ul>
+<li><p>postMessage()<br>Worker与其父网页之间进行通信是通过这个方法来实现的。</p>
+</li>
+<li><p>terminate()<br>终止Worker还有另一种方法是在Worker内部调用<code>self.close()</code>。</p>
+</li>
+</ul>
+<h4>属性</h4>
+<p>有两个事件属性，分别是：</p>
+<ul>
+<li>onmessage</li>
+<li>onerror</li>
+</ul>
+<p>worker还在内部实现了一个importScripts(url)的方法，可以在worker中引入新的js，但url地址必须是绝对地址。</p>
+<h3>Worker中支持的功能</h3>
+<p>由于 Web Worker的多线程行为，所以它们只能使用 JavaScript 功能的子集：</p>
+<ul>
+<li>navigator 对象</li>
+<li>location 对象（只读）</li>
+<li>XMLHttpRequest</li>
+<li>setTimeout()/clearTimeout() 和 setInterval()/clearInterval()</li>
+<li>应用缓存</li>
+<li>使用 importScripts() 方法导入外部脚本</li>
+<li>生成其他 Web Worker</li>
+</ul>
+<p>Worker<strong>无法使用</strong>：</p>
+<ul>
+<li>DOM（非线程安全）</li>
+<li>window 对象</li>
+<li>document 对象</li>
+<li>parent 对象</li>
+</ul>
+<p>更多的函数参见<a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/Functions_and_classes_available_to_workers" target="_blank">Functions and classes available to workers</a></p>
+<h3>例子</h3>
+<p>这个例子在输入框中输入数字后，<code>Worker</code>将在后台计算fibonacci数列，计算完成后把计算结构发送给主网页，防止浏览器因为计算量太大而造成界面假死。(不要输入太大的数，否则浏览器崩溃了我可不管哟，30以后就比较耗时了)</p>
+<p><input type="text"/><div id="log"></div></p>
+<pre><code><span class="keyword">var</span> worker = <span class="keyword">new</span> Worker(<span class="string">'path/to/worker.js'</span>);
+worker.postMessage({<span class="string">'num'</span>: <span class="number">20</span>})
+worker.addEventListener(<span class="string">'message'</span>, function(e){
+    console.log(e.data);
+});
+<span class="comment">//worker.js</span>
+<span class="function"><span class="keyword">function</span> <span class="title">fibonacci</span><span class="params">(n)</span> {</span>
+    <span class="keyword">return</span> n &lt;<span class="number">2</span>? n : arguments.callee(n -<span class="number">1</span>) + arguments.callee(n -<span class="number">2</span>);
+};
+<span class="keyword">self</span>.onmessage = function(e){
+    <span class="keyword">self</span>.postMessage(fibonacci(e.data.num));
+}
+<span class="comment">//或者使用addEventListener</span>
+<span class="keyword">self</span>.addEventListener(<span class="string">'message'</span>,function(e){
+    <span class="keyword">self</span>.postMessage(e.data);
+});</code></pre>
+<p>在<code>Worker</code>中<code>self = this</code>，所以worker.js也可以写成：</p>
+<pre><code><span class="title">onmessage</span> = function(e){
+    postMessage(fibonacci(e.<span class="typedef"><span class="keyword">data</span>))</span>
+}</code></pre>
+<h3>兼容性</h3>
+<p>最新版本的浏览器基本上都兼容了<br><img src="/img/post/caniuseworker.png" alt="caniuseworker"></p>
+<h3>总结</h3>
+<p>Worker设计的出发点就是在后台并行执行程序而不阻塞浏览器线程，所以它的适用场合就是执行那些可能会阻塞线程的程序，比如大量的计算操作、在后台执行Web I/O等。</p>
+<h3>参考资料</h3>
+<p>W3C: <a href="http://www.w3.org/TR/workers/" target="_blank">Web Workers</a><br>MDN: <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/Performance/Using_web_workers" target="_blank">使用 Web Workers</a><br>HTML5Rock:<a href="http://www.html5rocks.com/zh/tutorials/workers/basics/" target="_blank">Web Workers 的基本信息</a><br>caniuse: <a href="http://caniuse.com/#feat=webworkers" target="_blank">Web Workers</a></p>
+<script>
+    var blob = new Blob(["function fibonacci(n){return n <2? n : arguments.callee(n -1) + arguments.callee(n -2);}onmessage = function(e){postMessage(fibonacci(e.data));}"],{type:"text/javascript"}),
+    url = URL.createObjectURL(blob),
+    worker = new Worker(url),
+    con = document.getElementById('content'),
+    ipt = con.getElementsByTagName('input')[0],
+    log = document.getElementById('log');
+
+    console.log(url);
+
+    ipt.addEventListener('keyup',function(){
+        worker.postMessage(ipt.value);
+        console.log(ipt.value);
+    });
+
+    worker.addEventListener('message', function(e){
+        console.log(e.data);
+        log.innerHTML = "<strong>fibonacci(" + ipt.value + ") = </strong>" + e.data;
+    });
+</script>]]></content>
+    <category scheme="http://beyoung.me/tags/HTML5/" term="HTML5"/>
+    <category scheme="http://beyoung.me/tags/Web Workers/" term="Web Workers"/>
+  </entry>
+  <entry>
     <title type="html"><![CDATA[使用HTML5 File API进行文件操作]]></title>
     <link href="http://beyoung.me/2014/06/08/file_api/"/>
     <id>http://beyoung.me/2014/06/08/file_api/</id>
     <published>2014-06-08T10:15:48.000Z</published>
-    <updated>2014-06-17T07:43:07.000Z</updated>
+    <updated>2014-06-22T08:12:07.000Z</updated>
     <content type="html"><![CDATA[<p>HTML5为我们提供了一种File API规范来与本地文件进行交互。通过这个API可以非常方便的实现很多以前需要复杂代码才能实现的功能，比如多文件上传、上传图片实时预览、断点续传、文件下载等。File API主要有以下几个接口：</p>
 <ul>
 <li>Blob</li>
@@ -86,10 +188,22 @@
 <li>FileReader.readAsDataURL(Blob|File)</li>
 <li>FileReader.readAsArrayBuffer(Blob|File)</li>
 </ul>
-<p>除了以上四种方法外，FileReader对象还有一个<code>abort</code>方法用来中止文件上传。</p>
 <blockquote>
-<p><strong>注</strong>：还有一个同步读取File或Blob中内容的对象<code>FileReaderSync</code>，但只能在web worker中使用。</p>
+<p><strong>注</strong>：还有一个同步读取File或Blob中内容的对象<code>FileReaderSync</code>，但只能在web worker中使用，读取文件的方法是一样的。</p>
 </blockquote>
+<p>除了以上四种方法外，FileReader对象还有一个<code>abort</code>方法用来中止文件上传。<br>比如使用readAsDataURL()来显示上传图片的缩略图，下面的例子中就是这么做的：</p>
+<pre><code><span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();
+reader.onload = <span class="keyword">function</span>(e){
+    thumb = <span class="keyword">new</span> Image();
+    thumb.src = e.target.result;
+    thumb.className = <span class="string">'thumb'</span>;
+    <span class="comment">// thumb.setAttribute('class','thumb');</span>
+    document.getElementById(<span class="string">'thumbimg'</span>).appendChild(thumb);    
+}
+reader.readAsDataURL(f);</code></pre>
+<p>其实，要实现这个效果，还有一个方法可以调用，<code>window.URL</code>:</p>
+<pre><code>img<span class="preprocessor">.src</span> = window<span class="preprocessor">.URL</span><span class="preprocessor">.createObjectURL</span>(f)<span class="comment">;</span></code></pre>
+<p>这个方法不仅可以显示图片，还可以显示pdf、视频等，只要是浏览器能够播放的文件，都能够通过这个方法生成一个可供浏览器调用的URL。</p>
 <p>对<code>FileReader</code>对象调用其中某一种读取方法后，可以监听以下不同的状态来注册回调函数：<br>- onloadstart<br>- onprogress<br>- onload<br>- onabort<br>- onerror<br>- onloadend</p>
 <p>例如通过监听<code>onprogress</code>事件告知用户上传的进度。</p>
 <p>FileReader有三种状态：<br>- EMPTY<br>- LOADING<br>- DONE</p>
@@ -123,7 +237,7 @@
             if(f.type.match('image.*')){
                 var reader = new FileReader();
                 reader.onload = function(e){
-                    thumb = new Image();
+                    var thumb = new Image();
                     thumb.src = e.target.result;
                     thumb.className = 'thumb';
                     // thumb.setAttribute('class','thumb');
@@ -158,7 +272,7 @@
     dragFile.addEventListener('drop', handleFileSelect,false);
 
     document.onpaste=function(e){
-        console.log(e);
+        console.log(e.clipboardData.getData('Text'));
     }
 </script>]]></content>
     <category scheme="http://beyoung.me/tags/HTML5/" term="HTML5"/>
@@ -415,6 +529,71 @@ window.$ === <span class="literal">undefined</span> &amp;&amp; (window.$ = Zepto
 ]]></content>
     <category scheme="http://beyoung.me/tags/zepto/" term="zepto"/>
     <category scheme="http://beyoung.me/tags/source/" term="source"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[谈谈 History API及其应用]]></title>
+    <link href="http://beyoung.me/2014/05/28/history_api/"/>
+    <id>http://beyoung.me/2014/05/28/history_api/</id>
+    <published>2014-05-28T11:42:51.000Z</published>
+    <updated>2014-06-22T08:13:52.000Z</updated>
+    <content type="html"><![CDATA[<h3>概览</h3>
+<p>History API大家都很熟悉，在HTML4中，我们都是用过下面的几个方法来进行浏览器前进后退导航：<br>- window.history.back() //后退<br>- window.history.forward() //前进<br>- window.history.go(-1) //后退几页</p>
+<p>HTML5就是新增了下面两个方法：<br>- pushState()<br>- replaceState()<br><a id="more"></a><br>以及一个监听状态变化的事件：<br>- onpopstate</p>
+<blockquote>
+<p>注意：这个函数只会在后退的时候才会调用，也就是从history栈弹出的时候。</p>
+</blockquote>
+<h3>如何使用</h3>
+<p><code>pushState()</code>和<code>replaceState()</code>方法接受三个参数，分别是：<br>- 状态对象<br>- 标题<br>- 可选的URL</p>
+<p>目前所有的浏览器会忽略标题选项，状态对象可以通过<code>history.state</code>属性获得。</p>
+<p>HTML5新增的这两个方法，目前使用最广的场景是与Ajax结合使用，也就是所谓的<strong>Pjax—pushState+Ajax</strong>。与单纯的Ajax相比，它的好处是使得Ajax状态也变得可以索引。比如在github查看代码的时候，就是通过Ajax获得代码，但同时也更新了url，使用的就是Pjax。</p>
+<h3>例子</h3>
+<p><button>push</button><button>replace</button></p>
+<p><div id="loghere"></div><style>#loghere{height:320px;width:100%;border:2px dashed #ddd;overflow: auto;}</style></p>
+<h3>兼容</h3>
+<p><img src="/img/post/caniusehistoryapi.png" alt="caniusehistoryapi"></p>
+<h3>总结</h3>
+<p>historyAPI其实已经被大范围使用了，比如Backbone、Angularjs这些MV*的框架里面基本上都有用这个API，在浏览器不支持的情况下，就降级使用<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window.onhashchange" target="_blank"><code>onhashchange</code></a>方法，详细可以参考<a href="https://github.com/jashkenas/backbone/blob/master/backbone.js#L1376" target="_blank">Backbone.History</a>的实现。</p>
+<h3>参考资料</h3>
+<p>MDN: <a href="https://developer.mozilla.org/zh-CN/docs/DOM/Manipulating_the_browser_history" target="_blank">操纵浏览器的历史记录</a><br>caniuse: <a href="http://caniuse.com/#search=history" target="_blank">history API</a></p>
+<script>
+    var con = document.getElementById('content'),
+        btn = con.getElementsByTagName('button'),
+        log = document.getElementById('loghere'),
+        i = 10;
+    history.pushState('history api test','','../2014/05/28/history_api/');
+
+    btn[0].addEventListener('click', function(){
+        i+=1;
+        var url = '/test' + i;
+        var title = document.title;
+        var state = {
+            'time': Date.now(),
+            'url': url
+        }
+        history.pushState(state, title, url);
+        // updateState();
+    });
+
+    btn[1].addEventListener('click', function(){
+        i+=1;
+        var url = '/test' + i;
+        var title = document.title;
+        var state = {
+            'time': Date.now(),
+            'url': url
+        }
+        history.replaceState(state, title, url);
+        // updateState();
+    });
+
+    window.onpopstate = function(){
+        console.log(history.state);
+        loghere.innerHTML += '' + JSON.stringify(history.state) + '</br>';
+    }
+
+</script>]]></content>
+    <category scheme="http://beyoung.me/tags/HTML5/" term="HTML5"/>
+    <category scheme="http://beyoung.me/tags/History API/" term="History API"/>
   </entry>
   <entry>
     <title type="html"><![CDATA[使用vibrate api在移动设备上发出震动]]></title>
@@ -1122,8 +1301,8 @@ geolocation();</code></pre>
   </entry>
   <entry>
     <title type="html"><![CDATA[javascript中的继承]]></title>
-    <link href="http://beyoung.me/2014/03/28/inherit-in-javascript/"/>
-    <id>http://beyoung.me/2014/03/28/inherit-in-javascript/</id>
+    <link href="http://beyoung.me/2014/03/28/inherit_in_javascript/"/>
+    <id>http://beyoung.me/2014/03/28/inherit_in_javascript/</id>
     <published>2014-03-28T02:35:08.000Z</published>
     <updated>2014-04-01T16:02:43.000Z</updated>
     <content type="html"><![CDATA[<p>javascript中有两种继承，一种是常说的类式继承（classical），另一种是现代继承。</p>
@@ -1317,8 +1496,8 @@ inherit(Child,<span class="keyword">Parent</span>);</code></pre>
   </entry>
   <entry>
     <title type="html"><![CDATA[gevent-in-action]]></title>
-    <link href="http://beyoung.me/2014/02/05/gevent-in-action/"/>
-    <id>http://beyoung.me/2014/02/05/gevent-in-action/</id>
+    <link href="http://beyoung.me/2014/02/05/gevent_in_action/"/>
+    <id>http://beyoung.me/2014/02/05/gevent_in_action/</id>
     <published>2014-02-05T10:03:58.000Z</published>
     <updated>2014-02-25T02:48:48.000Z</updated>
     <content type="html"><![CDATA[<p>并发的核心思想在于，大的任务可以分解为一系列的子任务，后者可以被调度成同步执行或异步执行，而不是一次一个地或者同步地执行。两个子任务之间的切换就是上下文切换。</p>
@@ -1392,8 +1571,8 @@ thread.join()</code></pre>
   </entry>
   <entry>
     <title type="html"><![CDATA[Bye 2013, Hello 2014]]></title>
-    <link href="http://beyoung.me/2013/12/31/Bye-2013,-Hello-2014/"/>
-    <id>http://beyoung.me/2013/12/31/Bye-2013,-Hello-2014/</id>
+    <link href="http://beyoung.me/2013/12/31/Bye_2013,Hello_2014/"/>
+    <id>http://beyoung.me/2013/12/31/Bye_2013,Hello_2014/</id>
     <published>2013-12-31T14:21:52.000Z</published>
     <updated>2014-01-23T17:22:56.000Z</updated>
     <content type="html"><![CDATA[<p>还记得去年元旦之前的那个晚上，自己一个人在东十二的517自习，那段时间正是我写博客最频繁的时期，但大都是技术相关的笔记，无关生活，或者说生活单调的以至于没有东西可写。坐在自习室中，看着大家分享着各自的年终总结，自己当时也很想写一篇，但最终还是舍不得花那个时间，只在微博上留了一句：</p>
@@ -1455,8 +1634,8 @@ thread.join()</code></pre>
   </entry>
   <entry>
     <title type="html"><![CDATA[python-tutorial]]></title>
-    <link href="http://beyoung.me/2013/12/22/python-tutorial/"/>
-    <id>http://beyoung.me/2013/12/22/python-tutorial/</id>
+    <link href="http://beyoung.me/2013/12/22/python_tutorial/"/>
+    <id>http://beyoung.me/2013/12/22/python_tutorial/</id>
     <published>2013-12-22T10:53:50.000Z</published>
     <updated>2014-01-01T13:27:09.000Z</updated>
     <content type="html"><![CDATA[<p>花了几天的时间把python官网的英文教程翻看了一遍，做了一点笔记。之前有在dive into python和learn python in the hard way上系统的学习过python，但时间久了，很多基础的东西都不记得的（虽说其实很多都差不多==），所以这次再看官网英文教程的时候顺便做了下笔记。不同语言之间所共有的就不记录了，记录一点python所特有的方法，或是我之前没接触过的。</p>
@@ -1545,8 +1724,8 @@ parrot(**d)</code></pre>
   </entry>
   <entry>
     <title type="html"><![CDATA[我为什么要做这个社区？]]></title>
-    <link href="http://beyoung.me/2013/10/24/why-i-build-the-website-ihuster.com/"/>
-    <id>http://beyoung.me/2013/10/24/why-i-build-the-website-ihuster.com/</id>
+    <link href="http://beyoung.me/2013/10/24/why_i_build_the_website_ihuster.com/"/>
+    <id>http://beyoung.me/2013/10/24/why_i_build_the_website_ihuster.com/</id>
     <published>2013-10-24T15:39:08.000Z</published>
     <updated>2013-11-15T12:38:03.000Z</updated>
     <content type="html"><![CDATA[<p>这个社区其实是我的第二次尝试，第一次尝试大概在半年前，从大三的那个寒假开始，持续了两三个月的时间，最后因为种种原因静默的失败了，没有向任何人提起。一个星期前突然大脑短路，不小心删掉了开发盘上的所有数据，导致曾经的尝试记录全部都丢失了，那两三个月里所有的努力似乎也突然被抹去了，没有留下任何的痕迹。</p>
@@ -1563,8 +1742,8 @@ parrot(**d)</code></pre>
   </entry>
   <entry>
     <title type="html"><![CDATA[Remember, Let go, Move on.]]></title>
-    <link href="http://beyoung.me/2013/10/23/Remember-Let-go-Move-on/"/>
-    <id>http://beyoung.me/2013/10/23/Remember-Let-go-Move-on/</id>
+    <link href="http://beyoung.me/2013/10/23/Remember_Let_go_Move_on/"/>
+    <id>http://beyoung.me/2013/10/23/Remember_Let_go_Move_on/</id>
     <published>2013-10-23T07:28:19.000Z</published>
     <updated>2013-11-15T12:38:01.000Z</updated>
     <content type="html"><![CDATA[<p><img src="/img/post/im-back.png" alt="i&#39;m back"></p>

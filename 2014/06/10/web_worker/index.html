@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+  
+  <title>使用Web Worker后台运行JavaScript | ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  <meta name="description" content="Just another weblog.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="使用Web Worker后台运行JavaScript"/>
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="http://beyoung.me/images/gravatar.png"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+  <section class="aboutme">
+    <p>
+      Just another weblog.
+    </p>
+  </section>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/HTML5/">HTML5</a><small>8</small></li>
+  
+    <li><a href="/tags/History API/">History API</a><small>1</small></li>
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/Web Workers/">Web Workers</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/file_api/">file_api</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/fullscreen/">fullscreen</a><small>1</small></li>
+  
+    <li><a href="/tags/geolocation/">geolocation</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/notification/">notification</a><small>1</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/source/">source</a><small>1</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+    <li><a href="/tags/touch_event/">touch_event</a><small>1</small></li>
+  
+    <li><a href="/tags/vibrate/">vibrate</a><small>1</small></li>
+  
+    <li><a href="/tags/zepto/">zepto</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<!--div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-06-09T16:07:44.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Jun 10 2014
+</time>
+
+
+
+
+
+</div>
+
+	</div-->
+
+        <h1 class="title" itemprop="name">使用Web Worker后台运行JavaScript<div class="menu">
+          <i class="icon-list"></i>
+          <i class="icon-expand"></i>
+        </div></h1>
+      	<div class="entry-content" itemprop="articleBody"><h3>概要</h3>
+<p>我们都知道JavaScript是单线程的，在执行JavaScript的时候会阻塞页面UI的渲染，所以最佳实践都是让JavaScript尽可能晚的执行，以防止用户界面假死导致用户流失。面试官也经常会问这个问题，<code>setInterval()</code>和<code>setTimeout()</code>这两个函数的副作用是什么？就是阻塞Js线程。那么有什么办法可以防止耗时的程序阻塞线程呢？Web Worker给我们带来了解决方案。</p>
+<h3>如何使用</h3>
+<h4>创建Worker</h4>
+<p>通过<code>Worker()</code>构造函数创建一个新的Web Worker，构造函数接受一个字符串参数，传入需要在后台执行的js代码的URL地址，受同源策略限制。</p>
+<pre><code><span class="keyword">var</span> worker = <span class="keyword">new</span> Worker(<span class="string">'worker.js'</span>);</code></pre>
+<p>如果不想创建单独的worker.js，可以采用<strong>内嵌Worker</strong>来实现，这要用到<a href="../2014/06/08/file_api/">上一篇博客</a>提到的<code>Blob</code>知识：<a id="more"></a></p>
+<pre><code>var blob = new Blob(["function fibonacci(n){return n <span class="tag">&lt;<span class="title">2?n:arguments.callee(n-1)+arguments.callee(n-2);}onmessage=function(e){postMessage(fibonacci(e.data));}"],{type:"text</span>/<span class="attribute">javascript</span>"}),
+<span class="attribute">url</span> = <span class="attribute">URL.createObjectURL</span>(<span class="attribute">blob</span>),
+<span class="attribute">worker</span> = <span class="attribute">new</span> <span class="attribute">Worker</span>(<span class="attribute">url</span>);</code></pre>
+<h4>方法</h4>
+<p>Worker非常简单，只有下面两个方法：</p>
+<ul>
+<li><p>postMessage()<br>Worker与其父网页之间进行通信是通过这个方法来实现的。</p>
+</li>
+<li><p>terminate()<br>终止Worker还有另一种方法是在Worker内部调用<code>self.close()</code>。</p>
+</li>
+</ul>
+<h4>属性</h4>
+<p>有两个事件属性，分别是：</p>
+<ul>
+<li>onmessage</li>
+<li>onerror</li>
+</ul>
+<p>worker还在内部实现了一个importScripts(url)的方法，可以在worker中引入新的js，但url地址必须是绝对地址。</p>
+<h3>Worker中支持的功能</h3>
+<p>由于 Web Worker的多线程行为，所以它们只能使用 JavaScript 功能的子集：</p>
+<ul>
+<li>navigator 对象</li>
+<li>location 对象（只读）</li>
+<li>XMLHttpRequest</li>
+<li>setTimeout()/clearTimeout() 和 setInterval()/clearInterval()</li>
+<li>应用缓存</li>
+<li>使用 importScripts() 方法导入外部脚本</li>
+<li>生成其他 Web Worker</li>
+</ul>
+<p>Worker<strong>无法使用</strong>：</p>
+<ul>
+<li>DOM（非线程安全）</li>
+<li>window 对象</li>
+<li>document 对象</li>
+<li>parent 对象</li>
+</ul>
+<p>更多的函数参见<a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/Functions_and_classes_available_to_workers" target="_blank">Functions and classes available to workers</a></p>
+<h3>例子</h3>
+<p>这个例子在输入框中输入数字后，<code>Worker</code>将在后台计算fibonacci数列，计算完成后把计算结构发送给主网页，防止浏览器因为计算量太大而造成界面假死。(不要输入太大的数，否则浏览器崩溃了我可不管哟，30以后就比较耗时了)</p>
+<p><input type="text"/><div id="log"></div></p>
+<pre><code><span class="keyword">var</span> worker = <span class="keyword">new</span> Worker(<span class="string">'path/to/worker.js'</span>);
+worker.postMessage({<span class="string">'num'</span>: <span class="number">20</span>})
+worker.addEventListener(<span class="string">'message'</span>, function(e){
+    console.log(e.data);
+});
+<span class="comment">//worker.js</span>
+<span class="function"><span class="keyword">function</span> <span class="title">fibonacci</span><span class="params">(n)</span> {</span>
+    <span class="keyword">return</span> n &lt;<span class="number">2</span>? n : arguments.callee(n -<span class="number">1</span>) + arguments.callee(n -<span class="number">2</span>);
+};
+<span class="keyword">self</span>.onmessage = function(e){
+    <span class="keyword">self</span>.postMessage(fibonacci(e.data.num));
+}
+<span class="comment">//或者使用addEventListener</span>
+<span class="keyword">self</span>.addEventListener(<span class="string">'message'</span>,function(e){
+    <span class="keyword">self</span>.postMessage(e.data);
+});</code></pre>
+<p>在<code>Worker</code>中<code>self = this</code>，所以worker.js也可以写成：</p>
+<pre><code><span class="title">onmessage</span> = function(e){
+    postMessage(fibonacci(e.<span class="typedef"><span class="keyword">data</span>))</span>
+}</code></pre>
+<h3>兼容性</h3>
+<p>最新版本的浏览器基本上都兼容了<br><img src="/img/post/caniuseworker.png" alt="caniuseworker"></p>
+<h3>总结</h3>
+<p>Worker设计的出发点就是在后台并行执行程序而不阻塞浏览器线程，所以它的适用场合就是执行那些可能会阻塞线程的程序，比如大量的计算操作、在后台执行Web I/O等。</p>
+<h3>参考资料</h3>
+<p>W3C: <a href="http://www.w3.org/TR/workers/" target="_blank">Web Workers</a><br>MDN: <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/Performance/Using_web_workers" target="_blank">使用 Web Workers</a><br>HTML5Rock:<a href="http://www.html5rocks.com/zh/tutorials/workers/basics/" target="_blank">Web Workers 的基本信息</a><br>caniuse: <a href="http://caniuse.com/#feat=webworkers" target="_blank">Web Workers</a></p>
+<script>
+    var blob = new Blob(["function fibonacci(n){return n <2? n : arguments.callee(n -1) + arguments.callee(n -2);}onmessage = function(e){postMessage(fibonacci(e.data));}"],{type:"text/javascript"}),
+    url = URL.createObjectURL(blob),
+    worker = new Worker(url),
+    con = document.getElementById('content'),
+    ipt = con.getElementsByTagName('input')[0],
+    log = document.getElementById('log');
+
+    console.log(url);
+
+    ipt.addEventListener('keyup',function(){
+        worker.postMessage(ipt.value);
+        console.log(ipt.value);
+    });
+
+    worker.addEventListener('message', function(e){
+        console.log(e.data);
+        log.innerHTML = "<strong>fibonacci(" + ipt.value + ") = </strong>" + e.data;
+    });
+</script></div>
+        <script src="/js/article.js"></script>
+
+
+</article>
+
+  <!--div class="share">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  
+  </div>
+  <script type="text/javascript">
+    var addthis_config = {"data_track_addressbar":true};
+  </script>
+  <script type="text/javascript"
+          src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=undefined">
+  </script>
+</div-->
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<div class="ds-thread"></div></div>
+</section>
+
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+

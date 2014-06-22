@@ -102,9 +102,13 @@
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
-    <li><a href="/tags/HTML5/">HTML5</a><small>6</small></li>
+    <li><a href="/tags/HTML5/">HTML5</a><small>8</small></li>
+  
+    <li><a href="/tags/History API/">History API</a><small>1</small></li>
   
     <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/Web Workers/">Web Workers</a><small>1</small></li>
   
     <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
   
@@ -154,6 +158,61 @@
       <div class="mid-col">
         <div class="mid-col-container">
       <div id="content" class="inner"><div itemscope itemtype="http://schema.org/Blog">
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-06-09T16:07:44.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Jun 10 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/HTML5/">HTML5</a>, <a href="/tags/Web Workers/">Web Workers</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/06/10/web_worker/" itemprop="url">
+            使用Web Worker后台运行JavaScript</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <h3>概要</h3>
+<p>我们都知道JavaScript是单线程的，在执行JavaScript的时候会阻塞页面UI的渲染，所以最佳实践都是让JavaScript尽可能晚的执行，以防止用户界面假死导致用户流失。面试官也经常会问这个问题，<code>setInterval()</code>和<code>setTimeout()</code>这两个函数的副作用是什么？就是阻塞Js线程。那么有什么办法可以防止耗时的程序阻塞线程呢？Web Worker给我们带来了解决方案。</p>
+<h3>如何使用</h3>
+<h4>创建Worker</h4>
+<p>通过<code>Worker()</code>构造函数创建一个新的Web Worker，构造函数接受一个字符串参数，传入需要在后台执行的js代码的URL地址，受同源策略限制。</p>
+<pre><code><span class="keyword">var</span> worker = <span class="keyword">new</span> Worker(<span class="string">'worker.js'</span>);</code></pre>
+<p>如果不想创建单独的worker.js，可以采用<strong>内嵌Worker</strong>来实现，这要用到<a href="../2014/06/08/file_api/">上一篇博客</a>提到的<code>Blob</code>知识：
+            <p style="text-align:right">
+              <a href="/2014/06/10/web_worker/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   
@@ -324,6 +383,57 @@
 <p>其中有如一行代码：
             <p style="text-align:right">
               <a href="/2014/05/31/read_the_zepto_source_code/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-05-28T11:42:51.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  May 28 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/HTML5/">HTML5</a>, <a href="/tags/History API/">History API</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/05/28/history_api/" itemprop="url">
+            谈谈 History API及其应用</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <h3>概览</h3>
+<p>History API大家都很熟悉，在HTML4中，我们都是用过下面的几个方法来进行浏览器前进后退导航：<br>- window.history.back() //后退<br>- window.history.forward() //前进<br>- window.history.go(-1) //后退几页</p>
+<p>HTML5就是新增了下面两个方法：<br>- pushState()<br>- replaceState()<br>
+            <p style="text-align:right">
+              <a href="/2014/05/28/history_api/" class="more-link">
                 Continue Reading
               </a>
             </p>
@@ -628,129 +738,6 @@
 <p>2.array方法的巧妙运用，每次都把两个数组第一个数字中的较小者放到结果数组后面，同时删除较小数字所在数组中的这个数字，再进行下一轮比较，直到其中一个数组空了为止，然后把剩余部分拼接到结果数组的后面。
             <p style="text-align:right">
               <a href="/2014/04/01/concatsort/" class="more-link">
-                Continue Reading
-              </a>
-            </p>
-          
-        </div>
-
-
-</article>
-
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  
-	<div class="meta">
-          
-<div class="date">
-
-<time datetime="2014-03-28T02:35:08.000Z"
-      
-      data-updated="true"
-       itemprop="datePublished">
-  Mar 28 2014
-</time>
-
-
-
-
-
-</div>
-
-          
-
- 
- <div class="tags">
-   <a href="/tags/javascript/">javascript</a>, <a href="/tags/inherit/">inherit</a>
- </div>
-
-
-          
-	</div>
-        <h1 class="title" itemprop="name">
-          <a href="/2014/03/28/inherit-in-javascript/" itemprop="url">
-            javascript中的继承</a>
-        </h1>
-        <div class="entry-content" itemprop="articleBody">
-          
-            <p>javascript中有两种继承，一种是常说的类式继承（classical），另一种是现代继承。</p>
-<h3>类式继承</h3>
-<p>实现类式继承的目标是通过构造Child()获取来自另一个构造函数Parent()的属性，从而创建对象。</p>
-<pre><code><span class="comment">//父构造函数</span>
-<span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">(name)</span>{</span>
-    <span class="keyword">this</span>.name = name || <span class="string">"Echo"</span>;
-}
-<span class="comment">//向该原型中添加功能</span>
-<span class="keyword">Parent</span>.prototype.say = function(){
-    retrun <span class="keyword">this</span>.name;
-}
-<span class="comment">//子构造函数</span>
-<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>}
-<span class="comment">//实现继承</span>
-inherit(Child,<span class="keyword">Parent</span>);</code></pre>
-<p>下面我们就来实现inherit函数。
-            <p style="text-align:right">
-              <a href="/2014/03/28/inherit-in-javascript/" class="more-link">
-                Continue Reading
-              </a>
-            </p>
-          
-        </div>
-
-
-</article>
-
-
-
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  
-	<div class="meta">
-          
-<div class="date">
-
-<time datetime="2014-02-24T14:46:19.000Z"
-      
-      data-updated="true"
-       itemprop="datePublished">
-  Feb 24 2014
-</time>
-
-
-
-
-
-</div>
-
-          
-
- 
- <div class="tags">
-   <a href="/tags/css3/">css3</a>, <a href="/tags/flexbox/">flexbox</a>
- </div>
-
-
-          
-	</div>
-        <h1 class="title" itemprop="name">
-          <a href="/2014/02/24/flexbox/" itemprop="url">
-            flexbox完全指南</a>
-        </h1>
-        <div class="entry-content" itemprop="articleBody">
-          
-            <p>flexbox属性的标准写法从09年到现在一直在变化，现在终于确定了。这几天看了一些笔试题，发现考了不少相关的知识，很多网站都已经开始使用它进行网页布局了，移动端的使用非常多（比如赶集网和百姓网）。所以记录一下，大多数参考自<a href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">css-tricks</a>。</p>
-<h3>语法和属性</h3>
-<p><strong> 作用于弹性盒的属性：</strong></p>
-<ul>
-<li>display: flex | inline-flex;</li>
-<li>flex-derection: row(<strong>default</strong>) | row-reverse | column | column-reverse;</li>
-<li>flex-wrap: nowrap (<strong>default</strong>) | wrap | wrap-reverse;</li>
-<li>flex-flow: &lt;‘flex-derection’&gt; || &lt;‘flex-wrap’&gt;;</li>
-<li>justify-content: flex-start | flex-end | center | space-between | space-around;</li>
-<li>align-items: flex-start | flex-end | center | baseline | stretch;</li>
-<li>alegn-content: flex-start | center | baseline | space-between | space-around |stretch;
-            <p style="text-align:right">
-              <a href="/2014/02/24/flexbox/" class="more-link">
                 Continue Reading
               </a>
             </p>

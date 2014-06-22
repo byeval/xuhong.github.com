@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://beyoung.me/2014/05/28/history_api/</loc>
+    <lastmod>2014-06-22T08:13:52.000Z</lastmod>
+  </url>
+  <url>
+    <loc>http://beyoung.me/2014/06/08/file_api/</loc>
+    <lastmod>2014-06-22T08:12:07.000Z</lastmod>
+  </url>
+  <url>
+    <loc>http://beyoung.me/2014/06/10/web_worker/</loc>
+    <lastmod>2014-06-22T07:47:14.000Z</lastmod>
+  </url>
+  <url>
     <loc>http://beyoung.me/2014/05/31/read_the_zepto_source_code/</loc>
     <lastmod>2014-06-17T08:43:47.000Z</lastmod>
   </url>
   <url>
     <loc>http://beyoung.me/2014/05/26/vibrate_api/</loc>
     <lastmod>2014-06-17T07:44:24.000Z</lastmod>
-  </url>
-  <url>
-    <loc>http://beyoung.me/2014/06/08/file_api/</loc>
-    <lastmod>2014-06-17T07:43:07.000Z</lastmod>
   </url>
   <url>
     <loc>http://beyoung.me/2014/06/06/touch_events/</loc>
@@ -33,7 +41,7 @@
     <lastmod>2014-04-02T04:10:43.000Z</lastmod>
   </url>
   <url>
-    <loc>http://beyoung.me/2014/03/28/inherit-in-javascript/</loc>
+    <loc>http://beyoung.me/2014/03/28/inherit_in_javascript/</loc>
     <lastmod>2014-04-01T16:02:43.000Z</lastmod>
   </url>
   <url>
@@ -41,23 +49,23 @@
     <lastmod>2014-02-25T02:50:02.000Z</lastmod>
   </url>
   <url>
-    <loc>http://beyoung.me/2014/02/05/gevent-in-action/</loc>
+    <loc>http://beyoung.me/2014/02/05/gevent_in_action/</loc>
     <lastmod>2014-02-25T02:48:48.000Z</lastmod>
   </url>
   <url>
-    <loc>http://beyoung.me/2013/12/31/Bye-2013,-Hello-2014/</loc>
+    <loc>http://beyoung.me/2013/12/31/Bye_2013,Hello_2014/</loc>
     <lastmod>2014-01-23T17:22:56.000Z</lastmod>
   </url>
   <url>
-    <loc>http://beyoung.me/2013/12/22/python-tutorial/</loc>
+    <loc>http://beyoung.me/2013/12/22/python_tutorial/</loc>
     <lastmod>2014-01-01T13:27:09.000Z</lastmod>
   </url>
   <url>
-    <loc>http://beyoung.me/2013/10/24/why-i-build-the-website-ihuster.com/</loc>
+    <loc>http://beyoung.me/2013/10/24/why_i_build_the_website_ihuster.com/</loc>
     <lastmod>2013-11-15T12:38:03.000Z</lastmod>
   </url>
   <url>
-    <loc>http://beyoung.me/2013/10/23/Remember-Let-go-Move-on/</loc>
+    <loc>http://beyoung.me/2013/10/23/Remember_Let_go_Move_on/</loc>
     <lastmod>2013-11-15T12:38:01.000Z</lastmod>
   </url>
 </urlset>
