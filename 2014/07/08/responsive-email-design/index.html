@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+  
+  <title>响应式邮件设计 | ForeverYoung</title>
+  <meta name="author" content="BeYoung">
+  
+  <meta name="description" content="Just another weblog.">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="响应式邮件设计"/>
+  <meta property="og:site_name" content="ForeverYoung"/>
+
+  
+    <meta property="og:image" content="http://beyoung.me/images/gravatar.png"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+
+  <link rel="alternate" href="/atom.xml" title="ForeverYoung" type="application/atom+xml">
+
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+  
+  
+</head>
+
+
+<body>
+    <div class="container">
+      <div class="left-col">
+        <div class="intrude-less">
+          <header id="header" class="inner">
+            <div class="profilepic">
+  <img src="/images/gravatar.png"/>
+</div><!-- profilepic -->
+<h1><a href="/">BeYoung</a></h1>
+<p class="subtitle">Remember, Let go, Move on.</p>
+<nav id="main-nav">
+  <ul class="main">
+    
+      <li>
+      <a href="/">Blog</a>
+      </li>
+    
+      <li>
+      <a href="/archives">Archives</a>
+      </li>
+    
+      <li>
+      <a href="/project">Project</a>
+      </li>
+    
+      <li>
+      <a href="/about">About</a>
+      </li>
+    
+  </ul>
+  
+  <section class="aboutme">
+    <p>
+      Just another weblog.
+    </p>
+  </section>
+  
+</nav><!-- main-nav -->
+<nav id="sub-nav">
+  <div class="social">
+    
+      <a class="weibo" href="http://weibo.com/710200711"
+         title="weibo">weibo</a>
+    
+    
+      <a class="google" href="http://plus.google.com/114027670572929172581"
+         title="Google+">Google+</a>
+    
+    
+      <a class="github" href="http://github.com/xuhong"
+         title="Github">Github</a>
+    
+    
+        <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav><!-- sub-nav -->
+<!--nav id="widget-nav">
+  <div class="widgets">
+    
+      
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Design/">Design</a><small>1</small></li>
+  
+    <li><a href="/tags/Email/">Email</a><small>1</small></li>
+  
+    <li><a href="/tags/HTML5/">HTML5</a><small>8</small></li>
+  
+    <li><a href="/tags/History API/">History API</a><small>1</small></li>
+  
+    <li><a href="/tags/Life/">Life</a><small>1</small></li>
+  
+    <li><a href="/tags/Web Workers/">Web Workers</a><small>1</small></li>
+  
+    <li><a href="/tags/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/css3/">css3</a><small>1</small></li>
+  
+    <li><a href="/tags/file_api/">file_api</a><small>1</small></li>
+  
+    <li><a href="/tags/flexbox/">flexbox</a><small>1</small></li>
+  
+    <li><a href="/tags/fullscreen/">fullscreen</a><small>1</small></li>
+  
+    <li><a href="/tags/geolocation/">geolocation</a><small>1</small></li>
+  
+    <li><a href="/tags/gevent/">gevent</a><small>1</small></li>
+  
+    <li><a href="/tags/inherit/">inherit</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/notification/">notification</a><small>1</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/responsive/">responsive</a><small>1</small></li>
+  
+    <li><a href="/tags/source/">source</a><small>1</small></li>
+  
+    <li><a href="/tags/thought/">thought</a><small>1</small></li>
+  
+    <li><a href="/tags/touch_event/">touch_event</a><small>1</small></li>
+  
+    <li><a href="/tags/vibrate/">vibrate</a><small>1</small></li>
+  
+    <li><a href="/tags/zepto/">zepto</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+    
+  </div>
+</nav--><!-- widget-nav -->
+
+          <header>
+        </div><!-- intrude-less -->
+      </div><!-- left-col -->
+      <div class="mid-col">
+        <div class="mid-col-container">
+      <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<!--div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-07-08T14:25:31.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Jul 8 2014
+</time>
+
+
+
+
+
+</div>
+
+	</div-->
+
+        <h1 class="title" itemprop="name">响应式邮件设计<div class="menu">
+          <i class="icon-list"></i>
+          <i class="icon-expand"></i>
+        </div></h1>
+      	<div class="entry-content" itemprop="articleBody"><p>响应式网页设计已经成为潮流好几年了，不过国内一般都会落后于潮流好几年，但这两年，随着bootstrap的流行，许多网页都已经是响应式设计的了。为了追求网页在移动设备上的良好体验，网页响应式的设计已经深入人心，但另一个巨大的领域却被大多数人忽略了，那就是<strong>邮件的响应式设计</strong>，要知道，每天被点击查阅的邮件数量也是大的惊人呢！</p>
+<h3>最佳实践</h3>
+<h4>HTML</h4>
+<ul>
+<li><p>使用<code>&lt;table&gt;</code><br>就像1999年一样使用tables来编码，<strong>不要</strong>使用<code>&lt;div&gt;</code>或浮动来进行布局。Microsoft Outlook 的某些版本会使用它自己的文字标记处理引擎并且要求使用table进行布局。</p>
+</li>
+<li><p>使用嵌套表格进行复杂的布局<br>避免使用<code>rowspan</code>，尽可能少用<code>colspan</code>。否则你将会发现自己经常为模板和代码的易读性和灵活性所困扰。复制和粘贴table比找出某一行在哪要容易多了。</p>
+</li>
+<li><p>避免使用语义化的HTML标签。<br>一些邮件客户端会使用自己的样式来渲染html标签，比如<code>&lt;p&gt;</code>,<code>&lt;h1&gt;</code>等。要模拟段落之间的间隔，使用<code>&lt;br&gt;&lt;br&gt;</code>要优于使用<code>&lt;p&gt;</code>。</p>
+</li>
+</ul>
+<h4>CSS</h4>
+<ul>
+<li><p>使用内联CSS</p>
+</li>
+<li><p>避免使用CSS属性的简写方式<br>  这种写法是OK的：</p>
+<pre><code><span class="attribute">font</span>: <span class="string">normal 12px/18px Helvetica, sans-serif;</span></code></pre>
+<p>  但这种更好：</p>
+<pre><code>font-<span class="method">weight:</span> normal; font-<span class="method">size:</span> <span class="number">12</span>px; line-<span class="method">height:</span> <span class="number">18</span>px; font-<span class="method">family:</span> <span class="class">Helvetica</span>, sans-serif;</code></pre>
+</li>
+<li><p>使用属性选择器定义样式<br>比如：</p>
+<pre><code><span class="tag">td</span><span class="attr_selector">[class="force-col"]</span><span class="rules">{
+   <span class="rule"><span class="attribute">display</span>:<span class="value">block;</span></span>
+<span class="rule">}</span></span></code></pre>
+<p>  不要使用类，比如<code>.container</code>，因为<a href="http://www.campaignmonitor.com/blog/post/3457/media-query-issues-in-yahoo-mail-mobile-email/" target="_blank">雅虎邮箱将会将你的邮件按移动样式来加载</a>。</p>
+</li>
+<li><p>不要使用浮动<br>Outlook不支持浮动，所以你的HTML基本代码比如<code>&lt;table&gt;</code>、<code>&lt;img&gt;</code>应该经常借助<code>align=&quot;left&quot;</code>等。<br><strong>记住：</strong>默认使用<code>&lt;table align=&quot;left&quot;&gt;</code>，仅在移动样式中使用float。</p>
+</li>
+</ul>
+<h3>常见问题</h3>
+<h4>IOS为日期和地址生成了蓝色链接</h4>
+<p>有一些客户端（如Apple）会自动把任何可能是日期、电话号码、地址或URL变成链接，浏览器默认会将链接显示为蓝色。为了避免这种情况，可以在父元素上定义你自己的颜色，比如：</p>
+<pre><code><span class="tag">span</span><span class="attr_selector">[class="ios-link"]</span> <span class="tag">a</span> <span class="rules">{
+    <span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#117692</span>;</span></span>
+    <span class="rule"><span class="attribute">text-decoration</span>:<span class="value"> underline;</span></span>
+<span class="rule">}</span></span></code></pre>
+<p>详见：<a href="https://litmus.com/blog/remove-blue-links-ios" target="_blank">Litmus: Banning Blue Links on iOS Devices</a></p>
+<h4>我的文字在Hotmail中变成绿色了！？</h4>
+<p>这可能是因为你在使用header标签，如<code>&lt;h1&gt;&lt;h2&gt;&lt;h3&gt;</code>等。同时还推荐尽量避免使用<code>&lt;p&gt;</code>标签，所有文字的样式都通过<code>&lt;div&gt;</code>的内联样式来完成，并且使用<code>&lt;br&gt;&lt;br&gt;</code>来隔断文字。</p>
+<h4>我的文字和图片混在一起了！</h4>
+<p>解决方案：使用<code>&lt;tbale&gt;</code>s。我们前端工程师都对<code>.clearfix</code>很熟悉，就是通过<code>&lt;table&gt;</code>来实现的。</p>
+<p>常规的HTML实现，可能像下面这样：</p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"clearfix"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"i-am-floated-left"</span>&gt;</span>…<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">img</span> <span class="attribute">class</span>=<span class="value">"i-am-floated-right"</span> <span class="attribute">src</span>=<span class="value">"kitten.jpg"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span></code></pre>
+<p>要解决这个问题，你需要做的就是把每一行用<code>&lt;table&gt;</code>包裹起来：</p>
+<pre><code><span class="tag">&lt;<span class="title">table</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">tr</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">td</span>&gt;</span>
+            Some content here.
+            <span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"speaker.jpg"</span> <span class="attribute">align</span>=<span class="value">"right"</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">td</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">tr</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">table</span>&gt;</span></code></pre>
+<h4>Yahoo显示移动版本</h4>
+<p>参见最佳实践，不要使用类，请使用属性选择器。</p>
+<h3>相关数据</h3>
+<ul>
+<li><strong>客户端份额</strong><br>下面是6月份最新的全球邮件客户端份额分布，这份数据是从5.5亿公开的邮件中统计出来的，最新邮件客户端市场份额请看<a href="http://emailclientmarketshare.com/" target="_blank">emailclientmarketshare</a>。<br><img src="./img/post/emailclientshare.png" alt="emailclientshare"></li>
+</ul>
+<h3>相关资源：</h3>
+<ul>
+<li><a href="https://github.com/InterNations/antwort" target="_blank">antword</a></li>
+<li><a href="http://emailclientmarketshare.com/" target="_blank">emailclientmarketshare</a></li>
+<li><a href="https://litmus.com/" target="_blank">litmus测试邮件</a></li>
+<li><a href="https://www.campaignmonitor.com/css/" target="_blank">The Ultimate Guide to CSS</a></li>
+<li><a href="http://zurb.com/playground/responsive-email-templates" target="_blank">Responsive Email Templates</a></li>
+<li><a href="http://responsiveemailpatterns.com/" target="_blank">Responsive Email Patterns</a></li>
+<li><a href="http://responsiveemailresources.com/" target="_blank">Responsive Email Resources</a></li>
+<li><a href="https://templates.campaignmonitor.com/build/" target="_blank">Campaignmonitor Templates Builder/</a></li>
+</ul>
+</div>
+        <script src="/js/article.js"></script>
+
+
+</article>
+
+  <!--div class="share">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  
+  <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  
+  
+  </div>
+  <script type="text/javascript">
+    var addthis_config = {"data_track_addressbar":true};
+  </script>
+  <script type="text/javascript"
+          src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=undefined">
+  </script>
+</div-->
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<div class="ds-thread"></div></div>
+</section>
+
+</div>
+  </div>
+        <footer id="footer" class="inner">
+          Copyright © 2013  BeYoung 
+
+        </footer>
+        
+<script src="/js/slash.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var disqus_shortname = 'beyoungme';
+
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }());
+  </script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+
+      </div><!-- mid-col -->
+    </div><!-- container -->
+</body>
+</html>
+

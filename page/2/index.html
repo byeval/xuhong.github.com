@@ -102,6 +102,10 @@
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
+    <li><a href="/tags/Design/">Design</a><small>1</small></li>
+  
+    <li><a href="/tags/Email/">Email</a><small>1</small></li>
+  
     <li><a href="/tags/HTML5/">HTML5</a><small>8</small></li>
   
     <li><a href="/tags/History API/">History API</a><small>1</small></li>
@@ -134,6 +138,8 @@
   
     <li><a href="/tags/python/">python</a><small>2</small></li>
   
+    <li><a href="/tags/responsive/">responsive</a><small>1</small></li>
+  
     <li><a href="/tags/source/">source</a><small>1</small></li>
   
     <li><a href="/tags/thought/">thought</a><small>1</small></li>
@@ -158,6 +164,66 @@
       <div class="mid-col">
         <div class="mid-col-container">
       <div id="content" class="inner"><div itemscope itemtype="http://schema.org/Blog">
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<div class="meta">
+          
+<div class="date">
+
+<time datetime="2014-04-01T15:01:51.000Z"
+      
+      data-updated="true"
+       itemprop="datePublished">
+  Apr 1 2014
+</time>
+
+
+
+
+
+</div>
+
+          
+
+ 
+ <div class="tags">
+   <a href="/tags/javascript/">javascript</a>, <a href="/tags/algorithm/">algorithm</a>
+ </div>
+
+
+          
+	</div>
+        <h1 class="title" itemprop="name">
+          <a href="/2014/04/01/concatsort/" itemprop="url">
+            数组合并排序的实现</a>
+        </h1>
+        <div class="entry-content" itemprop="articleBody">
+          
+            <p>美团网前端面试题：</p>
+<blockquote>
+<p>   已知两个有序的数组，将它们合并成也是有序的一个数组。举例如下：<br>    输入：A = [1, 2, 4, 7], B = [3, 5, 6, 8]，输出 C = [1, 2, 3, 4, 5, 6, 7, 8]。</p>
+</blockquote>
+<p> 1.简单粗暴的第一个想法，直接使用数组的concat()方法把两个数组拼接成为一个数组，然后再调用sort()方法来进行排序，代码实现如下：</p>
+<pre><code>     <span class="function"><span class="keyword">function</span> <span class="title">concatSort</span><span class="params">(a,b)</span>{</span>
+         <span class="keyword">var</span> arr = a.concat(b).sort(<span class="keyword">function</span>(x,y){
+            <span class="keyword">return</span> x-y;
+        })
+        <span class="keyword">return</span> arr;
+    }</code></pre>
+<p>2.array方法的巧妙运用，每次都把两个数组第一个数字中的较小者放到结果数组后面，同时删除较小数字所在数组中的这个数字，再进行下一轮比较，直到其中一个数组空了为止，然后把剩余部分拼接到结果数组的后面。
+            <p style="text-align:right">
+              <a href="/2014/04/01/concatsort/" class="more-link">
+                Continue Reading
+              </a>
+            </p>
+          
+        </div>
+
+
+</article>
+
+
 
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   

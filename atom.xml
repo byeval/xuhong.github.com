@@ -4,13 +4,96 @@
   <subtitle><![CDATA[Remember, Let go, Move on.]]></subtitle>
   <link href="http://beyoung.me/atom.xml" rel="self"/>
   <link href="http://beyoung.me"/>
-  <updated>2014-06-22T11:20:03.622Z</updated>
+  <updated>2014-11-22T16:13:09.466Z</updated>
   <id>http://beyoung.me/</id>
   <author>
     <name><![CDATA[BeYoung]]></name>
     <email><![CDATA[cxh710200711@gmail.com]]></email>
   </author>
   <generator uri="http://zespia.tw/hexo">Hexo</generator>
+  <entry>
+    <title type="html"><![CDATA[响应式邮件设计]]></title>
+    <link href="http://beyoung.me/2014/07/08/responsive-email-design/"/>
+    <id>http://beyoung.me/2014/07/08/responsive-email-design/</id>
+    <published>2014-07-08T14:25:31.000Z</published>
+    <updated>2014-07-31T17:33:57.000Z</updated>
+    <content type="html"><![CDATA[<p>响应式网页设计已经成为潮流好几年了，不过国内一般都会落后于潮流好几年，但这两年，随着bootstrap的流行，许多网页都已经是响应式设计的了。为了追求网页在移动设备上的良好体验，网页响应式的设计已经深入人心，但另一个巨大的领域却被大多数人忽略了，那就是<strong>邮件的响应式设计</strong>，要知道，每天被点击查阅的邮件数量也是大的惊人呢！</p>
+<h3>最佳实践</h3>
+<h4>HTML</h4>
+<ul>
+<li><p>使用<code>&lt;table&gt;</code><br>就像1999年一样使用tables来编码，<strong>不要</strong>使用<code>&lt;div&gt;</code>或浮动来进行布局。Microsoft Outlook 的某些版本会使用它自己的文字标记处理引擎并且要求使用table进行布局。</p>
+</li>
+<li><p>使用嵌套表格进行复杂的布局<br>避免使用<code>rowspan</code>，尽可能少用<code>colspan</code>。否则你将会发现自己经常为模板和代码的易读性和灵活性所困扰。复制和粘贴table比找出某一行在哪要容易多了。</p>
+</li>
+<li><p>避免使用语义化的HTML标签。<br>一些邮件客户端会使用自己的样式来渲染html标签，比如<code>&lt;p&gt;</code>,<code>&lt;h1&gt;</code>等。要模拟段落之间的间隔，使用<code>&lt;br&gt;&lt;br&gt;</code>要优于使用<code>&lt;p&gt;</code>。</p>
+</li>
+</ul>
+<h4>CSS</h4>
+<ul>
+<li><p>使用内联CSS</p>
+</li>
+<li><p>避免使用CSS属性的简写方式<br>  这种写法是OK的：</p>
+<pre><code><span class="attribute">font</span>: <span class="string">normal 12px/18px Helvetica, sans-serif;</span></code></pre>
+<p>  但这种更好：</p>
+<pre><code>font-<span class="method">weight:</span> normal; font-<span class="method">size:</span> <span class="number">12</span>px; line-<span class="method">height:</span> <span class="number">18</span>px; font-<span class="method">family:</span> <span class="class">Helvetica</span>, sans-serif;</code></pre>
+</li>
+<li><p>使用属性选择器定义样式<br>比如：</p>
+<pre><code><span class="tag">td</span><span class="attr_selector">[class="force-col"]</span><span class="rules">{
+   <span class="rule"><span class="attribute">display</span>:<span class="value">block;</span></span>
+<span class="rule">}</span></span></code></pre>
+<p>  不要使用类，比如<code>.container</code>，因为<a href="http://www.campaignmonitor.com/blog/post/3457/media-query-issues-in-yahoo-mail-mobile-email/" target="_blank">雅虎邮箱将会将你的邮件按移动样式来加载</a>。</p>
+</li>
+<li><p>不要使用浮动<br>Outlook不支持浮动，所以你的HTML基本代码比如<code>&lt;table&gt;</code>、<code>&lt;img&gt;</code>应该经常借助<code>align=&quot;left&quot;</code>等。<br><strong>记住：</strong>默认使用<code>&lt;table align=&quot;left&quot;&gt;</code>，仅在移动样式中使用float。</p>
+</li>
+</ul>
+<h3>常见问题</h3>
+<h4>IOS为日期和地址生成了蓝色链接</h4>
+<p>有一些客户端（如Apple）会自动把任何可能是日期、电话号码、地址或URL变成链接，浏览器默认会将链接显示为蓝色。为了避免这种情况，可以在父元素上定义你自己的颜色，比如：</p>
+<pre><code><span class="tag">span</span><span class="attr_selector">[class="ios-link"]</span> <span class="tag">a</span> <span class="rules">{
+    <span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#117692</span>;</span></span>
+    <span class="rule"><span class="attribute">text-decoration</span>:<span class="value"> underline;</span></span>
+<span class="rule">}</span></span></code></pre>
+<p>详见：<a href="https://litmus.com/blog/remove-blue-links-ios" target="_blank">Litmus: Banning Blue Links on iOS Devices</a></p>
+<h4>我的文字在Hotmail中变成绿色了！？</h4>
+<p>这可能是因为你在使用header标签，如<code>&lt;h1&gt;&lt;h2&gt;&lt;h3&gt;</code>等。同时还推荐尽量避免使用<code>&lt;p&gt;</code>标签，所有文字的样式都通过<code>&lt;div&gt;</code>的内联样式来完成，并且使用<code>&lt;br&gt;&lt;br&gt;</code>来隔断文字。</p>
+<h4>我的文字和图片混在一起了！</h4>
+<p>解决方案：使用<code>&lt;tbale&gt;</code>s。我们前端工程师都对<code>.clearfix</code>很熟悉，就是通过<code>&lt;table&gt;</code>来实现的。</p>
+<p>常规的HTML实现，可能像下面这样：</p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"clearfix"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"i-am-floated-left"</span>&gt;</span>…<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">img</span> <span class="attribute">class</span>=<span class="value">"i-am-floated-right"</span> <span class="attribute">src</span>=<span class="value">"kitten.jpg"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span></code></pre>
+<p>要解决这个问题，你需要做的就是把每一行用<code>&lt;table&gt;</code>包裹起来：</p>
+<pre><code><span class="tag">&lt;<span class="title">table</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">tr</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">td</span>&gt;</span>
+            Some content here.
+            <span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"speaker.jpg"</span> <span class="attribute">align</span>=<span class="value">"right"</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">td</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">tr</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">table</span>&gt;</span></code></pre>
+<h4>Yahoo显示移动版本</h4>
+<p>参见最佳实践，不要使用类，请使用属性选择器。</p>
+<h3>相关数据</h3>
+<ul>
+<li><strong>客户端份额</strong><br>下面是6月份最新的全球邮件客户端份额分布，这份数据是从5.5亿公开的邮件中统计出来的，最新邮件客户端市场份额请看<a href="http://emailclientmarketshare.com/" target="_blank">emailclientmarketshare</a>。<br><img src="./img/post/emailclientshare.png" alt="emailclientshare"></li>
+</ul>
+<h3>相关资源：</h3>
+<ul>
+<li><a href="https://github.com/InterNations/antwort" target="_blank">antword</a></li>
+<li><a href="http://emailclientmarketshare.com/" target="_blank">emailclientmarketshare</a></li>
+<li><a href="https://litmus.com/" target="_blank">litmus测试邮件</a></li>
+<li><a href="https://www.campaignmonitor.com/css/" target="_blank">The Ultimate Guide to CSS</a></li>
+<li><a href="http://zurb.com/playground/responsive-email-templates" target="_blank">Responsive Email Templates</a></li>
+<li><a href="http://responsiveemailpatterns.com/" target="_blank">Responsive Email Patterns</a></li>
+<li><a href="http://responsiveemailresources.com/" target="_blank">Responsive Email Resources</a></li>
+<li><a href="https://templates.campaignmonitor.com/build/" target="_blank">Campaignmonitor Templates Builder/</a></li>
+</ul>
+]]></content>
+    <category scheme="http://beyoung.me/tags/responsive/" term="responsive"/>
+    <category scheme="http://beyoung.me/tags/Email/" term="Email"/>
+    <category scheme="http://beyoung.me/tags/Design/" term="Design"/>
+  </entry>
   <entry>
     <title type="html"><![CDATA[使用Web Worker后台运行JavaScript]]></title>
     <link href="http://beyoung.me/2014/06/10/web_worker/"/>
